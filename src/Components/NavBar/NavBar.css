@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 0.2px black solid;
+  background-color: rgb(97, 111, 123);
 }
 
 .navbar-left {
@@ -14,4 +15,6 @@
 .navbar-left-menu_item,
 .navbar-right-cart {
   padding: 15px;
+  color: white;
+  font-size: 20px;
 }

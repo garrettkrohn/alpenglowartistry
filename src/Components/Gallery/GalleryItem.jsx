@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import cartContext from "../../Store/CartContext";
 
 const GalleryItem = (props) => {
-  console.log(props);
+  const ctx = useContext(cartContext);
+
+  const handleAddToCart = (event) => {
+    const responseObject = {
+      item: props.painting,
+    };
+    ctx.addItem(responseObject);
+  };
+
   const trimDescription = (description) => {
     const desc = description
       .replace("<p>", "")
@@ -30,7 +39,9 @@ const GalleryItem = (props) => {
         <div className="gallery-item-price">
           {props.painting.price.formatted_with_symbol}
         </div>
-        <button className="gallery-item-add-to-cart">Add To cart</button>
+        <button className="gallery-item-add-to-cart" onClick={handleAddToCart}>
+          Add to Cart
+        </button>
       </div>
     </div>
   );

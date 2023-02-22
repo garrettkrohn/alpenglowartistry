@@ -48,7 +48,7 @@ const Gallery = () => {
   return (
     <div className="gallery">
       {paintings.map((painting) => (
-        <GalleryItem painting={painting} />
+        <GalleryItem key={painting} painting={painting} />
       ))}
     </div>
   );

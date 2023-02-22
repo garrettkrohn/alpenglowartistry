@@ -1,17 +1,22 @@
 .gallery {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  justify-items: center;
 }
 
 .gallery-item {
   height: 320px;
   width: 250px;
-  border: 0.5px gray solid;
+  border: 0.5px white solid;
   display: flex;
   justify-content: center;
   flex-direction: column;
   padding: 20px;
   margin: 20px;
   border-radius: 10px;
+  background-color: rgb(224, 215, 203);
 }
 
 .gallery-item-thumbnail {
@@ -42,6 +47,6 @@
 
 .gallery-item-add-to-cart {
   color: white;
-  background-color: blue;
+  background-color: rgb(170, 127, 111);
   border-radius: 10px;
 }
