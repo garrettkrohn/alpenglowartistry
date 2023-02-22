@@ -1,0 +1,17 @@
+.navbar {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.2px black solid;
+}
+
+.navbar-left {
+  display: flex;
+  padding: 10px;
+}
+
+.navbar-left-menu_item,
+.navbar-right-cart {
+  padding: 15px;
+}
