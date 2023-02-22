@@ -54,6 +54,20 @@ const Gallery = () => {
     return <div>{error}</div>;
   }
 
+  const trimDescription = (description) => {
+    const desc = description
+      .replace("<p>", "")
+      .replace("</p>", "")
+      .replace("<p>", "")
+      .replace("</p>", "");
+    if (desc.length > 110) {
+      const trimmedString = desc.substring(0, 110);
+      return trimmedString + "...";
+    } else {
+      return desc;
+    }
+  };
+
   return (
     <div className="gallery">
       {paintings.map((painting) => (
@@ -64,7 +78,13 @@ const Gallery = () => {
             className="gallery-item-thumbnail"
           />
           <div className="gallery-item-title">{painting.name}</div>
-          <div className="gallery-item-description">{painting.description}</div>
+          <div className="gallery-item-description">
+            {trimDescription(painting.description)}
+          </div>
+          <div className="gallery-item-price">
+            {painting.price.formatted_with_symbol}
+          </div>
+          <button className="gallery-item-add-to-cart">Add To cart</button>
         </div>
       ))}
     </div>
