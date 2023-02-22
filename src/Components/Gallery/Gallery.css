@@ -1,0 +1,26 @@
+.gallery {
+  display: flex;
+}
+
+.gallery-item {
+  height: 300px;
+  width: 200px;
+  border: 2px black solid;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 4px;
+}
+
+.gallery-item-thumbnail {
+  height: 200px;
+  margin-top: 4px;
+}
+
+.gallery-item-title {
+  font-weight: 900;
+}
+
+.gallery-item-description {
+  font-size: 13px;
+}
