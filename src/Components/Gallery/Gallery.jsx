@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Gallery.css";
 import dark1 from "../../images/dark1.jpeg";
+import GalleryItem from "./GalleryItem";
 
 const Gallery = () => {
   const [paintings, setPaintings] = useState([]);
@@ -27,18 +28,8 @@ const Gallery = () => {
 
       const responseData = await response.json();
 
-      //   for (const index in responseDataData) {
-      //     loadedPaintings.push({
-      //       id: responseData[index].name,
-      //       name: responseData[index].name,
-      //       description: responseData[index].description,
-      //       price: responseData[index].price,
-      //       image: responseData[index].description,
-      //     });
-      //   }
       setPaintings(responseData.data);
       setIsLoading(false);
-      console.log(paintings);
     };
     fetchPaintings().catch((error) => {
       setIsLoading(false);
@@ -54,38 +45,10 @@ const Gallery = () => {
     return <div>{error}</div>;
   }
 
-  const trimDescription = (description) => {
-    const desc = description
-      .replace("<p>", "")
-      .replace("</p>", "")
-      .replace("<p>", "")
-      .replace("</p>", "");
-    if (desc.length > 110) {
-      const trimmedString = desc.substring(0, 110);
-      return trimmedString + "...";
-    } else {
-      return desc;
-    }
-  };
-
   return (
     <div className="gallery">
       {paintings.map((painting) => (
-        <div className="gallery-item">
-          <img
-            src={painting.image.url}
-            alt="painting"
-            className="gallery-item-thumbnail"
-          />
-          <div className="gallery-item-title">{painting.name}</div>
-          <div className="gallery-item-description">
-            {trimDescription(painting.description)}
-          </div>
-          <div className="gallery-item-price">
-            {painting.price.formatted_with_symbol}
-          </div>
-          <button className="gallery-item-add-to-cart">Add To cart</button>
-        </div>
+        <GalleryItem painting={painting} />
       ))}
     </div>
   );
