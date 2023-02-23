@@ -24,6 +24,18 @@ const GalleryItem = (props) => {
       return desc;
     }
   };
+
+  const inventoryAvailable = (painting) => {
+    if (
+      painting.inventory.managed === true &&
+      painting.inventory.available == 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div className="gallery-item">
       <img
@@ -39,7 +51,11 @@ const GalleryItem = (props) => {
         <div className="gallery-item-price">
           {props.painting.price.formatted_with_symbol}
         </div>
-        <button className="gallery-item-add-to-cart" onClick={handleAddToCart}>
+        <button
+          disabled={inventoryAvailable(props.painting)}
+          className="gallery-item-add-to-cart"
+          onClick={handleAddToCart}
+        >
           Add to Cart
         </button>
       </div>

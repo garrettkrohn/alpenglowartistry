@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import CartContext from "./CartContext";
 
 const defaultCartState = {
+  paintings: [],
   items: [],
   totalQuantity: 0,
 };
@@ -27,6 +28,12 @@ const cartReducer = (state, action) => {
     };
   }
 
+  if (action.type === "CART") {
+    return {
+      paintings: action.item,
+    };
+  }
+
   return defaultCartState;
 };
 
@@ -40,10 +47,16 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "ADD", item: item.item });
   };
 
+  const addPaintings = (item) => {
+    dispatchCartAction({ type: "CART", item: item });
+  };
+
   const cartContext = {
     items: cartState.items,
+    paintings: cartState.paintings,
     totalQuantity: cartState.totalQuantity,
     addItem: addItemToCartHandler,
+    addPaintings: addPaintings,
   };
   console.log(cartContext);
 

@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Gallery.css";
 import dark1 from "../../images/dark1.jpeg";
 import GalleryItem from "./GalleryItem";
+import cartContext from "../../Store/CartContext";
 
 const Gallery = () => {
   const [paintings, setPaintings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
+  const ctx = useContext(cartContext);
+
+  const addPaintingstoCtx = (paintings) => {
+    const responseObject = {
+      item: paintings,
+    };
+    ctx.addPaintings(responseObject);
+  };
 
   useEffect(() => {
     const requestOptions = {
@@ -29,6 +38,7 @@ const Gallery = () => {
       const responseData = await response.json();
 
       setPaintings(responseData.data);
+      addPaintingstoCtx(responseData.data);
       setIsLoading(false);
     };
     fetchPaintings().catch((error) => {
