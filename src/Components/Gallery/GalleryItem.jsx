@@ -59,6 +59,7 @@ const GalleryItem = (props) => {
         >
           Add to Cart
         </button>
+        <div>{props.painting.inventory.available}</div>
       </div>
     </div>
   );

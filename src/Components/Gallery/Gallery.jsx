@@ -24,25 +24,28 @@ const Gallery = () => {
         "X-Authorization": process.env.REACT_APP_COMMERCE_TEST_KEY,
       },
     };
-    const fetchPaintings = async () => {
-      const response = await fetch(
-        "https://api.chec.io/v1/products/",
-        requestOptions
-      );
 
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
+    if (ctx.paintings[0] === undefined) {
+      const fetchPaintings = async () => {
+        const response = await fetch(
+          "https://api.chec.io/v1/products/",
+          requestOptions
+        );
 
-      const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
 
-      addPaintingstoCtx(responseData.data);
-      setIsLoading(false);
-    };
-    fetchPaintings().catch((error) => {
-      setIsLoading(false);
-      setError(error.message);
-    });
+        const responseData = await response.json();
+
+        addPaintingstoCtx(responseData.data);
+        setIsLoading(false);
+      };
+      fetchPaintings().catch((error) => {
+        setIsLoading(false);
+        setError(error.message);
+      });
+    }
   }, []);
 
   if (isLoading) {
