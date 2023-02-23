@@ -4,7 +4,7 @@ import cartContext from "../../Store/CartContext";
 const GalleryItem = (props) => {
   const ctx = useContext(cartContext);
 
-  const handleAddToCart = (event) => {
+  const handleAddToCart = () => {
     const responseObject = {
       item: props.painting,
     };
