@@ -21,8 +21,7 @@ const Gallery = () => {
     const requestOptions = {
       method: "GET",
       headers: {
-        "X-Authorization":
-          "pk_test_505934dc3bfa4e8e6f49b09b3e46ccd75c9b834203c44",
+        "X-Authorization": process.env.REACT_APP_COMMERCE_TEST_KEY,
       },
     };
     const fetchPaintings = async () => {
