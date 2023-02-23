@@ -4,6 +4,7 @@ import MenuItems from "../Constants/MenuItems";
 import "./NavBar.css";
 import { ShoppingCart } from "@mui/icons-material";
 import { Badge } from "@mui/material";
+import CartModal from "./CartModal";
 
 const NavBar = () => {
   const ctx = useContext(cartContext);
@@ -21,6 +22,7 @@ const NavBar = () => {
           <Badge badgeContent={ctx.totalQuantity} color="primary">
             <ShoppingCart color="white" />
           </Badge>
+          <CartModal />
         </div>
       </div>
     </div>

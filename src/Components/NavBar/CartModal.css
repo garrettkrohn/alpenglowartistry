@@ -1,0 +1,48 @@
+.cart-modal {
+  position: fixed;
+  top: 10%;
+  right: 1%;
+  width: 300px;
+  background-color: #e0d6cb;
+  border-radius: 10px;
+}
+
+.cart-modal-title {
+  color: black;
+  font-weight: 700;
+  padding: 10px 0 0 10px;
+}
+
+.cart-modal-items {
+  height: 70;
+  border: 1px black solid;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-modal-items-left {
+  display: flex;
+  align-items: center;
+}
+
+.cart-modal-items-text {
+  color: gray;
+}
+
+.cart-modal-items-name {
+}
+
+.cart-modal-items-price {
+  font-size: 14px;
+}
+
+.cart-modal-items-photo {
+  height: 50px;
+  width: 50px;
+  padding: 10px;
+}
+.cart-modal-items-delete {
+  margin-right: 20px;
+}

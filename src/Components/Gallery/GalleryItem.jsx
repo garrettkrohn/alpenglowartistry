@@ -27,11 +27,14 @@ const GalleryItem = (props) => {
     }
   };
 
+  let buttonTitle = "Add to Cart";
+
   const inventoryAvailable = (painting) => {
     if (
       painting.inventory.managed === true &&
       painting.inventory.available == 0
     ) {
+      buttonTitle = "Sold Out";
       return true;
     } else {
       return false;
@@ -58,9 +61,8 @@ const GalleryItem = (props) => {
           className="gallery-item-add-to-cart"
           onClick={handleAddToCart}
         >
-          Add to Cart
+          {buttonTitle}
         </button>
-        <div>{props.painting.inventory.available}</div>
       </div>
     </div>
   );
