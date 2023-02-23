@@ -9,6 +9,7 @@ const Gallery = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const ctx = useContext(cartContext);
+  console.log(ctx);
 
   const addPaintingstoCtx = (paintings) => {
     const responseObject = {

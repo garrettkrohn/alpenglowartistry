@@ -35,8 +35,6 @@ const cartReducer = (state, action) => {
         : item
     );
 
-    console.log(editedPaintings);
-
     const totalQuantity = state.totalQuantity + 1;
     return {
       ...state,
@@ -53,7 +51,42 @@ const cartReducer = (state, action) => {
     };
   }
 
-  return defaultCartState;
+  if (action.type === "REMOVE") {
+    let updatedItems = state.items.map((item) => {
+      return { ...item };
+    });
+
+    if (
+      updatedItems.find((item) => item.id == action.item.id).inventory
+        .available === 1
+    ) {
+      let index = updatedItems.indexOf(action.item.id);
+      updatedItems.splice(index, 1);
+    } else {
+      updatedItems.find((item) => item.name == action.item.name).quantity -= 1;
+    }
+
+    const editedPaintings = state.paintings.map((item) =>
+      item.id == action.item.id
+        ? {
+            ...item,
+            inventory: {
+              ...item.inventory,
+              available: item.inventory.available + 1,
+            },
+          }
+        : item
+    );
+
+    const totalQuantity = state.totalQuantity - 1;
+
+    return {
+      ...state,
+      items: updatedItems,
+      totalQuantity: totalQuantity,
+      paintings: editedPaintings,
+    };
+  }
 };
 
 const CartProvider = (props) => {
@@ -70,12 +103,17 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "CART", item: item.item });
   };
 
+  const removeItemCartHandler = (item) => {
+    dispatchCartAction({ type: "REMOVE", item: item.item });
+  };
+
   const cartContext = {
     items: cartState.items,
     paintings: cartState.paintings,
     totalQuantity: cartState.totalQuantity,
     addItem: addItemToCartHandler,
     addPaintings: addPaintings,
+    removeItem: removeItemCartHandler,
   };
 
   return (
