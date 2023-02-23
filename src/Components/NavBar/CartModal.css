@@ -3,7 +3,7 @@
   top: 10%;
   right: 1%;
   width: 300px;
-  background-color: #e0d6cb;
+  background-color: white;
   border-radius: 10px;
 }
 
@@ -15,7 +15,6 @@
 
 .cart-modal-items {
   height: 70;
-  border: 1px black solid;
   margin: 10px;
   display: flex;
   align-items: center;
@@ -45,4 +44,18 @@
 }
 .cart-modal-items-delete {
   margin-right: 20px;
+}
+
+.cart-modal-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.checkout-button {
+  width: 200px;
+  background-color: #a97f6f;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }

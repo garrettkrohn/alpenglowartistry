@@ -5,9 +5,16 @@ import "./NavBar.css";
 import { ShoppingCart } from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import CartModal from "./CartModal";
+import { useState } from "react";
 
 const NavBar = () => {
   const ctx = useContext(cartContext);
+  const [showCart, setShowCart] = useState(false);
+
+  const toggleCart = () => {
+    setShowCart(!showCart);
+  };
+
   return (
     <div className="navbar">
       <div className="navbar-left">
@@ -20,9 +27,9 @@ const NavBar = () => {
       <div className="navbar-right">
         <div className="navbar-right-cart">
           <Badge badgeContent={ctx.totalQuantity} color="primary">
-            <ShoppingCart color="white" />
+            <ShoppingCart color="white" onClick={toggleCart} />
           </Badge>
-          <CartModal />
+          {showCart ? <CartModal /> : ""}
         </div>
       </div>
     </div>
