@@ -8,6 +8,7 @@ const defaultCartState = {
 };
 
 const cartReducer = (state, action) => {
+  console.log(state);
   if (action.type === "ADD") {
     //check if item is already in cart
     for (let x = 0; x < state.items.length; x++) {
@@ -22,10 +23,8 @@ const cartReducer = (state, action) => {
     }
     const addedItems = state.items.concat(action.item);
 
-    console.log(state.paintings);
-
     //decrement the available quantity
-    const currentPaintings = state.paintings.item.map((item) =>
+    const editedPaintings = state.paintings.item.map((item) =>
       item.id == action.item.id
         ? {
             ...item,
@@ -37,13 +36,12 @@ const cartReducer = (state, action) => {
         : item
     );
 
-    console.log(currentPaintings);
-
     const totalQuantity = state.totalQuantity + 1;
     return {
       ...state,
       items: {
-        paintings: currentPaintings,
+        ...state.items,
+        paintings: editedPaintings,
       },
       items: addedItems,
       totalQuantity: totalQuantity,
@@ -51,6 +49,7 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "CART") {
+    console.log(action);
     return {
       ...state,
       paintings: action.item,
@@ -71,7 +70,7 @@ const CartProvider = (props) => {
   };
 
   const addPaintings = (item) => {
-    dispatchCartAction({ type: "CART", item: item });
+    dispatchCartAction({ type: "CART", item: item.item });
   };
 
   const cartContext = {

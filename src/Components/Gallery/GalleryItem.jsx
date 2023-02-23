@@ -10,6 +10,7 @@ const GalleryItem = (props) => {
       item: props.painting,
     };
     ctx.addItem(responseObject);
+    console.log(ctx);
   };
 
   const trimDescription = (description) => {
