@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import cartContext from "../../Store/CartContext";
+import "./GalleryItem.css";
 
 const GalleryItem = (props) => {
   const ctx = useContext(cartContext);

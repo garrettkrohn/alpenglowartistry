@@ -23,6 +23,7 @@ const cartReducer = (state, action) => {
     const addedItems = state.items.concat(action.item);
     const totalQuantity = state.totalQuantity + 1;
     return {
+      ...state,
       items: addedItems,
       totalQuantity: totalQuantity,
     };
@@ -30,6 +31,7 @@ const cartReducer = (state, action) => {
 
   if (action.type === "CART") {
     return {
+      ...state,
       paintings: action.item,
     };
   }

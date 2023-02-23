@@ -1,0 +1,54 @@
+.gallery-item {
+  height: 320px;
+  width: 250px;
+  border: 0.5px white solid;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: rgb(224, 215, 203);
+  animation: 0.4s ease-out 0s 1 riseUp;
+}
+
+@keyframes riseUp {
+  0% {
+    transform: translateY(10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.gallery-item-thumbnail {
+  height: 200px;
+  margin-top: 4px;
+}
+
+.gallery-item-title {
+  font-weight: 900;
+  text-align: center;
+  font-size: 20px;
+  padding: 10px;
+}
+
+.gallery-item-description {
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+
+.gallery-item-price {
+  font-weight: 700;
+}
+
+.gallery-item-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gallery-item-add-to-cart {
+  color: white;
+  background-color: rgb(170, 127, 111);
+  border-radius: 10px;
+}

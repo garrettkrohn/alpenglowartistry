@@ -3,9 +3,9 @@ import "./Gallery.css";
 import dark1 from "../../images/dark1.jpeg";
 import GalleryItem from "./GalleryItem";
 import cartContext from "../../Store/CartContext";
+import { CircularProgress } from "@mui/material";
 
 const Gallery = () => {
-  const [paintings, setPaintings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const ctx = useContext(cartContext);
@@ -36,7 +36,6 @@ const Gallery = () => {
 
       const responseData = await response.json();
 
-      setPaintings(responseData.data);
       addPaintingstoCtx(responseData.data);
       setIsLoading(false);
     };
@@ -47,7 +46,11 @@ const Gallery = () => {
   }, []);
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return (
+      <div className="loading">
+        <CircularProgress color="inherit" size="70px" />
+      </div>
+    );
   }
 
   if (error) {
@@ -56,8 +59,8 @@ const Gallery = () => {
 
   return (
     <div className="gallery">
-      {paintings.map((painting) => (
-        <GalleryItem key={painting} painting={painting} />
+      {ctx.paintings.item.map((painting) => (
+        <GalleryItem key={painting.id} painting={painting} />
       ))}
     </div>
   );
