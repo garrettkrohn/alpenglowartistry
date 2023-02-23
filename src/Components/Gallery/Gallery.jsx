@@ -4,14 +4,17 @@ import dark1 from "../../images/dark1.jpeg";
 import GalleryItem from "./GalleryItem";
 import cartContext from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";
+import useHttp from "../../Hooks/useHttp";
 
 const Gallery = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState();
   const ctx = useContext(cartContext);
-  console.log(ctx);
+
+  const { isLoading, error, sendRequest: sendPaintingsRequest } = useHttp();
 
   const addPaintingstoCtx = (paintings) => {
+    console.log(paintings);
     const responseObject = {
       item: paintings,
     };
@@ -19,7 +22,8 @@ const Gallery = () => {
   };
 
   useEffect(() => {
-    const requestOptions = {
+    const requestConfig = {
+      url: "https://api.chec.io/v1/products/",
       method: "GET",
       headers: {
         "X-Authorization": process.env.REACT_APP_COMMERCE_TEST_KEY,
@@ -28,24 +32,9 @@ const Gallery = () => {
 
     if (ctx.paintings[0] === undefined) {
       const fetchPaintings = async () => {
-        const response = await fetch(
-          "https://api.chec.io/v1/products/",
-          requestOptions
-        );
-
-        if (!response.ok) {
-          throw new Error("Something went wrong!");
-        }
-
-        const responseData = await response.json();
-
-        addPaintingstoCtx(responseData.data);
-        setIsLoading(false);
+        sendPaintingsRequest(requestConfig, addPaintingstoCtx);
       };
-      fetchPaintings().catch((error) => {
-        setIsLoading(false);
-        setError(error.message);
-      });
+      fetchPaintings();
     }
   }, []);
 
