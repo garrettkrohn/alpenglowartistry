@@ -16,7 +16,13 @@
 .navbar-right-cart {
   padding: 15px;
   color: white;
-  font-size: 20px;
+  font-size: 16px;
+  font-family: "Coramont Garamond";
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background-color: inherit;
+  border: none;
+  text-decoration: none;
 }
 
 .navbar-right-cart {

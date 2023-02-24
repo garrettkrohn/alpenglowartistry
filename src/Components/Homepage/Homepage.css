@@ -1,12 +1,14 @@
 .homepage-banner {
   position: relative;
   object-fit: cover;
-  height: 700px;
+  height: 600px;
   width: 100vw;
 }
 
 .homepage-title {
   position: absolute;
+  font-family: "Cormorant Garamond";
+  letter-spacing: 1px;
   top: 500px;
   left: 35%;
   color: white;

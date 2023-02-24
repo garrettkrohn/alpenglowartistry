@@ -20,14 +20,9 @@ const NavBar = () => {
     <div className="navbar">
       <div className="navbar-left">
         {MenuItems.map((page) => (
-          <div
-            key={page.name}
-            className="navbar-left-menu_item"
-            component={Link}
-            to={page.route}
-          >
+          <Link to={page.route} className="navbar-left-menu_item">
             {page.name}
-          </div>
+          </Link>
         ))}
       </div>
       <div className="navbar-right">

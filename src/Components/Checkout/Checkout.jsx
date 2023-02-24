@@ -4,7 +4,6 @@ import cartContext from "../../Store/CartContext";
 
 const Checkout = () => {
   const ctx = useContext(cartContext);
-  console.log(ctx);
   const [cart, setCart] = useState();
 
   const { isLoading, error, sendRequest: createCartRequest } = useHttp();
@@ -19,7 +18,6 @@ const Checkout = () => {
 
   const printCart = (data) => {
     setCart(data);
-    console.log(data);
   };
 
   useEffect(() => {

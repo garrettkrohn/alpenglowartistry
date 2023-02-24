@@ -12,14 +12,14 @@ function App() {
   return (
     <CartProvider>
       <NavBar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/Collection" element={<Gallery />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/painting" element={<Painting />} />
-        </Routes>
-      </Router>
+
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/Collection" element={<Gallery />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/painting" element={<Painting />} />
+      </Routes>
+
       <Footer />
     </CartProvider>
   );

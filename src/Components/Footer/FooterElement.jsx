@@ -1,13 +1,15 @@
 import React from "react";
 import "./FooterElement.css";
+import { Link } from "react-router-dom";
 
 const FooterElement = (props) => {
-  console.log(props.elements);
   return (
     <div className="footer-element">
       <div className="footer-element-title">{props.title}</div>
       {props.elements.map((item) => (
-        <div className="footer-element-list-item">{item.name}</div>
+        <Link to={item.route} className="footer-element-list-item">
+          {item.name}
+        </Link>
       ))}
     </div>
   );

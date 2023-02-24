@@ -80,7 +80,6 @@ const cartReducer = (state, action) => {
           }
         : item
     );
-    console.log(editedPaintings);
 
     const totalQuantity = state.totalQuantity - 1;
 

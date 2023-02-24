@@ -6,7 +6,6 @@ const CartModalItem = (props) => {
   const ctx = useContext(cartContext);
 
   const handleRemove = (item) => {
-    console.log("remove");
     const responseObject = {
       item: props.item,
     };
