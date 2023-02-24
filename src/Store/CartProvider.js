@@ -4,6 +4,7 @@ import CartContext from "./CartContext";
 const defaultCartState = {
   paintings: [],
   items: [],
+  cart: {},
   totalQuantity: 0,
 };
 
@@ -63,7 +64,9 @@ const cartReducer = (state, action) => {
       let index = updatedItems.indexOf(action.item.id);
       updatedItems.splice(index, 1);
     } else {
-      updatedItems.find((item) => item.name == action.item.name).quantity -= 1;
+      updatedItems.find(
+        (item) => item.name == action.item.name
+      ).inventory.available -= 1;
     }
 
     const editedPaintings = state.paintings.map((item) =>
@@ -77,6 +80,7 @@ const cartReducer = (state, action) => {
           }
         : item
     );
+    console.log(editedPaintings);
 
     const totalQuantity = state.totalQuantity - 1;
 
@@ -110,6 +114,7 @@ const CartProvider = (props) => {
   const cartContext = {
     items: cartState.items,
     paintings: cartState.paintings,
+    cart: cartState.cart,
     totalQuantity: cartState.totalQuantity,
     addItem: addItemToCartHandler,
     addPaintings: addPaintings,

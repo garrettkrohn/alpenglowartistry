@@ -14,9 +14,8 @@ const Gallery = () => {
   const { isLoading, error, sendRequest: sendPaintingsRequest } = useHttp();
 
   const addPaintingstoCtx = (paintings) => {
-    console.log(paintings);
     const responseObject = {
-      item: paintings,
+      item: paintings.data,
     };
     ctx.addPaintings(responseObject);
   };

@@ -6,6 +6,7 @@ import { ShoppingCart } from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import CartModal from "./CartModal";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const ctx = useContext(cartContext);
@@ -18,9 +19,14 @@ const NavBar = () => {
   return (
     <div className="navbar">
       <div className="navbar-left">
-        {MenuItems.map((item) => (
-          <div key={item.name} className="navbar-left-menu_item">
-            {item.name}
+        {MenuItems.map((page) => (
+          <div
+            key={page.name}
+            className="navbar-left-menu_item"
+            component={Link}
+            to={page.route}
+          >
+            {page.name}
           </div>
         ))}
       </div>
