@@ -10,9 +10,13 @@ const Footer = () => {
   ];
 
   const followItems = [
-    { name: "instagram", route: "/instagram" },
-    { name: "pintrest", route: "/pintrest" },
-    { name: "facebook", route: "/facebook" },
+    {
+      name: "instagram",
+      route:
+        "https://www.instagram.com/Alpenglow_Artistry/?fbclid=IwAR1htKpLfuakX_2R2bzbL5t3CyQuhy42jEUB-vcQPCt_ohDQvw-sGh9myH8",
+    },
+    // { name: "pintrest", route: "/pintrest" },
+    { name: "facebook", route: "https://www.facebook.com/rachel.westman.7" },
   ];
 
   const more = [

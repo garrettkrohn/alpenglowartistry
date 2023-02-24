@@ -7,7 +7,11 @@ const FooterElement = (props) => {
     <div className="footer-element">
       <div className="footer-element-title">{props.title}</div>
       {props.elements.map((item) => (
-        <Link to={item.route} className="footer-element-list-item">
+        <Link
+          key={item.name}
+          to={item.route}
+          className="footer-element-list-item"
+        >
           {item.name}
         </Link>
       ))}

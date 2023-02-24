@@ -61,8 +61,10 @@ const cartReducer = (state, action) => {
       updatedItems.find((item) => item.id == action.item.id).inventory
         .available === 1
     ) {
-      let index = updatedItems.indexOf(action.item.id);
-      updatedItems.splice(index, 1);
+      console.log(action.item.id);
+      console.log(updatedItems);
+      var indexOfId = updatedItems.findIndex((i) => i.id === action.item.id);
+      updatedItems.splice(indexOfId~, 1);
     } else {
       updatedItems.find(
         (item) => item.name == action.item.name

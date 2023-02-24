@@ -20,7 +20,11 @@ const NavBar = () => {
     <div className="navbar">
       <div className="navbar-left">
         {MenuItems.map((page) => (
-          <Link to={page.route} className="navbar-left-menu_item">
+          <Link
+            key={page.name}
+            to={page.route}
+            className="navbar-left-menu_item"
+          >
             {page.name}
           </Link>
         ))}
