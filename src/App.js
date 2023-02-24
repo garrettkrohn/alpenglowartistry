@@ -5,6 +5,8 @@ import Gallery from "./Components/Gallery/Gallery";
 import CartProvider from "./Store/CartProvider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Checkout from "./Components/Checkout/Checkout";
+import Homepage from "./Components/Homepage/Homepage";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
   return (
@@ -12,11 +14,13 @@ function App() {
       <NavBar />
       <Router>
         <Routes>
-          <Route path="/" element={<Gallery />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/Collection" element={<Gallery />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/painting" element={<Painting />} />
         </Routes>
       </Router>
+      <Footer />
     </CartProvider>
   );
 }

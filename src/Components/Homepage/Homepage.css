@@ -1,0 +1,94 @@
+.homepage-banner {
+  position: relative;
+  object-fit: cover;
+  height: 700px;
+  width: 100vw;
+}
+
+.homepage-title {
+  position: absolute;
+  top: 500px;
+  left: 35%;
+  color: white;
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.homepage-about-container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+}
+
+.homepage-about-paragraph {
+  width: 500px;
+  text-align: center;
+  margin-top: 100px;
+  font-family: "Cormorant Garamond";
+  font-weight: 300;
+  font-size: 26px;
+  color: #1d1d1d;
+}
+
+.homepage-about-button {
+  margin: 70px 0;
+  background-color: rgb(168, 128, 111);
+  color: white;
+  height: 50px;
+  width: auto;
+  padding: 0 20px;
+  font-size: 18px;
+  font-family: "open sans";
+  letter-spacing: 3px;
+  border: none;
+  border-radius: 10px;
+}
+
+.homepage-print-shop {
+  background-color: rgb(224, 215, 203);
+  height: 600px;
+  display: flex;
+}
+
+.homepage-print-shop-left {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 50vw;
+}
+
+.homepage-print-shop-title {
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 20px;
+}
+
+.homepage-print-shop-paragraph {
+  width: 300px;
+  font-family: "Cormorant Garamond";
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+}
+
+.homepage-print-shop-button {
+  border: 1px solid rgb(170, 127, 111);
+  color: rgb(123, 92, 80);
+  background-color: inherit;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.homepage-print-shop-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-print-shop-image {
+  height: 500px;
+}

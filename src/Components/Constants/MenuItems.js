@@ -1,5 +1,6 @@
 const menuItems = [
-  { name: "Collection", route: "/" },
+  { name: "Home", route: "/" },
+  { name: "Collection", route: "/collection" },
   { name: "About", route: "/about" },
   { name: "Contact", route: "/contact" },
 ];

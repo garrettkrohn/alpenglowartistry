@@ -1,0 +1,20 @@
+.footer-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.footer-element-title {
+  font-weight: 700;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-element-list-item {
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 8px;
+}
