@@ -1,16 +1,22 @@
 .homepage-banner {
   position: relative;
   object-fit: cover;
-  height: 600px;
-  width: 100vw;
+  height: 450px;
+  width: 50vw;
+}
+
+.homepage-top {
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 .homepage-title {
   position: absolute;
   font-family: "Cormorant Garamond";
   letter-spacing: 1px;
-  top: 500px;
-  left: 35%;
+  top: 400px;
+  left: 15%;
   color: white;
   font-size: 50px;
   font-weight: 700;
@@ -22,7 +28,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 600px;
+  height: 450px;
+  width: 50vw;
 }
 
 .homepage-about-paragraph {
@@ -47,6 +54,13 @@
   letter-spacing: 3px;
   border: none;
   border-radius: 10px;
+}
+
+.homepage-about-button:hover {
+  background-color: white;
+  color: rgb(168, 128, 111);
+  border: 1px solid rgb(168, 128, 111);
+  cursor: pointer;
 }
 
 .homepage-print-shop {
@@ -85,10 +99,17 @@
   margin-top: 10px;
 }
 
+.homepage-print-shop-button:hover {
+  color: white;
+  background-color: rgb(123, 92, 80);
+  cursor: pointer;
+}
+
 .homepage-print-shop-right {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 50%;
 }
 
 .homepage-print-shop-image {

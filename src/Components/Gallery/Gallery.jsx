@@ -6,7 +6,7 @@ import cartContext from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";
 import useHttp from "../../Hooks/useHttp";
 
-const Gallery = () => {
+const Gallery = (props) => {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState();
   const ctx = useContext(cartContext);
@@ -49,9 +49,14 @@ const Gallery = () => {
     return <div>{error}</div>;
   }
 
+  //if I ever allow multiple categories, this feature will break
+  const filteredPaintings = ctx.paintings.filter(
+    (painting) => painting.categories[0].name == props.filter
+  );
+
   return (
     <div className="gallery">
-      {ctx.paintings.map((painting) => (
+      {filteredPaintings.map((painting) => (
         <GalleryItem key={painting.id} painting={painting} />
       ))}
     </div>
