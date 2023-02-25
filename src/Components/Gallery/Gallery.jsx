@@ -50,9 +50,12 @@ const Gallery = (props) => {
   }
 
   //if I ever allow multiple categories, this feature will break
-  const filteredPaintings = ctx.paintings.filter(
+  let filteredPaintings = [];
+  filteredPaintings = ctx.paintings.filter(
     (painting) => painting.categories[0].name == props.filter
   );
+
+  console.log(filteredPaintings);
 
   return (
     <div className="gallery">

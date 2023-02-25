@@ -3,7 +3,7 @@ import NavBar from "./Components/NavBar/NavBar";
 import Painting from "./Components/Paintings/Painting";
 import Gallery from "./Components/Gallery/Gallery";
 import CartProvider from "./Store/CartProvider";
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Checkout from "./Components/Checkout/Checkout";
 import Homepage from "./Components/Homepage/Homepage";
 import Footer from "./Components/Footer/Footer";
