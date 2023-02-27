@@ -24,6 +24,7 @@
 .gallery-item-thumbnail {
   height: 200px;
   margin-top: 4px;
+  overflow: hidden;
 }
 
 .gallery-item-title {
