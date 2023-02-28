@@ -28,3 +28,13 @@
 .navbar-right-cart {
   margin-right: 25px;
 }
+
+@media (max-width: 768px) {
+  .navbar-menu-list {
+    display: none;
+  }
+
+  .navbar-menu-icon {
+    display: flex;
+  }
+}

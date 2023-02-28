@@ -29,8 +29,6 @@ const Scroller = (props) => {
     setDisplayPaintings(Object.values(images));
   }, []);
 
-  // const shuffledArray = imagesArray.sort((a, b) => 0.5 - Math.random());
-
   return (
     <>
       <ul

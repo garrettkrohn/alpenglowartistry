@@ -7,6 +7,7 @@ import { Badge } from "@mui/material";
 import CartModal from "./CartModal";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const NavBar = () => {
   const ctx = useContext(cartContext);
@@ -19,15 +20,20 @@ const NavBar = () => {
   return (
     <div className="navbar">
       <div className="navbar-left">
-        {MenuItems.map((page) => (
-          <Link
-            key={page.name}
-            to={page.route}
-            className="navbar-left-menu_item"
-          >
-            {page.name}
-          </Link>
-        ))}
+        <div className="navbar-menu-icon">
+          <MenuIcon sx={{ color: "white", fontSize: 35 }} />
+        </div>
+        <div className="navbar-menu-list">
+          {MenuItems.map((page) => (
+            <Link
+              key={page.name}
+              to={page.route}
+              className="navbar-left-menu_item"
+            >
+              {page.name}
+            </Link>
+          ))}
+        </div>
       </div>
       <div className="navbar-right">
         <div className="navbar-right-cart">
