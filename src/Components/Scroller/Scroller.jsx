@@ -1,8 +1,29 @@
 import React, { useContext, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
-import cartContext from "../../Store/CartContext";
+import "./Scroller.css";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const Scroller = (props) => {
+  function importAll(r) {
+    let images = {};
+    r.keys().forEach((item, index) => {
+      images[item.replace("./", "")] = r(item);
+    });
+    return images;
+  }
+  const images = importAll(
+    require.context(
+      "./../../images/ScrollerImages",
+      false,
+      /\.(png|jpe?g|svg)$/
+    )
+  );
+
+  const imagesArray = Object.values(images);
+
+  console.log(imagesArray);
+
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
   return (
@@ -13,15 +34,13 @@ const Scroller = (props) => {
           display: "flex",
           overflow: "auto",
           scrollSnapType: "x mandatory",
+          padding: "0",
+          margin: "0",
         }}
       >
-        {props.paintings.map((painting) => (
+        {imagesArray.map((painting) => (
           <li
             style={{
-              backgroundColor: "aqua",
-              fontSize: "50px",
-              width: "250px",
-              height: "250px",
               flexShrink: 0,
               color: "#fff",
               display: "flex",
@@ -29,12 +48,25 @@ const Scroller = (props) => {
               alignItems: "center",
             }}
           >
-            <img src={painting}></img>
+            <img
+              src={painting}
+              style={{ height: "700px", width: "auto", objectFit: "contain" }}
+            ></img>
           </li>
         ))}
+        <div className="scroller-prev">
+          <ArrowBackIosIcon
+            sx={{ fontSize: 100, color: "white" }}
+            onClick={() => prev()}
+          />
+        </div>
+        <div className="scroller-next">
+          <ArrowForwardIosIcon
+            sx={{ fontSize: 100, color: "white" }}
+            onClick={() => next()}
+          />
+        </div>
       </ul>
-      <button onClick={() => prev()}>Prev</button>
-      <button onClick={() => next()}>Next</button>
     </>
   );
 };

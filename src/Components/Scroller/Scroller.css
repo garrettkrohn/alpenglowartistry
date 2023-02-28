@@ -1,0 +1,13 @@
+.scroller-prev,
+.scroller-next {
+  position: absolute;
+  top: 800px;
+}
+
+.scroller-prev {
+  left: 25px;
+}
+
+.scroller-next {
+  right: 25px;
+}
