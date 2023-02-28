@@ -22,7 +22,7 @@ const Scroller = (props) => {
 
   const imagesArray = Object.values(images);
 
-  console.log(imagesArray);
+  const shuffledArray = imagesArray.sort((a, b) => 0.5 - Math.random());
 
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
@@ -38,7 +38,7 @@ const Scroller = (props) => {
           margin: "0",
         }}
       >
-        {imagesArray.map((painting) => (
+        {shuffledArray.map((painting) => (
           <li
             style={{
               flexShrink: 0,
