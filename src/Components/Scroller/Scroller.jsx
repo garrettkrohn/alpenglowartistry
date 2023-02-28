@@ -50,7 +50,7 @@ const Scroller = (props) => {
           >
             <img
               src={painting}
-              style={{ height: "700px", width: "auto", objectFit: "contain" }}
+              style={{ height: "450px", width: "auto", objectFit: "contain" }}
             ></img>
           </li>
         ))}
