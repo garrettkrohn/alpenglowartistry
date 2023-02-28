@@ -1,31 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
 import "./Scroller.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const Scroller = (props) => {
-  function importAll(r) {
-    let images = {};
-    r.keys().forEach((item, index) => {
-      images[item.replace("./", "")] = r(item);
-    });
-    return images;
-  }
-  const images = importAll(
-    require.context(
-      "./../../images/ScrollerImages",
-      false,
-      /\.(png|jpe?g|svg)$/
-    )
-  );
-
-  const imagesArray = Object.values(images);
-
-  const shuffledArray = imagesArray.sort((a, b) => 0.5 - Math.random());
+  const [displayPaintings, setDisplayPaintings] = useState([]);
 
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
+
+  useEffect(() => {
+    function importAll(r) {
+      let images = {};
+      r.keys().forEach((item, index) => {
+        images[item.replace("./", "")] = r(item);
+      });
+      return images;
+    }
+    const images = importAll(
+      require.context(
+        "./../../images/ScrollerImages",
+        false,
+        /\.(png|jpe?g|svg)$/
+      )
+    );
+
+    setDisplayPaintings(Object.values(images));
+  }, []);
+
+  // const shuffledArray = imagesArray.sort((a, b) => 0.5 - Math.random());
+
   return (
     <>
       <ul
@@ -38,8 +43,9 @@ const Scroller = (props) => {
           margin: "0",
         }}
       >
-        {shuffledArray.map((painting) => (
+        {displayPaintings.map((painting) => (
           <li
+            key={painting}
             style={{
               flexShrink: 0,
               color: "#fff",
