@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import RachelBanner from "../../images/RachelBanner.jpeg";
 import "./Homepage.css";
 import sunrise from "../../images/sunrise.jpeg";
+import Scroller from "../Scroller/Scroller";
+import cartContext from "../../Store/CartContext";
 
 const Homepage = () => {
+  const ctx = useContext(cartContext);
+  const [paintingsArray, setPaintingsArray] = useState([]);
+
+  console.log(ctx);
+  const paintings = ctx.paintings;
+  console.log(paintings);
+
+  const paintingsToBeAdded = paintings.map((painting) => {
+    return painting.image.url;
+  });
+
+  console.log(paintingsToBeAdded);
+  //arr = arr.map(function(item) {
+  //   return {somethingElse: 1};
+  // });
   return (
     <div className="homepage">
       <div className="homepage-top">
@@ -28,6 +45,8 @@ const Homepage = () => {
           </div>
         </div>
       </div>
+
+      <Scroller paintings={paintingsToBeAdded} />
 
       <div className="homepage-print-shop">
         <div className="homepage-print-shop-left">
