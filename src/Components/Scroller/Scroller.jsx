@@ -30,7 +30,7 @@ const Scroller = (props) => {
   }, []);
 
   return (
-    <>
+    <div className="scroller-container">
       <ul
         ref={scrollRef}
         style={{
@@ -58,20 +58,20 @@ const Scroller = (props) => {
             ></img>
           </li>
         ))}
-        <div className="scroller-prev">
-          <ArrowBackIosIcon
-            sx={{ fontSize: 100, color: "white" }}
-            onClick={() => prev()}
-          />
-        </div>
-        <div className="scroller-next">
-          <ArrowForwardIosIcon
-            sx={{ fontSize: 100, color: "white" }}
-            onClick={() => next()}
-          />
-        </div>
       </ul>
-    </>
+      <div className="scroller-prev">
+        <ArrowBackIosIcon
+          sx={{ fontSize: 100, color: "white" }}
+          onClick={() => prev()}
+        />
+      </div>
+      <div className="scroller-next">
+        <ArrowForwardIosIcon
+          sx={{ fontSize: 100, color: "white" }}
+          onClick={() => next()}
+        />
+      </div>
+    </div>
   );
 };
 
