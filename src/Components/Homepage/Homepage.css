@@ -9,6 +9,13 @@
   width: 100vw;
 }
 
+@media (max-width: 385) {
+  .homepage-banner {
+    object-fit: cover;
+    width: 320px;
+  }
+}
+
 .homepage-top {
   display: flex;
   flex-direction: column;
