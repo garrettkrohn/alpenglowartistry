@@ -76,3 +76,10 @@ export interface priceResource {
   formatted_with_symbol: string;
   raw: number;
 }
+
+export interface requestConfigResource {
+  url: string;
+  method: string | undefined;
+  headers: {} | undefined;
+  body?: {} | undefined;
+}

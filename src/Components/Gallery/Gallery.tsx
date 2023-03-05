@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Gallery.css";
-import GalleryItem from "./GalleryItem.tsx";
+import GalleryItem from "./GalleryItem";
 import cartContext from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";
 import useHttp from "../../Hooks/useHttp";
@@ -8,7 +8,7 @@ import {
   paintingResource,
   paintingResponseResource,
 } from "../../Services/DTOs";
-import Painting from "../Paintings/Painting.tsx";
+import Painting from "../Paintings/Painting";
 
 const Gallery = (props: { filter: string }) => {
   // const [isLoading, setIsLoading] = useState(true);
@@ -16,9 +16,9 @@ const Gallery = (props: { filter: string }) => {
   //! gotta change this eventually
   const ctx: any = useContext(cartContext);
   const [showPainting, setShowPainting] = useState(false);
-  const [featuredPainting, setFeaturedPainting] = useState<
-    paintingResource | undefined
-  >(undefined);
+  const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
+    ctx.paintings[0]
+  );
 
   console.log(ctx.paintings[0]);
 
