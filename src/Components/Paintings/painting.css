@@ -1,12 +1,16 @@
 .painting-feature {
-  height: 80vh;
-  width: auto;
   max-height: 100vh;
-  position: fixed;
-  z-index: 100;
   display: flex;
-  left: 50%;
-  translate: -50%;
+  z-index: 200;
+  position: fixed;
+}
+
+.painting-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
 }
 
 .painting-backdrop {
@@ -19,6 +23,32 @@
   z-index: 1;
 }
 
+.painting-thumbnail {
+  height: 150px;
+  border-radius: 10px;
+  margin: 5px 0px 20px 0px;
+  z-index: inherit;
+}
+
+.painting-container {
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+.painting-left {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  z-index: inherit;
+}
+
+.painting-right {
+  display: flex;
+  z-index: 200;
+}
+
+/* 
 .painting-block {
   display: flex;
   justify-content: space-evenly;
@@ -46,12 +76,6 @@
   margin-top: 10px;
 }
 
-.painting-thumbnail {
-  height: 150px;
-  border-radius: 10px;
-  margin: 5px 0px 20px 0px;
-}
-
 .painting-brand {
   color: blue;
   font-size: 10px;
@@ -69,4 +93,4 @@
 .painting-price {
   font-size: 24px;
   font-weight: 700;
-}
+} */

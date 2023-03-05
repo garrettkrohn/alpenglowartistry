@@ -12,24 +12,34 @@ const Painting = (props: {
   const thumbnailPaintings = props.painting.assets;
 
   return (
-    <div className="painting-backdrop">
-      <CloseIcon
-        sx={{ color: "white", fontSize: "80px" }}
+    <div className="painting-page">
+      <div
+        className="painting-backdrop"
         onClick={() => props.togglePainting()}
       />
-      <img
-        src={props.painting.assets[featurePaintingIndex].url}
-        alt="painting"
-        className="painting-feature"
+      <CloseIcon
+        sx={{ color: "white", fontSize: "80px", position: "fixed", zIndex: 2 }}
+        onClick={() => props.togglePainting()}
       />
-      {thumbnailPaintings.map((painting, index) => (
-        <img
-          className="painting-thumbnail"
-          src={painting.url}
-          alt={painting.filename}
-          onClick={() => setFeaturedPaintingIndex(index)}
-        />
-      ))}
+      <div className="painting-container">
+        <div className="painting-left">
+          {thumbnailPaintings.map((painting, index) => (
+            <img
+              className="painting-thumbnail"
+              src={painting.url}
+              alt={painting.filename}
+              onClick={() => setFeaturedPaintingIndex(index)}
+            />
+          ))}
+        </div>
+        <div className="painting-right">
+          <img
+            src={props.painting.assets[featurePaintingIndex].url}
+            alt="painting"
+            className="painting-feature"
+          />
+        </div>
+      </div>
     </div>
   );
 };
