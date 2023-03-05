@@ -1,22 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Gallery.css";
-import GalleryItem from "./GalleryItem";
+import GalleryItem from "./GalleryItem.tsx";
 import cartContext from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";
 import useHttp from "../../Hooks/useHttp";
-import { paintingResource } from "../../Services/DTOs";
+import {
+  paintingResource,
+  paintingResponseResource,
+} from "../../Services/DTOs";
+import Painting from "../Paintings/Painting.tsx";
 
 const Gallery = (props: { filter: string }) => {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState();
   //! gotta change this eventually
   const ctx: any = useContext(cartContext);
+  const [showPainting, setShowPainting] = useState(false);
+  const [featuredPainting, setFeaturedPainting] = useState<
+    paintingResource | undefined
+  >(undefined);
+
+  const toggleFeaturePainting = () => {
+    setShowPainting(!showPainting);
+    console.log("toggle");
+  };
 
   const { isLoading, error, sendRequest: sendPaintingsRequest } = useHttp();
 
   //! another any tag
-  const addPaintingstoCtx = (paintings: any) => {
-    console.log(paintings);
+  const addPaintingstoCtx = (paintings: paintingResponseResource) => {
     const responseObject = {
       item: paintings.data,
     };
@@ -58,14 +70,27 @@ const Gallery = (props: { filter: string }) => {
     (painting: paintingResource) => painting.categories[0].name == props.filter
   );
 
-  console.log(filteredPaintings);
-
   return (
-    <div className="gallery">
-      {filteredPaintings.map((painting: paintingResource) => (
-        <GalleryItem key={painting.id} painting={painting} />
-      ))}
-    </div>
+    <>
+      {showPainting ? (
+        <Painting
+          painting={featuredPainting}
+          togglePainting={toggleFeaturePainting}
+        />
+      ) : (
+        ""
+      )}
+      <div className="gallery">
+        {filteredPaintings.map((painting: paintingResource) => (
+          <GalleryItem
+            key={painting.id}
+            painting={painting}
+            setFeaturedPainting={setFeaturedPainting}
+            togglePainting={toggleFeaturePainting}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

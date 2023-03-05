@@ -1,3 +1,8 @@
+export interface paintingResponseResource {
+  data: paintingResource;
+  meta: {};
+}
+
 export interface paintingResource {
   active: boolean;
   categories: categoryResource[];
@@ -9,7 +14,7 @@ export interface paintingResource {
   has: {};
   id: string;
   image: imageResource;
-  inventory: {};
+  inventory: inventoryResource;
   is: {};
   meta: null;
   name: string;
@@ -20,6 +25,11 @@ export interface paintingResource {
   sort_order: number;
   thank_you_url: string;
   updated: number;
+}
+
+export interface inventoryResource {
+  managed: boolean;
+  available: number;
 }
 
 export interface imageResource {

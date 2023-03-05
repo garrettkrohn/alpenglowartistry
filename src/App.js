@@ -1,6 +1,6 @@
 import "./App.css";
 import NavBar from "./Components/NavBar/NavBar";
-import Painting from "./Components/Paintings/Painting";
+import Painting from "./Components/Paintings/Painting.tsx";
 import Gallery from "./Components/Gallery/Gallery.tsx";
 import CartProvider from "./Store/CartProvider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { paintingResource } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import "./GalleryItem.css";
+import Painting from "../Paintings/Painting";
 
-const GalleryItem = (props) => {
-  const ctx = useContext(cartContext);
+const GalleryItem = (props: {
+  painting: paintingResource;
+  setFeaturedPainting: Function;
+  togglePainting: Function;
+}) => {
+  const ctx: any = useContext(cartContext);
 
   const handleAddToCart = () => {
     const responseObject = {
@@ -12,7 +18,7 @@ const GalleryItem = (props) => {
     ctx.addItem(responseObject);
   };
 
-  const trimDescription = (description) => {
+  const trimDescription = (description: string) => {
     const desc = description
       .replace("<p>", "")
       .replace("</p>", "")
@@ -28,7 +34,7 @@ const GalleryItem = (props) => {
 
   let buttonTitle = "Add to Cart";
 
-  const inventoryAvailable = (painting) => {
+  const inventoryAvailable = (painting: paintingResource) => {
     if (
       painting.inventory.managed === true &&
       painting.inventory.available == 0
@@ -40,12 +46,19 @@ const GalleryItem = (props) => {
     }
   };
 
+  const featurePaintingHandler = () => {
+    props.setFeaturedPainting(props.painting);
+    props.togglePainting();
+  };
+
   return (
     <div className="gallery-item">
+      {/* <Painting painting={featuredPainting} /> */}
       <img
         src={props.painting.image.url}
         alt="painting"
         className="gallery-item-thumbnail"
+        onClick={featurePaintingHandler}
       />
       <div className="gallery-item-title">{props.painting.name}</div>
       <div className="gallery-item-description">
