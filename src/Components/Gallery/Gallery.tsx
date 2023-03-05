@@ -1,19 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Gallery.css";
-import dark1 from "../../images/dark1.jpeg";
 import GalleryItem from "./GalleryItem";
 import cartContext from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";
 import useHttp from "../../Hooks/useHttp";
+import { paintingResource } from "../../Services/DTOs";
 
-const Gallery = (props) => {
+const Gallery = (props: { filter: string }) => {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState();
-  const ctx = useContext(cartContext);
+  //! gotta change this eventually
+  const ctx: any = useContext(cartContext);
 
   const { isLoading, error, sendRequest: sendPaintingsRequest } = useHttp();
 
-  const addPaintingstoCtx = (paintings) => {
+  //! another any tag
+  const addPaintingstoCtx = (paintings: any) => {
+    console.log(paintings);
     const responseObject = {
       item: paintings.data,
     };
@@ -52,14 +55,14 @@ const Gallery = (props) => {
   //if I ever allow multiple categories, this feature will break
   let filteredPaintings = [];
   filteredPaintings = ctx.paintings.filter(
-    (painting) => painting.categories[0].name == props.filter
+    (painting: paintingResource) => painting.categories[0].name == props.filter
   );
 
   console.log(filteredPaintings);
 
   return (
     <div className="gallery">
-      {filteredPaintings.map((painting) => (
+      {filteredPaintings.map((painting: paintingResource) => (
         <GalleryItem key={painting.id} painting={painting} />
       ))}
     </div>
