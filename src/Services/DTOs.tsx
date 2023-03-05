@@ -4,6 +4,7 @@ export interface paintingResponseResource {
 }
 
 export interface paintingResource {
+  assets: assetResource[];
   active: boolean;
   categories: categoryResource[];
   checkout_url: {};
@@ -25,6 +26,23 @@ export interface paintingResource {
   sort_order: number;
   thank_you_url: string;
   updated: number;
+}
+
+export interface assetResource {
+  created_at: number;
+  description: string | null;
+  file_extension: string;
+  file_size: number;
+  filename: string;
+  id: string;
+  image_dimensions: {
+    width: number;
+    height: number;
+  };
+  is_image: boolean;
+  meta: [];
+  updated_at: number;
+  url: string;
 }
 
 export interface inventoryResource {

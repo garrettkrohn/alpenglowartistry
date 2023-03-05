@@ -20,6 +20,8 @@ const Gallery = (props: { filter: string }) => {
     paintingResource | undefined
   >(undefined);
 
+  console.log(ctx.paintings[0]);
+
   const toggleFeaturePainting = () => {
     setShowPainting(!showPainting);
     console.log("toggle");
@@ -37,7 +39,7 @@ const Gallery = (props: { filter: string }) => {
 
   useEffect(() => {
     const requestConfig = {
-      url: "https://api.chec.io/v1/products/",
+      url: "https://api.chec.io/v1/products/?include=assets",
       method: "GET",
       headers: {
         "X-Authorization": process.env.REACT_APP_COMMERCE_TEST_KEY,

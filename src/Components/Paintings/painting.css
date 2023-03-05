@@ -1,8 +1,12 @@
 .painting-feature {
-  border-radius: 25px;
+  height: 80vh;
+  width: auto;
   max-height: 100vh;
   position: fixed;
   z-index: 100;
+  display: flex;
+  left: 50%;
+  translate: -50%;
 }
 
 .painting-backdrop {

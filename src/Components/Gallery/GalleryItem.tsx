@@ -55,7 +55,7 @@ const GalleryItem = (props: {
     <div className="gallery-item">
       {/* <Painting painting={featuredPainting} /> */}
       <img
-        src={props.painting.image.url}
+        src={props.painting.assets[0].url}
         alt="painting"
         className="gallery-item-thumbnail"
         onClick={featurePaintingHandler}
