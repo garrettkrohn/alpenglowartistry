@@ -26,13 +26,14 @@
 }
 
 .painting-thumbnail {
-  height: 100px;
+  height: 150px;
   border-radius: 10px;
+  margin: 5px 0px 20px 0px;
 }
 
 .painting-feature {
   border-radius: 25px;
-  max-height: 400px;
+  max-height: 700px;
 }
 
 .painting-brand {
