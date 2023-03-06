@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Gallery.css";
 import GalleryItem from "./GalleryItem";
-import cartContext from "../../Store/CartContext";
+import cartContext, { cartContextResource } from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";
 import useHttp from "../../Hooks/useHttp";
 import {
@@ -11,20 +11,14 @@ import {
 import Painting from "../Paintings/Painting";
 
 const Gallery = (props: { filter: string }) => {
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState();
-  //! gotta change this eventually
-  const ctx: any = useContext(cartContext);
+  const ctx: cartContextResource = useContext(cartContext);
   const [showPainting, setShowPainting] = useState(false);
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
     ctx.paintings[0]
   );
 
-  console.log(ctx.paintings[0]);
-
   const toggleFeaturePainting = () => {
     setShowPainting(!showPainting);
-    console.log("toggle");
   };
 
   const { isLoading, error, sendRequest: sendPaintingsRequest } = useHttp();

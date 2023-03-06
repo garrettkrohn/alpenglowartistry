@@ -1,30 +1,50 @@
-import { useReducer } from "react";
+import { PropsWithChildren, Reducer, useReducer } from "react";
+import { paintingResource } from "../Services/DTOs";
+import { cartContextResource } from "./CartContext";
 import CartContext from "./CartContext";
+import React from "react";
 
 const defaultCartState = {
-  paintings: [],
   items: [],
-  cart: {},
+  paintings: [],
   totalQuantity: 0,
+  cart: {},
+  addItem: () => [],
+  removeItem: () => {},
+  addPaintings: () => {},
 };
 
-const cartReducer = (state, action) => {
+type actionsResource = {
+  type: string;
+  item: any;
+};
+
+const cartReducer: Reducer<cartContextResource, actionsResource> = (
+  state,
+  action
+): any => {
+  const { type, item } = action;
+
   if (action.type === "ADD") {
     //check if item is already in cart
     for (let x = 0; x < state.items.length; x++) {
       if (state.items[x].id === action.item.id) {
-        let updatedItems = state.items.map((item) => {
-          return { ...item };
-        });
-        updatedItems.find((item) => item.id == action.item.id).quantity +=
-          action.item.quantity;
-        return { items: updatedItems };
+        let updatedItems: paintingResource[] = state.items.map(
+          (item: paintingResource) => {
+            return { ...item };
+          }
+        );
+        // @ts-ignore
+        updatedItems.find(
+          (item: paintingResource) => item.id == action.item.id
+        ).quantity += action.item.quantity;
+        return { ...state, items: updatedItems };
       }
     }
     const addedItems = state.items.concat(action.item);
 
     //decrement the available quantity
-    const editedPaintings = state.paintings.map((item) =>
+    const editedPaintings = state.paintings.map((item: paintingResource) =>
       item.id == action.item.id
         ? {
             ...item,
@@ -53,25 +73,30 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "REMOVE") {
-    let updatedItems = state.items.map((item) => {
+    let updatedItems = state.items.map((item: paintingResource) => {
       return { ...item };
     });
 
     if (
-      updatedItems.find((item) => item.id == action.item.id).inventory
-        .available === 1
+      // @ts-ignore
+
+      updatedItems.find((item: paintingResource) => item.id == action.item.id)
+        .inventory.available === 1
     ) {
       console.log(action.item.id);
       console.log(updatedItems);
-      var indexOfId = updatedItems.findIndex((i) => i.id === action.item.id);
+      var indexOfId = updatedItems.findIndex(
+        (i: paintingResource) => i.id === action.item.id
+      );
       updatedItems.splice(indexOfId, 1);
     } else {
+      // @ts-ignore
       updatedItems.find(
-        (item) => item.name == action.item.name
+        (item: paintingResource) => item.name == action.item.name
       ).inventory.available -= 1;
     }
 
-    const editedPaintings = state.paintings.map((item) =>
+    const editedPaintings = state.paintings.map((item: paintingResource) =>
       item.id == action.item.id
         ? {
             ...item,
@@ -94,21 +119,23 @@ const cartReducer = (state, action) => {
   }
 };
 
-const CartProvider = (props) => {
+const CartProvider: React.FC<PropsWithChildren<React.ReactNode>> = ({
+  children,
+}) => {
   const [cartState, dispatchCartAction] = useReducer(
     cartReducer,
     defaultCartState
   );
 
-  const addItemToCartHandler = (item) => {
+  const addItemToCartHandler = (item: { item: paintingResource }) => {
     dispatchCartAction({ type: "ADD", item: item.item });
   };
 
-  const addPaintings = (item) => {
+  const addPaintings = (item: { item: paintingResource }) => {
     dispatchCartAction({ type: "CART", item: item.item });
   };
 
-  const removeItemCartHandler = (item) => {
+  const removeItemCartHandler = (item: { item: paintingResource }) => {
     dispatchCartAction({ type: "REMOVE", item: item.item });
   };
 
@@ -123,9 +150,7 @@ const CartProvider = (props) => {
   };
 
   return (
-    <CartContext.Provider value={cartContext}>
-      {props.children}
-    </CartContext.Provider>
+    <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>
   );
 };
 

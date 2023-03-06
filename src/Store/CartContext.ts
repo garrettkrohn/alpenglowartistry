@@ -1,14 +1,24 @@
 import React from "react";
 import { paintingResource } from "../Services/DTOs";
 
-const cartContext = React.createContext({
+export type cartContextResource = {
+  items: paintingResource[];
+  paintings: paintingResource[];
+  totalQuantity: number;
+  cart: {};
+  addItem: Function;
+  removeItem: Function;
+  addPaintings: Function;
+};
+
+const CartContext = React.createContext<cartContextResource>({
   items: [],
   paintings: [],
   totalQuantity: 0,
   cart: {},
-  addItem: (item: any) => {},
-  removeItem: (id: number) => {},
+  addItem: (item: paintingResource) => {},
+  removeItem: (id: string) => {},
   addPaintings: (painting: paintingResource) => {},
 });
 
-export default cartContext;
+export default CartContext;

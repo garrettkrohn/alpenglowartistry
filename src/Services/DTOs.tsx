@@ -21,6 +21,7 @@ export interface paintingResource {
   name: string;
   permalink: string;
   price: priceResource;
+  quantity?: number;
   seo: {};
   sku: string;
   sort_order: number;
