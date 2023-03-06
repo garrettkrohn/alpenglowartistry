@@ -4,20 +4,18 @@ import "./Homepage.css";
 import sunrise from "../../images/sunrise.jpeg";
 import Scroller from "../Scroller/Scroller";
 import cartContext from "../../Store/CartContext";
+import { Link } from "react-router-dom";
 
 const Homepage = () => {
   const ctx = useContext(cartContext);
   const [paintingsArray, setPaintingsArray] = useState([]);
 
-  console.log(ctx);
   const paintings = ctx.paintings;
-  console.log(paintings);
 
   const paintingsToBeAdded = paintings.map((painting) => {
     return painting.image.url;
   });
 
-  console.log(paintingsToBeAdded);
   //arr = arr.map(function(item) {
   //   return {somethingElse: 1};
   // });
@@ -39,9 +37,11 @@ const Homepage = () => {
             focus on the stunning beauty in nature.
           </div>
           <div>
-            <button className="homepage-about-button">
-              LEARN MORE ABOUT RACHEL
-            </button>
+            <Link to="/about">
+              <button className="homepage-about-button">
+                LEARN MORE ABOUT RACHEL
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -54,7 +54,11 @@ const Homepage = () => {
           <div className="homepage-print-shop-paragraph">
             Hand printed reproductions of Rachel's stunning landscapes
           </div>
-          <button className="homepage-print-shop-button">ORDER A PRINT</button>
+          <Link to="/prints">
+            <button className="homepage-print-shop-button">
+              ORDER A PRINT
+            </button>
+          </Link>
         </div>
         <div className="homepage-print-shop-right">
           <img

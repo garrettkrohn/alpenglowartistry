@@ -15,7 +15,6 @@ const GalleryItem = (props: {
     const responseObject = {
       item: props.painting,
     };
-    console.log(responseObject);
     ctx.addItem(responseObject);
   };
 

@@ -27,6 +27,7 @@ export interface paintingResource {
   sort_order: number;
   thank_you_url: string;
   updated: number;
+  variant_groups: {};
 }
 
 export interface assetResource {
@@ -83,4 +84,21 @@ export interface requestConfigResource {
   method: string | undefined;
   headers: {} | undefined;
   body?: {} | undefined;
+}
+
+export interface cartResource {
+  id: string;
+  created: number;
+  updated: number;
+  expires: number;
+  total_items: number;
+  total_unique_items: number;
+  subtotal: {
+    raw: number;
+    formatted: string;
+    formatted_with_symbol: string;
+    formatted_with_code: string;
+  };
+  hosted_checkout_url: string;
+  line_items: [];
 }

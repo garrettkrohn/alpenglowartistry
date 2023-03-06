@@ -83,8 +83,6 @@ const cartReducer: Reducer<cartContextResource, actionsResource> = (
       updatedItems.find((item: paintingResource) => item.id == action.item.id)
         .inventory.available === 1
     ) {
-      console.log(action.item.id);
-      console.log(updatedItems);
       var indexOfId = updatedItems.findIndex(
         (i: paintingResource) => i.id === action.item.id
       );

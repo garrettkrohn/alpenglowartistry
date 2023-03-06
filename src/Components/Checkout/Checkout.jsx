@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import useHttp from "../../Hooks/useHttp";
+import { cartResource } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 
 const Checkout = () => {
