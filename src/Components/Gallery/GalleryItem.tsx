@@ -9,6 +9,7 @@ const GalleryItem = (props: {
   setFeaturedPainting: Function;
   togglePainting: Function;
 }) => {
+  const {painting, setFeaturedPainting, togglePainting} = props;
   const ctx: any = useContext(cartContext);
 
   const handleAddToCart = () => {
@@ -36,7 +37,7 @@ const GalleryItem = (props: {
 
   const inventoryAvailable = (painting: paintingResource) => {
     if (
-      painting.inventory.managed === true &&
+      painting.inventory.managed &&
       painting.inventory.available == 0
     ) {
       buttonTitle = "Sold Out";
@@ -47,29 +48,29 @@ const GalleryItem = (props: {
   };
 
   const featurePaintingHandler = () => {
-    props.setFeaturedPainting(props.painting);
-    props.togglePainting();
+    setFeaturedPainting(painting);
+    togglePainting();
   };
 
   return (
     <div className="gallery-item">
       {/* <Painting painting={featuredPainting} /> */}
       <img
-        src={props.painting.assets[0].url}
+        src={painting.assets[0].url}
         alt="painting"
         className="gallery-item-thumbnail"
         onClick={featurePaintingHandler}
       />
-      <div className="gallery-item-title">{props.painting.name}</div>
+      <div className="gallery-item-title">{painting.name}</div>
       <div className="gallery-item-description">
-        {trimDescription(props.painting.description)}
+        {trimDescription(painting.description)}
       </div>
       <div className="gallery-item-bottom">
         <div className="gallery-item-price">
-          {props.painting.price.formatted_with_symbol}
+          {painting.price.formatted_with_symbol}
         </div>
         <button
-          disabled={inventoryAvailable(props.painting)}
+          disabled={inventoryAvailable(painting)}
           className="gallery-item-add-to-cart"
           onClick={handleAddToCart}
         >

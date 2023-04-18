@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import cartContext from "../../Store/CartContext";
 import MenuItems from "../Constants/MenuItems";
 import "./NavBar.css";
@@ -65,6 +65,8 @@ const NavBar = () => {
       <div className="navbar-right">
         <div className="navbar-right-cart">
           <Badge badgeContent={ctx.totalQuantity} color="primary">
+              {/*
+      // @ts-ignore */}
             <ShoppingCart color="white" onClick={toggleCart} />
           </Badge>
           {showCart ? <CartModal /> : ""}

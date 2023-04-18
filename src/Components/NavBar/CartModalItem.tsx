@@ -1,17 +1,21 @@
 import React, { useContext } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import cartContext from "../../Store/CartContext";
+import {paintingResource} from "../../Services/DTOs";
 
-const CartModalItem = (props) => {
+const CartModalItem = (props: {
+  item: paintingResource
+}) => {
   const ctx = useContext(cartContext);
 
-  const handleRemove = (item) => {
+  const handleRemove = (item: paintingResource) => {
     const responseObject = {
       item: props.item,
     };
     ctx.removeItem(responseObject);
   };
 
+  // @ts-ignore
   return (
     <div className="cart-modal-items" key={props.item.id}>
       <div className="cart-modal-items-left">
@@ -27,7 +31,8 @@ const CartModalItem = (props) => {
           </div>
         </div>
       </div>
-
+      {/*
+      // @ts-ignore */}
       <DeleteIcon
         color="primary"
         className="cart-modal-items-delete"

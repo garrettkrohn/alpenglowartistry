@@ -7,19 +7,20 @@ const Painting = (props: {
   painting: paintingResource;
   togglePainting: Function;
 }) => {
+    const {painting, togglePainting} = props;
   const [featurePaintingIndex, setFeaturedPaintingIndex] = useState(0);
 
-  const thumbnailPaintings = props.painting.assets;
+  const thumbnailPaintings = painting.assets;
 
   return (
     <div className="painting-page">
       <div
         className="painting-backdrop"
-        onClick={() => props.togglePainting()}
+        onClick={() => togglePainting()}
       />
       <CloseIcon
         sx={{ color: "white", fontSize: "80px", position: "fixed", zIndex: 2 }}
-        onClick={() => props.togglePainting()}
+        onClick={() => togglePainting()}
       />
       <div className="painting-container">
         <div className="painting-left">
@@ -34,7 +35,7 @@ const Painting = (props: {
         </div>
         <div className="painting-right">
           <img
-            src={props.painting.assets[featurePaintingIndex].url}
+            src={painting.assets[featurePaintingIndex].url}
             alt="painting"
             className="painting-feature"
           />

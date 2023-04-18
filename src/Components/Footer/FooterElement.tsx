@@ -6,10 +6,13 @@ const FooterElement = (props: {
   elements: { name: string; route: string }[];
   title: string;
 }) => {
+  const {title} = props;
+  const {elements} = props;
+
   return (
     <div className="footer-element">
-      <div className="footer-element-title">{props.title}</div>
-      {props.elements.map((item) => (
+      <div className="footer-element-title">{title}</div>
+      {elements.map((item) => (
         <Link
           key={item.name}
           to={item.route}

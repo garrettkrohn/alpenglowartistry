@@ -11,6 +11,8 @@ import {
 import Painting from "../Paintings/Painting";
 
 const Gallery = (props: { filter: string }) => {
+
+  const {filter} = props;
   const ctx: cartContextResource = useContext(cartContext);
   const [showPainting, setShowPainting] = useState(false);
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
@@ -63,7 +65,7 @@ const Gallery = (props: { filter: string }) => {
   //if I ever allow multiple categories, this feature will break
   let filteredPaintings = [];
   filteredPaintings = ctx.paintings.filter(
-    (painting: paintingResource) => painting.categories[0].name == props.filter
+    (painting: paintingResource) => painting.categories[0].name === filter
   );
 
   return (

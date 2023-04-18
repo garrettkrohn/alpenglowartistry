@@ -1,25 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
 import "./Scroller.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-const Scroller = (props) => {
+const Scroller = () => {
   const [displayPaintings, setDisplayPaintings] = useState([]);
 
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
 
   useEffect(() => {
-    function importAll(r) {
+    function importAll(r: any) {
       let images = {};
-      r.keys().forEach((item, index) => {
+      r.keys().forEach((item: any, index: number) => {
+          // @ts-ignore
         images[item.replace("./", "")] = r(item);
       });
       return images;
     }
     const images = importAll(
-      require.context(
+        // @ts-ignore
+        require.context(
         "./../../images/ScrollerImages",
         false,
         /\.(png|jpe?g|svg)$/
@@ -55,6 +57,7 @@ const Scroller = (props) => {
             <img
               src={painting}
               style={{ height: "450px", width: "auto", objectFit: "contain" }}
+              alt={painting}
             ></img>
           </li>
         ))}
