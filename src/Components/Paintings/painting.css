@@ -1,8 +1,7 @@
 .painting-feature {
-  max-height: 100vh;
-  display: flex;
+  height: 100vh;
+  overflow: hidden;
   z-index: 200;
-  position: fixed;
 }
 
 .painting-page {
@@ -24,23 +23,31 @@
 }
 
 .painting-thumbnail {
-  height: 150px;
+  height: 170px;
+  width: 100px;
+  overflow: hidden;
   border-radius: 10px;
-  margin: 5px 0px 20px 0px;
+  margin: 5px 0 20px 0;
   z-index: inherit;
 }
 
 .painting-container {
   display: flex;
-  justify-content: center;
   z-index: 2;
 }
 
 .painting-left {
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding: 100px 50px 50px 50px;
   z-index: inherit;
+}
+
+.painting-left_block {
+  background-color: rgba(245, 245, 245, 0.8);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 .painting-right {
@@ -50,6 +57,19 @@
 
 .painting_description {
   width: 400px;
+  padding: 10px 0 0 10px
+}
+
+.painting_name {
+  font-size: larger;
+  padding: 10px 0 0 10px;
+}
+
+.painting-left-thumbnail-container {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  justify-items: center;
 }
 
 /* 

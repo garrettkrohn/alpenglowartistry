@@ -21,22 +21,27 @@ const Painting = (props: {
         onClick={() => togglePainting()}
       />
       <CloseIcon
-        sx={{ color: "white", fontSize: "80px", position: "fixed", zIndex: 2 }}
+        sx={{ color: "white", fontSize: "80px", position: "fixed", zIndex: 100 }}
         onClick={() => togglePainting()}
       />
 
       <div className="painting-container">
-
           <div className="painting-left">
-              <div className='painting_description'>{trimDescription(description)}</div>
-          {thumbnailPaintings.map((painting, index) => (
-            <img
-              className="painting-thumbnail"
-              src={painting.url}
-              alt={painting.filename}
-              onClick={() => setFeaturedPaintingIndex(index)}
-            />
-          ))}
+              <div className='painting-left_block'>
+                  <div className='painting_name'>{painting.name}</div>
+                  <div className='painting_description'>{trimDescription(description)}</div>
+                  <div className='painting-left-thumbnail-container'>
+                      {thumbnailPaintings.map((painting, index) => (
+                          <img
+                              className="painting-thumbnail"
+                              src={painting.url}
+                              alt={painting.filename}
+                              onClick={() => setFeaturedPaintingIndex(index)}
+                              key={index}
+                          />
+                      ))}
+                  </div>
+              </div>
         </div>
         <div className="painting-right">
           <img
