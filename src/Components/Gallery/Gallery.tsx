@@ -78,6 +78,9 @@ const Gallery = (props: { filter: string }) => {
       ) : (
         ""
       )}
+      {filteredPaintings.length === 0 ?
+          <div className='gallery__empty'>Sorry, there are no {filter} available right now</div>
+          : ''}
       <div className="gallery">
         {filteredPaintings.map((painting: paintingResource) => (
           <GalleryItem
