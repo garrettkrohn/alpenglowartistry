@@ -1,0 +1,21 @@
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    align-self: center;
+}
+
+.contact-title {
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.contact-input {
+    width: 100%;
+}
+
+.contact-message {
+    width: 100%;
+    height: 100px;
+}

@@ -50,6 +50,8 @@ const Contact = () => {
     useEffect(() => {
         if (nameIsValid && emailIsValid && messageIsValid) {
             setFormIsValid(true);
+        } else {
+            setFormIsValid(false);
         }
         console.log(nameIsValid, emailIsValid, messageIsValid)
     }, [nameIsValid, emailIsValid, messageIsValid]);
@@ -70,77 +72,50 @@ const Contact = () => {
     );
     };
 
-    // const handleNameChange = (e: any) => {
-    //     setName(e.target.value);
-    // };
-    //
-    // const handleEmailChange = (e: any) => {
-    //     setEmail(e.target.value);
-    // };
-    //
-    // const handleMessageChange = (e: any) => {
-    //     setMessage(e.target.value);
-    // };
-    //
-    // const Alert = React.forwardRef(function Alert(props, ref) {
-    //     //@ts-ignore
-    //     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    // });
-    //
-    // function CustomizedSnackbars() {
-    //     const [open, setOpen] = React.useState(false);
-    //
-    //     const handleClick = () => {
-    //         setOpen(true);
-    //     };
-    //
-    //     const handleClose = (event: any, reason: any) => {
-    //         if (reason === "clickaway") {
-    //             return;
-    //         }
-    //
-    //         setOpen(false);
-    //     };
-    // }
-    //
-    // const handleClose = (event: any, reason: any) => {
-    //     if (reason === "clickaway") {
-    //         return;
-    //     }
-    //
-    //     setOpen(false);
-    // };
-
     return (
-        <div>
-            Contact Form
+        <div className='contact-container'>
+            <div className='contact-title'>
+                Contact Form
+            </div>
             <form >
-                <label>Name</label>
-                <input
-                    type='text'
-                    id='name'
-                    value={name}
-                    onChange={setName}
-                    onBlur={nameBlur}
-                />
-                <label>Email</label>
-                <input
-                    type='text'
-                    id='email'
-                    value={email}
-                    onChange={setEmail}
-                    onBlur={emailBlur}
-                />
-                <label>Message</label>
-                <input
-                    type='text'
-                    id='message'
-                    value={message}
-                    onChange={setMessage}
-                    onBlur={messageBlur}
-                />
+                <div>
+                    <label>Name:</label>
+                    <input
+                        type='text'
+                        id='name'
+                        value={name}
+                        onChange={setName}
+                        onBlur={nameBlur}
+                        className='contact-input'
+                    />
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input
+                        type='text'
+                        id='email'
+                        value={email}
+                        onChange={setEmail}
+                        onBlur={emailBlur}
+                        className='contact-input'
+
+                    />
+                </div>
+               <div>
+                   <label>Message:</label>
+                   <input
+                       type='text'
+                       id='message'
+                       value={message}
+                       onChange={setMessage}
+                       onBlur={messageBlur}
+                       className='contact-input, contact-message'
+                   />
+               </div>
             </form>
-            <button disabled={!formIsValid} onClick={handleOnSubmit}>Submit</button>
+            <div>
+                <button disabled={!formIsValid} onClick={handleOnSubmit}>Submit</button>
+            </div>
             {emailSent ? <div>Email Sent</div> : ''}
         </div>
     );
