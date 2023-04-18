@@ -25,7 +25,7 @@ const GalleryItem = (props: {
   const inventoryAvailable = (painting: paintingResource) => {
     if (
       painting.inventory.managed &&
-      painting.inventory.available == 0
+      painting.inventory.available === 0
     ) {
       buttonTitle = "Sold Out";
       return true;
