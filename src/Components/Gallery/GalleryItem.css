@@ -1,6 +1,7 @@
 .gallery-item {
   height: 320px;
-  width: 250px;
+  width: auto;
+  max-width: 250px;
   border: 0.5px white solid;
   display: flex;
   justify-content: center;
@@ -22,9 +23,10 @@
 }
 
 .gallery-item-thumbnail {
-  height: 200px;
+  max-height: 200px;
   margin-top: 4px;
   overflow: hidden;
+  object-fit: scale-down;
 }
 
 .gallery-item-title {

@@ -1,5 +1,6 @@
 .homepage-banner-container {
   display: flex;
+  position: relative;
 }
 
 .homepage-banner {
@@ -20,11 +21,17 @@
   position: absolute;
   font-family: "Cormorant Garamond";
   letter-spacing: 1px;
-  top: 400px;
-  left: 15%;
+  bottom: 0px;
+  left: 10px;
   color: white;
   font-size: 50px;
   font-weight: 700;
+}
+
+@media (max-width: 866px) {
+  .homepage-title {
+    font-size: 30px;
+  }
 }
 
 .homepage-about-container {
@@ -34,16 +41,18 @@
   justify-content: center;
   align-items: center;
   height: 450px;
+  position: relative;
 }
 
 .homepage-about-paragraph {
-  width: 500px;
+  max-width: 500px;
   text-align: center;
   margin-top: 100px;
   font-family: "Cormorant Garamond";
   font-weight: 300;
   font-size: 26px;
   color: #1d1d1d;
+  padding: 0 25px;
 }
 
 .homepage-about-button {
@@ -118,4 +127,19 @@
 
 .homepage-print-shop-image {
   height: 500px;
+  max-width: 100%;
+}
+
+@media (max-width: 866px) {
+  .homepage-print-shop {
+    flex-direction: column;
+    width: 100vw;
+    height: auto;
+  }
+
+  .homepage-print-shop-left,
+  .homepage-print-shop-right {
+    width: 100vw;
+    padding: 50px 0;
+  }
 }

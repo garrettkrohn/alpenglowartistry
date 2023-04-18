@@ -1,7 +1,11 @@
+.scroller-container {
+  position: relative;
+}
+
 .scroller-prev,
 .scroller-next {
   position: absolute;
-  top: 1200px;
+  top: 300px;
 }
 
 .scroller-prev {
