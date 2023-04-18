@@ -11,10 +11,11 @@ const Contact = () => {
 
     const SERVICE_ID = "service_0le29ik";
     const TEMPLATE_ID = "template_fr3m5sh";
-    const USER_ID = "C_jK2QIM4s7Q8G8AR";
+    const USER_ID = "u6GOiEMZ7HvRl8MZI";
 
     const [open, setOpen] = useState(false);
     const [error, setError] = useState(false);
+    const [emailSent, setEmailSent] = useState(false);
 
     const [formIsValid, setFormIsValid] = useState(false);
 
@@ -53,14 +54,15 @@ const Contact = () => {
         console.log(nameIsValid, emailIsValid, messageIsValid)
     }, [nameIsValid, emailIsValid, messageIsValid]);
 
-    const handleOnSubmit = (e: MouseEventHandler) => {
-    emailjs.send(SERVICE_ID, TEMPLATE_ID, {name, email, message}, USER_ID).then(
+    const handleOnSubmit = () => {
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, {name: name, from_email: email, message: message, reply_to: email}, USER_ID).then(
         (result: any) => {
-            console.log(result.text);
+            console.log(result);
             setOpen(true);
             nameReset();
             emailReset();
             messageReset();
+            setEmailSent(true);
         },
         (error: any) => {
             console.log(error.text);
@@ -138,7 +140,8 @@ const Contact = () => {
                     onBlur={messageBlur}
                 />
             </form>
-            <button disabled={!formIsValid}>Submit</button>
+            <button disabled={!formIsValid} onClick={handleOnSubmit}>Submit</button>
+            {emailSent ? <div>Email Sent</div> : ''}
         </div>
     );
 };
