@@ -20,7 +20,7 @@ function App() {
         <Route path="/prints" element={<Gallery filter="Prints" />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<Contact />} />
+        <Route path="/about" element={<div>about</div>} />
       </Routes>
       <Footer />
     </CartProvider>
