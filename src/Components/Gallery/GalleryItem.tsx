@@ -19,8 +19,11 @@ const GalleryItem = (props: {
     ctx.addItem(responseObject);
   };
 
+  //hacky way of removing the <p> tags from the desription
   const trimDescription = (description: string) => {
     const desc = description
+      .replace("<p>", "")
+      .replace("</p>", "")
       .replace("<p>", "")
       .replace("</p>", "")
       .replace("<p>", "")
