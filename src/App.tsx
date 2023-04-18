@@ -9,7 +9,8 @@ import Footer from "./Components/Footer/Footer";
 import React from "react";
 
 function App() {
-  return (
+    return (
+        // @ts-ignore
     <CartProvider>
       <NavBar />
       <Routes>

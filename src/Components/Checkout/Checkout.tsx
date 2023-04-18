@@ -17,7 +17,7 @@ const Checkout = () => {
     },
   };
 
-  const printCart = (data) => {
+  const printCart = (data: any) => {
     setCart(data);
   };
 
@@ -25,7 +25,7 @@ const Checkout = () => {
     createCartRequest(requestConfig, printCart);
   }, []);
 
-  return;
+  return <div></div>;
 };
 
 export default Checkout;

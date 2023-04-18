@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
+// @ts-ignore
 import RachelBanner from "../../images/RachelBanner.jpeg";
 import "./Homepage.css";
+// @ts-ignore
 import sunrise from "../../images/sunrise.jpeg";
 import Scroller from "../Scroller/Scroller";
 import cartContext from "../../Store/CartContext";
@@ -46,7 +48,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <Scroller paintings={paintingsToBeAdded} />
+      <Scroller />
 
       <div className="homepage-print-shop">
         <div className="homepage-print-shop-left">
