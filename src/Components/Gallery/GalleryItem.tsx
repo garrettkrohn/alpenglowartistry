@@ -3,6 +3,7 @@ import { paintingResource } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import "./GalleryItem.css";
 import Painting from "../Paintings/Painting";
+import trimDescription from "../../Util/UtilityFunctions";
 
 const GalleryItem = (props: {
   painting: paintingResource;
@@ -17,23 +18,6 @@ const GalleryItem = (props: {
       item: props.painting,
     };
     ctx.addItem(responseObject);
-  };
-
-  //hacky way of removing the <p> tags from the desription
-  const trimDescription = (description: string) => {
-    const desc = description
-      .replace("<p>", "")
-      .replace("</p>", "")
-      .replace("<p>", "")
-      .replace("</p>", "")
-      .replace("<p>", "")
-      .replace("</p>", "");
-    if (desc.length > 110) {
-      const trimmedString = desc.substring(0, 110);
-      return trimmedString + "...";
-    } else {
-      return desc;
-    }
   };
 
   let buttonTitle = "Add to Cart";

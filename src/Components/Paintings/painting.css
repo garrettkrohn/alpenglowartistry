@@ -20,7 +20,7 @@
   height: 100vh;
   width: 100vw;
   backdrop-filter: blur(4px);
-  z-index: 1;
+  z-index: -11;
 }
 
 .painting-thumbnail {
@@ -46,6 +46,10 @@
 .painting-right {
   display: flex;
   z-index: 200;
+}
+
+.painting_description {
+  width: 400px;
 }
 
 /* 

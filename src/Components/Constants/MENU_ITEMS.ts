@@ -1,4 +1,4 @@
-const menuItems = [
+const MENU_ITEMS = [
   { name: "Home", route: "/" },
   { name: "Originals", route: "/originals" },
   { name: "Prints", route: "/prints" },
@@ -6,4 +6,4 @@ const menuItems = [
   { name: "Contact", route: "/contact" },
 ];
 
-export default menuItems;
+export default MENU_ITEMS;

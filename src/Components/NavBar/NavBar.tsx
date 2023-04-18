@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import cartContext from "../../Store/CartContext";
-import MenuItems from "../Constants/MenuItems";
+import MenuItems from "../Constants/MENU_ITEMS";
 import "./NavBar.css";
 import { ShoppingCart } from "@mui/icons-material";
 import { Badge } from "@mui/material";
