@@ -9,6 +9,12 @@
     color: white;
 }
 
+@media (max-width: 550px) {
+    .contact-block {
+        width: 95%;
+    }
+}
+
 .contact-title {
     color: white;
     font-size: x-large;
