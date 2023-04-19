@@ -1,7 +1,6 @@
 .gallery-item {
   height: 320px;
-  width: auto;
-  max-width: 250px;
+  width: 250px;
   border: 0.5px white solid;
   display: flex;
   justify-content: center;
