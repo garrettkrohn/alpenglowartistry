@@ -21,6 +21,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+  }
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    width: 100vw;
+  }
+  .footer {
+    height: 100%;
+  }
+  .footer-element {
+    width: 100%;
   }
 }
 

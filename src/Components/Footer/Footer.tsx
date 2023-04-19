@@ -4,9 +4,9 @@ import FooterElement from "./FooterElement";
 
 const Footer = () => {
   const supportItems = [
-    { name: "FAQ", route: "/faq" },
+    { name: "contact", route: "/contact" },
+    { name: "Frequently Asked Questions", route: "/faq" },
     { name: "terms and conditions", route: "/termsandconditions" },
-    { name: "contact", route: "/route" },
   ];
 
   const followItems = [
@@ -20,8 +20,8 @@ const Footer = () => {
   ];
 
   const more = [
-    { name: "prints", route: "/collection" },
-    { name: "commissions", route: "/commisions" },
+    { name: "prints", route: "/prints" },
+    { name: "commissions", route: "/commissions" },
   ];
 
   const supportTitle = "support";
