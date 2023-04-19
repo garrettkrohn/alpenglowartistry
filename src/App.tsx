@@ -7,6 +7,7 @@ import Checkout from './Components/Checkout/Checkout';
 import Homepage from "./Components/Homepage/Homepage";
 import Footer from "./Components/Footer/Footer";
 import React from "react";
+import Contact from "./Components/Contact/Contact";
 
 function App() {
     return (
@@ -18,9 +19,9 @@ function App() {
         <Route path="/originals" element={<Gallery filter="Originals" />} />
         <Route path="/prints" element={<Gallery filter="Prints" />} />
         <Route path="/checkout" element={<Checkout />} />
-        {/*<Route path="/painting" element={<Painting />} />*/}
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<div>about</div>} />
       </Routes>
-
       <Footer />
     </CartProvider>
   );
