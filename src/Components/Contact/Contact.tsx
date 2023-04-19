@@ -74,49 +74,52 @@ const Contact = () => {
 
     return (
         <div className='contact-container'>
-            <div className='contact-title'>
-                Contact Form
-            </div>
-            <form >
-                <div>
-                    <label>Name:</label>
-                    <input
-                        type='text'
-                        id='name'
-                        value={name}
-                        onChange={setName}
-                        onBlur={nameBlur}
-                        className='contact-input'
-                    />
+            <div className='contact-block'>
+                <div className='contact-title'>
+                    Contact Form
                 </div>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type='text'
-                        id='email'
-                        value={email}
-                        onChange={setEmail}
-                        onBlur={emailBlur}
-                        className='contact-input'
+                <form >
+                    <div className='contact-rows'>
+                        <label>Name:</label>
+                        <input
+                            type='text'
+                            id='name'
+                            value={name}
+                            onChange={setName}
+                            onBlur={nameBlur}
+                            className='contact-input'
+                        />
+                    </div>
+                    <div className='contact-rows'>
+                        <label>Email:</label>
+                        <input
+                            type='text'
+                            id='email'
+                            value={email}
+                            onChange={setEmail}
+                            onBlur={emailBlur}
+                            className='contact-input'
 
-                    />
+                        />
+                    </div>
+                    <div className='contact-rows'>
+                        <label>Message:</label>
+                        <textarea
+                            id='message'
+                            value={message}
+                            //@ts-ignore
+                            onChange={setMessage}
+                            onBlur={messageBlur}
+                            className='contact-input, contact-message'
+                        />
+                    </div>
+                </form>
+                <div>
+                    <button className='contact-button' disabled={!formIsValid} onClick={handleOnSubmit}>Submit</button>
                 </div>
-               <div>
-                   <label>Message:</label>
-                   <input
-                       type='text'
-                       id='message'
-                       value={message}
-                       onChange={setMessage}
-                       onBlur={messageBlur}
-                       className='contact-input, contact-message'
-                   />
-               </div>
-            </form>
-            <div>
-                <button disabled={!formIsValid} onClick={handleOnSubmit}>Submit</button>
+                {emailSent ? <div>Email Sent</div> : ''}
             </div>
-            {emailSent ? <div>Email Sent</div> : ''}
+
         </div>
     );
 };
