@@ -1,0 +1,24 @@
+.checkout-thumbnail {
+    height: 300px;
+}
+
+.checkout-container {
+    border: white 1px solid;
+    margin: 25px;
+    color: white;
+}
+
+.checkout-row {
+    margin: 50px;
+    display: flex;
+}
+
+.checkout-title {
+    font-size: larger;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.checkout-price {
+    padding: 20px;
+}

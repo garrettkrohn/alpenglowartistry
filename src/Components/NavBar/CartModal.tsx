@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import cartContext from "../../Store/CartContext";
 import "./CartModal.css";
 import CartModalItem from "./CartModalItem";
+import {Link} from "react-router-dom";
 
 const CartModal = () => {
   const ctx = useContext(cartContext);
@@ -16,7 +17,9 @@ const CartModal = () => {
       ))}
       {numberInCart > 0 ? (
         <div className="cart-modal-button">
-          <button className="checkout-button">Checkout</button>
+          <Link to='/checkout'>
+            <button className="checkout-button">Checkout</button>
+          </Link>
         </div>
       ) : (
         ""
