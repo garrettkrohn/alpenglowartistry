@@ -8,8 +8,9 @@ import './Checkout.css'
 const Checkout = () => {
   const ctx = useContext(cartContext);
   const localCart = ctx.items;
-  console.log(localCart);
-  const [cart, setCart] = useState();
+  const [cartId, setCartId] = useState('');
+
+  const [stepper, setStepper] = useState('checkout');
 
   interface cartResource {
     id: string;
@@ -59,25 +60,32 @@ const Checkout = () => {
     meta: number;
   }
 
-  async function createCart(): Promise<cartResource> {
-    const url = 'https://api.chec.io/v1/carts';
-    return await fetch(url, {
-      //@ts-ignore
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Authorization': process.env.REACT_APP_COMMERCE_TEST_KEY
-      },
-      method: 'GET',
-    })
-        .then(response => response.json())
-        .then((data: cartResource) => {
-          console.log('Success:', data);
-          return data;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          throw error;
-        });
+  async function createCart(key: string | null): Promise<cartResource> {
+    let url = '';
+    if (!key) {
+      url = 'https://api.chec.io/v1/carts';
+    } else {
+      url = `https://api.chec.io/v1/carts/${key}`;
+    }
+    console.log(url);
+      return await fetch(url, {
+        //@ts-ignore
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': process.env.REACT_APP_COMMERCE_TEST_KEY
+        },
+        method: 'GET',
+      })
+          .then(response => response.json())
+          .then((data: cartResource) => {
+            setCartId(data.id);
+            console.log(data);
+            return data;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            throw error;
+          });
   }
 
   const {
@@ -88,7 +96,7 @@ const Checkout = () => {
   } = useQuery({
     queryKey: [`cart`],
     //@ts-ignore
-    queryFn: () => createCart(),
+    queryFn: () => createCart(cartId),
     enabled: false,
   });
 
@@ -97,18 +105,21 @@ const Checkout = () => {
   }, []);
 
 
-  return <div>
-    {localCart.length === 0 ? <div>No items in cart</div> : ''}
-    <div className='checkout-container'>
-      {localCart.map((item: paintingResource, index: number) => (
-          <div className={'checkout-row'}>
-            <img src={item.image.url} className={'checkout-thumbnail'}/>
-            <div className='checkout-title'>{item.name}</div>
-            <div className='checkout-price'>{item.price.formatted_with_symbol}</div>
-          </div>
-      ))}
-    </div>
-  </div>;
+  return (
+      <div>
+        {localCart.length === 0 ? <div>No items in cart</div> : ''}
+        <div className='checkout-container'>
+          {localCart.map((item: paintingResource, index: number) => (
+              <div className={'checkout-row'} key={index}>
+                <img src={item.image.url} className={'checkout-thumbnail'} alt={item.name}/>
+                <div className='checkout-title'>{item.name}</div>
+                <div className='checkout-price'>{item.price.formatted_with_symbol}</div>
+              </div>
+          ))}
+        </div>
+        <button onClick={() => refetchCreateCart()}>Refetch Cart</button>
+      </div>
+      )
 };
 
 export default Checkout;
