@@ -117,7 +117,7 @@ const Contact = () => {
                 <div>
                     <button className='contact-button' disabled={!formIsValid} onClick={handleOnSubmit}>Submit</button>
                 </div>
-                {emailSent ? <div>Email Sent</div> : ''}
+                {emailSent ? <div className='contact-email-confirmation'>Email Sent</div> : ''}
             </div>
 
         </div>

@@ -41,3 +41,10 @@
     background-color: #616f7b;
     color: #282c34;
 }
+
+.contact-email-confirmation {
+    background-color: darkgreen;
+    text-align: center;
+    height: 35px;
+    font-size: large;
+}
