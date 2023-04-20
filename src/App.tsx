@@ -9,6 +9,7 @@ import Footer from "./Components/Footer/Footer";
 import React from "react";
 import Contact from "./Components/Contact/Contact";
 import Commissions from './Components/Commissions/Commissions'
+import About from "./Components/About/About";
 
 function App() {
     return (
@@ -21,7 +22,7 @@ function App() {
         <Route path="/prints" element={<Gallery filter="Prints" />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<div>about</div>} />
+        <Route path="/about" element={<About />} />
         <Route path="/commissions" element={<Commissions />} />
       </Routes>
       <Footer />
