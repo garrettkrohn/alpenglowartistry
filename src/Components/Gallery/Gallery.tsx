@@ -62,7 +62,6 @@ const Gallery = (props: { filter: string }) => {
     return <div>{error}</div>;
   }
 
-  //if I ever allow multiple categories, this feature will break
   let filteredPaintings = [];
   filteredPaintings = ctx.paintings.filter(
     function (painting: paintingResource){
@@ -72,13 +71,10 @@ const Gallery = (props: { filter: string }) => {
           return painting;
         }
       }
+      return null;
     }
   );
 
-  // let filterpaint = ctx.paintings.map((painting: paintingResource) =>{ return painting.categories.includes(filter)});
-
-  console.log(ctx.paintings);
-  console.log(filteredPaintings);
   return (
     <>
       {showPainting ? (
