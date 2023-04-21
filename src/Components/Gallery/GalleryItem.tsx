@@ -2,9 +2,12 @@ import React, { useContext, useState } from "react";
 import { paintingResource } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import "./GalleryItem.css";
+import './PortfolioItem.css';
 import Painting from "../Paintings/Painting";
 import trimDescription from "../../Util/UtilityFunctions";
 
+
+//used for both GalleryItem as well as Portfolio item, switch by the filter prop
 const GalleryItem = (props: {
   painting: paintingResource;
   setFeaturedPainting: Function;
@@ -42,34 +45,42 @@ const GalleryItem = (props: {
 
   const galleryItem =
       <div className="gallery-item">
-     {/*<Painting painting={featuredPainting} />*/}
-    <img
-        src={painting.assets[0].url}
-        alt="painting"
-        className="gallery-item-thumbnail"
-        onClick={featurePaintingHandler}
-    />
-    <div className="gallery-item-title">{painting.name}</div>
-    <div className="gallery-item-description">
-      {trimDescription(painting.description)}
-    </div>
-    <div className="gallery-item-bottom">
-      <div className="gallery-item-price">
-        {painting.price.formatted_with_symbol}
-      </div>
-      <button
-          disabled={inventoryAvailable(painting)}
-          className="gallery-item-add-to-cart"
-          onClick={handleAddToCart}
-      >
-        {buttonTitle}
-      </button>
-    </div>
-  </div>;
+        <img
+            src={painting.assets[0].url}
+            alt="painting"
+            className="gallery-item-thumbnail"
+            onClick={featurePaintingHandler}
+        />
+        <div className="gallery-item-title">{painting.name}</div>
+        <div className="gallery-item-description">
+          {trimDescription(painting.description)}
+        </div>
+        <div className="gallery-item-bottom">
+          <div className="gallery-item-price">
+            {painting.price.formatted_with_symbol}
+          </div>
+          <button
+              disabled={inventoryAvailable(painting)}
+              className="gallery-item-add-to-cart"
+              onClick={handleAddToCart}
+          >
+            {buttonTitle}
+          </button>
+        </div>
+      </div>;
 
   const portfolioItem =
-      <div>
-        portfolio
+      <div className="gallery-item">
+        <img
+            src={painting.assets[0].url}
+            alt="painting"
+            className="gallery-item-thumbnail"
+            onClick={featurePaintingHandler}
+        />
+        <div className="gallery-item-title">{painting.name}</div>
+        <div className="gallery-item-description">
+          {trimDescription(painting.description)}
+        </div>
       </div>;
 
   return (

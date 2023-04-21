@@ -10,7 +10,6 @@ import React from "react";
 import Contact from "./Components/Contact/Contact";
 import Commissions from './Components/Commissions/Commissions'
 import About from "./Components/About/About";
-import Portfolio from "./Components/Portfolio/Portfolio";
 
 function App() {
     return (
