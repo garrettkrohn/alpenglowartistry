@@ -1,0 +1,51 @@
+.about-container {
+    padding: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.about-image-wrapper {
+    padding: 10px;
+}
+
+.about-image {
+    width: 40vw;
+    height: auto;
+}
+
+.about-text {
+    color: white;
+    font-size: larger;
+    padding: 0 25px 25px 25px;
+}
+
+.about-paragraph {
+    padding-bottom: 10px;
+}
+
+.instagram-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.instagram-icon {
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+}
+
+.instagram-and-button-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0 10px 0;
+}
+
+.instagram-text, a {
+    text-decoration: none;
+    color: white;
+}
+

@@ -34,9 +34,8 @@ const Homepage = () => {
         </div>
         <div className="homepage-about-container">
           <div className="homepage-about-paragraph">
-            Alpenglow Artistry offers Art by Rachel Westman - Acrylic
-            landscapes, mountain scenes, and adoration of nature. Her works
-            focus on the stunning beauty in nature.
+            Alpenglow Artistry offers acrylic paintings and prints created by Rachel Westman -
+            landscapes of mountains, oceans, and beauty in nature.
           </div>
           <div>
             <Link to="/about">
