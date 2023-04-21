@@ -62,10 +62,17 @@ const Gallery = (props: { filter: string }) => {
     return <div>{error}</div>;
   }
 
-  //if I ever allow multiple categories, this feature will break
   let filteredPaintings = [];
   filteredPaintings = ctx.paintings.filter(
-    (painting: paintingResource) => painting.categories[0].name === filter
+    function (painting: paintingResource){
+      for (let i = 0; i < painting.categories.length; i++) {
+        console.log(painting.categories[i].name);
+        if (painting.categories[i].name === filter) {
+          return painting;
+        }
+      }
+      return null;
+    }
   );
 
   return (
@@ -88,6 +95,7 @@ const Gallery = (props: { filter: string }) => {
             painting={painting}
             setFeaturedPainting={setFeaturedPainting}
             togglePainting={toggleFeaturePainting}
+            filter={props.filter}
           />
         ))}
       </div>
