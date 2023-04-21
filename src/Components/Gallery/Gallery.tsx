@@ -95,6 +95,7 @@ const Gallery = (props: { filter: string }) => {
             painting={painting}
             setFeaturedPainting={setFeaturedPainting}
             togglePainting={toggleFeaturePainting}
+            filter={props.filter}
           />
         ))}
       </div>

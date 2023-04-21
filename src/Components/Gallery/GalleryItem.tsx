@@ -9,6 +9,7 @@ const GalleryItem = (props: {
   painting: paintingResource;
   setFeaturedPainting: Function;
   togglePainting: Function;
+  filter: string
 }) => {
   const {painting, setFeaturedPainting, togglePainting} = props;
   const ctx: any = useContext(cartContext);
@@ -39,32 +40,42 @@ const GalleryItem = (props: {
     togglePainting();
   };
 
-  return (
-    <div className="gallery-item">
-      {/* <Painting painting={featuredPainting} /> */}
-      <img
+  const galleryItem =
+      <div className="gallery-item">
+     {/*<Painting painting={featuredPainting} />*/}
+    <img
         src={painting.assets[0].url}
         alt="painting"
         className="gallery-item-thumbnail"
         onClick={featurePaintingHandler}
-      />
-      <div className="gallery-item-title">{painting.name}</div>
-      <div className="gallery-item-description">
-        {trimDescription(painting.description)}
+    />
+    <div className="gallery-item-title">{painting.name}</div>
+    <div className="gallery-item-description">
+      {trimDescription(painting.description)}
+    </div>
+    <div className="gallery-item-bottom">
+      <div className="gallery-item-price">
+        {painting.price.formatted_with_symbol}
       </div>
-      <div className="gallery-item-bottom">
-        <div className="gallery-item-price">
-          {painting.price.formatted_with_symbol}
-        </div>
-        <button
+      <button
           disabled={inventoryAvailable(painting)}
           className="gallery-item-add-to-cart"
           onClick={handleAddToCart}
-        >
-          {buttonTitle}
-        </button>
-      </div>
+      >
+        {buttonTitle}
+      </button>
     </div>
+  </div>;
+
+  const portfolioItem =
+      <div>
+        portfolio
+      </div>;
+
+  return (
+      <div>
+        {props.filter==='Portfolio' ? portfolioItem : galleryItem}
+      </div>
   );
 };
 
