@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import useHttp from "../../Hooks/useHttp";
 import {cartResource, paintingResource} from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import './Checkout.css'
 
 const Checkout = () => {
@@ -10,7 +10,9 @@ const Checkout = () => {
   const localCart = ctx.items;
   const [cartId, setCartId] = useState('');
 
-  const [stepper, setStepper] = useState('checkout');
+  const [stepper, setStepper] = useState(0);
+
+  console.log(ctx.items);
 
   interface cartResource {
     id: string;
@@ -67,7 +69,6 @@ const Checkout = () => {
     } else {
       url = `https://api.chec.io/v1/carts/${key}`;
     }
-    console.log(url);
       return await fetch(url, {
         //@ts-ignore
         headers: {
@@ -88,6 +89,80 @@ const Checkout = () => {
           });
   }
 
+  interface itemResource {
+    active: boolean;
+    assets: {
+      created_at: number;
+      description: string;
+      file_extension: string;
+      file_size: number;
+      file_name: string;
+      id: string;
+      image_dimensions: image_dimensions;
+      is_image: boolean;
+      meta: [];
+      updated_at: number;
+      url: string;
+    }
+    categories: [{
+      id: string;
+      name: string;
+      slug: string
+    }]
+    checkout_url: {
+      checkout: string;
+      display: string;
+    }
+    collects: {};
+    conditionals: {};
+    created: number;
+    description: string;
+    has: {};
+    id: string;
+    image: {
+      created_at: number;
+      description: string;
+      file_extension: string;
+      file_size: number;
+      filename: string;
+      id: string;
+      image_dimensions: image_dimensions;
+      is_image: boolean;
+      meta: [];
+      updated_at: number;
+      url: string;
+    }
+  }
+
+  interface image_dimensions {
+    width: number;
+    height: number;
+  }
+
+  async function addItemToCart(cartId: string, items: any ): Promise<cartResource> {
+    const url = `https://api.chec.io/v1/carts/${cartId}`;
+    console.log(url);
+    return await fetch(url, {
+      //@ts-ignore
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': process.env.REACT_APP_COMMERCE_TEST_KEY
+      },
+      method: 'POST',
+      body: JSON.stringify(cartId),
+    })
+        .then(response => response.json())
+        .then((data: cartResource) => {
+          setCartId(data.id);
+          console.log(data);
+          return data;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          throw error;
+        });
+  }
+
   const {
     isLoading: cartIsLoading,
     error: cartError,
@@ -98,6 +173,20 @@ const Checkout = () => {
     //@ts-ignore
     queryFn: () => createCart(cartId),
     enabled: false,
+  });
+
+  const { mutate: addItem, data: cartAddedData } = useMutation({
+    mutationFn: () =>
+        //@ts-ignore
+        addItemToCart(cardData.id),
+    onMutate: () => console.log('adding item to cart'),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => {
+      console.log('item added to cart', cartAddedData);
+      refetchCreateCart();
+    },
   });
 
   useEffect(() => {
@@ -118,6 +207,9 @@ const Checkout = () => {
           ))}
         </div>
         <button onClick={() => refetchCreateCart()}>Refetch Cart</button>
+        {/*
+// @ts-ignore */}
+        <button onClick={() => addItemToCart(cartData.id, cardData.items[0].id)}>Add first item</button>
       </div>
       )
 };
