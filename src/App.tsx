@@ -10,6 +10,7 @@ import React from "react";
 import Contact from "./Components/Contact/Contact";
 import Commissions from './Components/Commissions/Commissions'
 import About from "./Components/About/About";
+import Portfolio from "./Components/Portfolio/Portfolio";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/commissions" element={<Commissions />} />
+        <Route path="/portfolio" element={<Gallery filter="Portfolio" />} />
       </Routes>
       <Footer />
     </CartProvider>
