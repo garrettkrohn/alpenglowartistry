@@ -4,63 +4,15 @@ import {cartResource, paintingResource} from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import './Checkout.css'
+import {itemResource, image_dimensions} from './CheckoutDtos';
 
 const Checkout = () => {
   const ctx = useContext(cartContext);
+  // console.log(ctx);
   const localCart = ctx.items;
   const [cartId, setCartId] = useState('');
 
   const [stepper, setStepper] = useState(0);
-
-  console.log(ctx.items);
-
-  interface cartResource {
-    id: string;
-    created: number;
-    updated: number;
-    expires: number;
-    total_items: number;
-    total_unique_items: number;
-    subtotal: {
-      raw: number;
-      formatted: string;
-      formatted_with_symbol: string;
-      formatted_with_code: string;
-    };
-    hosted_checkout_url: string;
-    line_items: [{
-      id: string;
-      product_id: string;
-      name: string;
-      product_name: string;
-      sku: string;
-      permalink: string;
-      quantity: number;
-      price: {
-        raw: number;
-        formatted: string;
-        formatted_with_symbol: string;
-        formatted_with_code: string;
-      };
-      line_total: {
-        raw: number;
-        formatted: string;
-        formatted_with_symbol: string;
-        formatted_with_code: string;
-      };
-      is_valid: boolean;
-      product_meta: [];
-      selected_options: [];
-      variant: string;
-      image: string;
-    }];
-    currency: {
-      code: string;
-      symbol: string;
-    };
-    discount: [];
-    meta: number;
-  }
 
   async function createCart(key: string | null): Promise<cartResource> {
     let url = '';
@@ -89,59 +41,10 @@ const Checkout = () => {
           });
   }
 
-  interface itemResource {
-    active: boolean;
-    assets: {
-      created_at: number;
-      description: string;
-      file_extension: string;
-      file_size: number;
-      file_name: string;
-      id: string;
-      image_dimensions: image_dimensions;
-      is_image: boolean;
-      meta: [];
-      updated_at: number;
-      url: string;
-    }
-    categories: [{
-      id: string;
-      name: string;
-      slug: string
-    }]
-    checkout_url: {
-      checkout: string;
-      display: string;
-    }
-    collects: {};
-    conditionals: {};
-    created: number;
-    description: string;
-    has: {};
-    id: string;
-    image: {
-      created_at: number;
-      description: string;
-      file_extension: string;
-      file_size: number;
-      filename: string;
-      id: string;
-      image_dimensions: image_dimensions;
-      is_image: boolean;
-      meta: [];
-      updated_at: number;
-      url: string;
-    }
-  }
-
-  interface image_dimensions {
-    width: number;
-    height: number;
-  }
-
-  async function addItemToCart(cartId: string, items: any ): Promise<cartResource> {
+  async function addItemToCart(cartId: string, itemId: string ): Promise<cartResource> {
     const url = `https://api.chec.io/v1/carts/${cartId}`;
     console.log(url);
+
     return await fetch(url, {
       //@ts-ignore
       headers: {
@@ -149,7 +52,7 @@ const Checkout = () => {
         'X-Authorization': process.env.REACT_APP_COMMERCE_TEST_KEY
       },
       method: 'POST',
-      body: JSON.stringify(cartId),
+      body: JSON.stringify(itemId),
     })
         .then(response => response.json())
         .then((data: cartResource) => {
@@ -176,7 +79,7 @@ const Checkout = () => {
   });
 
   const { mutate: addItem, data: cartAddedData } = useMutation({
-    mutationFn: () =>
+    mutationFn: (itemId: string) =>
         //@ts-ignore
         addItemToCart(cardData.id),
     onMutate: () => console.log('adding item to cart'),
@@ -193,6 +96,21 @@ const Checkout = () => {
       refetchCreateCart();
   }, []);
 
+    const AddItemComponent = (props: {itemId: string}) => {
+        console.log(props.itemId);
+        addItem(props.itemId);
+        return <div>{props.itemId}</div>;
+    }
+
+    const addAllItemsToCart = () => {
+        if (cartData) {
+            //@ts-ignore
+            console.log('adding items', ctx.items);
+            ctx.items.map((item) => <AddItemComponent itemId={item.id} />)
+        } else {
+            console.log('no cart data');
+        }
+    }
 
   return (
       <div>
@@ -209,7 +127,7 @@ const Checkout = () => {
         <button onClick={() => refetchCreateCart()}>Refetch Cart</button>
         {/*
 // @ts-ignore */}
-        <button onClick={() => addItemToCart(cartData.id, cardData.items[0].id)}>Add first item</button>
+        <button onClick={() => addAllItemsToCart()}>Add all items to cart</button>
       </div>
       )
 };

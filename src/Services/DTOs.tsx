@@ -100,5 +100,36 @@ export interface cartResource {
     formatted_with_code: string;
   };
   hosted_checkout_url: string;
-  line_items: [];
+  line_items: [{
+    id: string;
+    product_id: string;
+    name: string;
+    product_name: string;
+    sku: string;
+    permalink: string;
+    quantity: number;
+    price: {
+      raw: number;
+      formatted: string;
+      formatted_with_symbol: string;
+      formatted_with_code: string;
+    };
+    line_total: {
+      raw: number;
+      formatted: string;
+      formatted_with_symbol: string;
+      formatted_with_code: string;
+    };
+    is_valid: boolean;
+    product_meta: [];
+    selected_options: [];
+    variant: string;
+    image: string;
+  }];
+  currency: {
+    code: string;
+    symbol: string;
+  };
+  discount: [];
+  meta: number;
 }
