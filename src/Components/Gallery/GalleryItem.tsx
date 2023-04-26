@@ -3,16 +3,17 @@ import { paintingResource } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import "./GalleryItem.css";
 import './PortfolioItem.css';
-import Painting from "../Paintings/Painting";
 import trimDescription from "../../Util/UtilityFunctions";
+import CartServices from "../../Services/CartServices";
 
-
-//used for both GalleryItem as well as Portfolio item, switch by the filter prop
+//used for both originals, prints, and portfolio
 const GalleryItem = (props: {
   painting: paintingResource;
   setFeaturedPainting: Function;
   togglePainting: Function;
-  filter: string
+  filter: string,
+  cartServices: CartServices,
+  cartId: string
 }) => {
   const {painting, setFeaturedPainting, togglePainting} = props;
   const ctx: any = useContext(cartContext);
@@ -22,6 +23,8 @@ const GalleryItem = (props: {
       item: props.painting,
     };
     ctx.addItem(responseObject);
+    console.log(props.cartId);
+    props.cartServices.addItemToCart(props.cartId, painting.id);
   };
 
   let buttonTitle = "Add to Cart";

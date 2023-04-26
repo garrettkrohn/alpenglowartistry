@@ -69,7 +69,7 @@ const NavBar = () => {
       // @ts-ignore */}
             <ShoppingCart color="white" onClick={toggleCart} />
           </Badge>
-          {showCart ? <CartModal /> : ""}
+          {showCart ? <CartModal toggleCart={toggleCart} /> : ""}
         </div>
       </div>
     </div>

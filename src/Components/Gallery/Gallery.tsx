@@ -9,8 +9,9 @@ import {
   paintingResponseResource,
 } from "../../Services/DTOs";
 import Painting from "../Paintings/Painting";
+import CartServices from "../../Services/CartServices";
 
-const Gallery = (props: { filter: string }) => {
+const Gallery = (props: { filter: string, cartId: string }) => {
 
   const {filter} = props;
   const ctx: cartContextResource = useContext(cartContext);
@@ -18,6 +19,8 @@ const Gallery = (props: { filter: string }) => {
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
     ctx.paintings[0]
   );
+
+  const cartServices = new CartServices();
 
   const toggleFeaturePainting = () => {
     setShowPainting(!showPainting);
@@ -66,7 +69,6 @@ const Gallery = (props: { filter: string }) => {
   filteredPaintings = ctx.paintings.filter(
     function (painting: paintingResource){
       for (let i = 0; i < painting.categories.length; i++) {
-        console.log(painting.categories[i].name);
         if (painting.categories[i].name === filter) {
           return painting;
         }
@@ -96,6 +98,8 @@ const Gallery = (props: { filter: string }) => {
             setFeaturedPainting={setFeaturedPainting}
             togglePainting={toggleFeaturePainting}
             filter={props.filter}
+            cartServices={cartServices}
+            cartId={props.cartId}
           />
         ))}
       </div>

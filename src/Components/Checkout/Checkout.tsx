@@ -1,109 +1,57 @@
 import React, { useContext, useEffect, useState } from "react";
 import useHttp from "../../Hooks/useHttp";
-import {cartResource, paintingResource} from "../../Services/DTOs";
+import {cartResource, line_items, paintingResource} from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import './Checkout.css'
 import {itemResource, image_dimensions} from './CheckoutDtos';
 import CartServices from "../../Services/CartServices";
+import {Link} from "react-router-dom";
 
-const Checkout = () => {
+const Checkout = (props: {cartId: string, setCartId: Function}) => {
+    const {cartId, setCartId} = props;
   const ctx = useContext(cartContext);
   // console.log(ctx);
   const localCart = ctx.items;
-  const [cartId, setCartId] = useState('');
+  // const [cartId, setCartId] = useState('');
 
   const [stepper, setStepper] = useState(0);
 
   const cartServices = new CartServices();
 
-  // async function createCart(key: string | null): Promise<cartResource> {
-  //   let url = '';
-  //   if (!key) {
-  //     url = 'https://api.chec.io/v1/carts';
-  //   } else {
-  //     url = `https://api.chec.io/v1/carts/${key}`;
-  //   }
-  //     return await fetch(url, {
-  //       //@ts-ignore
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'X-Authorization': process.env.REACT_APP_COMMERCE_TEST_KEY
-  //       },
-  //       method: 'GET',
-  //     })
-  //         .then(response => response.json())
-  //         .then((data: cartResource) => {
-  //           setCartId(data.id);
-  //           console.log(data);
-  //           return data;
-  //         })
-  //         .catch(error => {
-  //           console.error('Error:', error);
-  //           throw error;
-  //         });
-  // }
-  //
-  // async function addItemToCart(cartId: string, itemId: string ): Promise<cartResource> {
-  //   const url = `https://api.chec.io/v1/carts/${cartId}`;
-  //   console.log(url);
-  //
-  //   return await fetch(url, {
-  //     //@ts-ignore
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'X-Authorization': process.env.REACT_APP_COMMERCE_TEST_KEY
-  //     },
-  //     method: 'POST',
-  //     body: JSON.stringify(itemId),
-  //   })
-  //       .then(response => response.json())
-  //       .then((data: cartResource) => {
-  //         setCartId(data.id);
-  //         console.log(data);
-  //         return data;
-  //       })
-  //       .catch(error => {
-  //         console.error('Error:', error);
-  //         throw error;
-  //       });
-  // }
-
   const {
-    isLoading: cartIsLoading,
-    error: cartError,
     data: cartData,
     refetch: refetchCreateCart,
+    isLoading: cartIsLoading,
+    isError: cartIsError,
   } = useQuery({
     queryKey: [`cart`],
     //@ts-ignore
-    queryFn: () => cartServices.createCart(cartId),
+    queryFn: () => cartServices.createOrGetCart(cartId),
     enabled: false,
   });
 
-  const { mutate: addItem, data: cartAddedData } = useMutation({
-    mutationFn: (itemId: string) =>
-        //@ts-ignore
-        cartServices.addItemToCart(cartData.id, 'prod_4WJvlKR2rJ5bYV'),
-        // addItemToCart(cardData.id),
-    onMutate: () => console.log('adding item to cart'),
-    onError: (err, variables, context) => {
-      console.log(err, variables, context);
-    },
-    onSettled: () => {
-      console.log('item added to cart');
-    },
-  });
+  if (cartData) {
+      setCartId(cartData.id);
+  }
 
   useEffect(() => {
       refetchCreateCart();
   }, []);
 
+  if (cartIsError) {
+      return <div>error</div>
+  }
+
+  if (cartIsLoading) {
+      return <div>Loading...</div>
+  }
+
   return (
       <div>
-        {localCart.length === 0 ? <div>No items in cart</div> : ''}
+        {cartData.line_items.length === 0 ? <div>No items in cart</div> : ''}
         <div className='checkout-container'>
-          {localCart.map((item: paintingResource, index: number) => (
+          {cartData.line_items.map((item: line_items, index: number) => (
               <div className={'checkout-row'} key={index}>
                 <img src={item.image.url} className={'checkout-thumbnail'} alt={item.name}/>
                 <div className='checkout-title'>{item.name}</div>
@@ -111,10 +59,13 @@ const Checkout = () => {
               </div>
           ))}
         </div>
-        <button onClick={() => refetchCreateCart()}>Refetch Cart</button>
-        {/*
-// @ts-ignore */}
-        <button onClick={() => addItem()}>Add all items to cart</button>
+          <div>Subtotal:
+              {cartData?.subtotal.formatted_with_symbol}
+          </div>
+        {/*<button onClick={() => refetchCreateCart()}>Refetch Cart</button>*/}
+          <Link to={cartData?.hosted_checkout_url}>
+              <button>Checkout</button>
+          </Link>
       </div>
       )
 };

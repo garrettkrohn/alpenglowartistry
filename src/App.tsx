@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Checkout from './Components/Checkout/Checkout';
 import Homepage from "./Components/Homepage/Homepage";
 import Footer from "./Components/Footer/Footer";
-import React from "react";
+import React, {useState} from "react";
 import Contact from "./Components/Contact/Contact";
 import Commissions from './Components/Commissions/Commissions'
 import About from "./Components/About/About";
@@ -16,7 +16,15 @@ const queryClient = new QueryClient()
 
 function App() {
 
-    return (
+  const [cartId, setCartId] = useState('');
+
+  const setCartIdLog = (id: string) => {
+    console.log(id);
+    setCartId(id);
+  }
+
+
+  return (
       <QueryClientProvider client={queryClient}>
               {/*
     // @ts-ignore */}
@@ -24,13 +32,13 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/originals" element={<Gallery filter="Originals" />} />
-            <Route path="/prints" element={<Gallery filter="Prints" />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/originals" element={<Gallery filter="Originals" cartId={cartId} />} />
+            <Route path="/prints" element={<Gallery filter="Prints" cartId={cartId} />} />
+            <Route path="/checkout" element={<Checkout cartId={cartId} setCartId={setCartIdLog} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/commissions" element={<Commissions />} />
-            <Route path="/portfolio" element={<Gallery filter="Portfolio" />} />
+            <Route path="/portfolio" element={<Gallery filter="Portfolio" cartId={cartId} />} />
           </Routes>
           <Footer />
         </CartProvider>
