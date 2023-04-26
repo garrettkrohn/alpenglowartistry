@@ -1,3 +1,8 @@
+.painting-container {
+  display: flex;
+  z-index: 2;
+}
+
 .painting-feature {
   height: 100vh;
   overflow: hidden;
@@ -29,11 +34,6 @@
   border-radius: 10px;
   margin: 5px 0 20px 0;
   z-index: inherit;
-}
-
-.painting-container {
-  display: flex;
-  z-index: 2;
 }
 
 .painting-left {
