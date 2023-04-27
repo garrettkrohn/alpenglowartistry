@@ -4,8 +4,8 @@
 }
 
 .painting-feature {
-  height: 100vh;
-  overflow: hidden;
+  max-height: 95vh;
+  max-width: 65vw;
   z-index: 200;
 }
 
