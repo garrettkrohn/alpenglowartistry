@@ -11,9 +11,8 @@ import {
 import Painting from "../Paintings/Painting";
 import CartServices from "../../Services/CartServices";
 
-const Gallery = (props: { filter: string, cartId: string }) => {
-
-  const {filter} = props;
+const Gallery = (props: { filter: string; cartId: string }) => {
+  const { filter } = props;
   const ctx: cartContextResource = useContext(cartContext);
   const [showPainting, setShowPainting] = useState(false);
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
@@ -66,16 +65,16 @@ const Gallery = (props: { filter: string, cartId: string }) => {
   }
 
   let filteredPaintings = [];
-  filteredPaintings = ctx.paintings.filter(
-    function (painting: paintingResource){
-      for (let i = 0; i < painting.categories.length; i++) {
-        if (painting.categories[i].name === filter) {
-          return painting;
-        }
+  filteredPaintings = ctx.paintings.filter(function (
+    painting: paintingResource
+  ) {
+    for (let i = 0; i < painting.categories.length; i++) {
+      if (painting.categories[i].name === filter) {
+        return painting;
       }
-      return null;
     }
-  );
+    return null;
+  });
 
   return (
     <>
@@ -87,9 +86,13 @@ const Gallery = (props: { filter: string, cartId: string }) => {
       ) : (
         ""
       )}
-      {filteredPaintings.length === 0 ?
-          <div className='gallery__empty'>Sorry, there are no {filter} available right now</div>
-          : ''}
+      {filteredPaintings.length === 0 ? (
+        <div className="gallery__empty">
+          Sorry, there are no {filter} available right now
+        </div>
+      ) : (
+        ""
+      )}
       <div className="gallery">
         {filteredPaintings.map((painting: paintingResource) => (
           <GalleryItem

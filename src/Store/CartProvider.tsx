@@ -12,6 +12,7 @@ const defaultCartState = {
   addItem: () => [],
   removeItem: () => {},
   addPaintings: () => {},
+  cartId: "",
 };
 
 type actionsResource = {
@@ -145,6 +146,7 @@ const CartProvider: React.FC<PropsWithChildren<React.ReactNode>> = ({
     addItem: addItemToCartHandler,
     addPaintings: addPaintings,
     removeItem: removeItemCartHandler,
+    cartId: cartState.cartId,
   };
 
   return (
