@@ -11,8 +11,12 @@ import {
 import Painting from "../Paintings/Painting";
 import CartServices from "../../Services/CartServices";
 
-const Gallery = (props: { filter: string; cartId: string }) => {
-  const { filter } = props;
+const Gallery = (props: {
+  filter: string;
+  cartId: string;
+  setCartId: Function;
+}) => {
+  const { filter, cartId, setCartId } = props;
   const ctx: cartContextResource = useContext(cartContext);
   const [showPainting, setShowPainting] = useState(false);
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
@@ -36,6 +40,7 @@ const Gallery = (props: { filter: string; cartId: string }) => {
   };
 
   useEffect(() => {
+    console.log(ctx);
     const requestConfig = {
       url: "https://api.chec.io/v1/products/?include=assets",
       method: "GET",
