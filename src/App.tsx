@@ -39,7 +39,7 @@ function App() {
       {/*
     // @ts-ignore */}
       <CartProvider>
-        <NavBar />
+        <NavBar cartId={cartId} />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route

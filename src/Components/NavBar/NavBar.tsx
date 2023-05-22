@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const NavBar = () => {
+const NavBar = (props: { cartId: string }) => {
   const ctx = useContext(cartContext);
   const [showCart, setShowCart] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -64,12 +64,13 @@ const NavBar = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-right-cart">
-          <Badge badgeContent={ctx.totalQuantity} color="primary">
+          <Link to="/checkout">
+            <Badge badgeContent={ctx.totalQuantity} color="primary">
               {/*
       // @ts-ignore */}
-            <ShoppingCart color="white" onClick={toggleCart} />
-          </Badge>
-          {showCart ? <CartModal toggleCart={toggleCart} /> : ""}
+              <ShoppingCart color="white" />
+            </Badge>
+          </Link>
         </div>
       </div>
     </div>

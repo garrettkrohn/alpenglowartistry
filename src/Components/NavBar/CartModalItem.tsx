@@ -1,18 +1,21 @@
 import React, { useContext } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import cartContext from "../../Store/CartContext";
-import {paintingResource} from "../../Services/DTOs";
+import { paintingResource } from "../../Services/DTOs";
+import CartServices from "../../Services/CartServices";
 
-const CartModalItem = (props: {
-  item: paintingResource
-}) => {
+const cartService = new CartServices();
+
+const CartModalItem = (props: { item: paintingResource; cartId: string }) => {
   const ctx = useContext(cartContext);
 
-  const handleRemove = (item: paintingResource) => {
+  const handleRemove = () => {
     const responseObject = {
       item: props.item,
     };
     ctx.removeItem(responseObject);
+    console.log(props.cartId, props.item);
+    cartService.emptyItemFromCart(props.cartId, props.item.id);
   };
 
   // @ts-ignore

@@ -31,7 +31,6 @@ const Gallery = (props: {
 
   const { isLoading, error, sendRequest: sendPaintingsRequest } = useHttp();
 
-  //! another any tag
   const addPaintingstoCtx = (paintings: paintingResponseResource) => {
     const responseObject = {
       item: paintings.data,

@@ -16,12 +16,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const { cartId, setCartId } = props;
   const ctx = useContext(cartContext);
   console.log(ctx);
-  const localCart = ctx.items;
-  // const [cartId, setCartId] = useState('');
 
-  const [stepper, setStepper] = useState(0);
+  const cartService = new CartServices();
 
-  const cartServices = new CartServices();
+  const removeItem = (itemId: string) => {
+    console.log("remove item called");
+    cartService.emptyItemFromCart(props.cartId, itemId);
+    refetchCreateCart();
+  };
 
   const {
     data: cartData,
@@ -31,7 +33,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   } = useQuery({
     queryKey: [`cart`],
     //@ts-ignore
-    queryFn: () => cartServices.createOrGetCart(cartId),
+    queryFn: () => cartService.createOrGetCart(cartId),
     enabled: false,
   });
 
@@ -66,6 +68,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             <div className="checkout-price">
               {item.price.formatted_with_symbol}
             </div>
+            <button onClick={() => removeItem(item.id)}>delete</button>
           </div>
         ))}
       </div>
