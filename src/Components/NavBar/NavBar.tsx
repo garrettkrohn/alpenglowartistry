@@ -8,11 +8,15 @@ import CartModal from "./CartModal";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
+import { cartActions, CartDispatch, RootState } from "../../Store";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavBar = (props: { cartId: string }) => {
   const ctx = useContext(cartContext);
   const [showCart, setShowCart] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const dispatch: CartDispatch = useDispatch();
+  const cartStore = useSelector((state: RootState) => state);
 
   const toggleCart = () => {
     setShowCart(!showCart);
@@ -65,7 +69,7 @@ const NavBar = (props: { cartId: string }) => {
       <div className="navbar-right">
         <div className="navbar-right-cart">
           <Link to="/checkout">
-            <Badge badgeContent={ctx.totalQuantity} color="primary">
+            <Badge badgeContent={cartStore.cart.total_items} color="primary">
               {/*
       // @ts-ignore */}
               <ShoppingCart color="white" />
