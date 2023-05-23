@@ -12,6 +12,7 @@ import Painting from "../Paintings/Painting";
 import CartServices from "../../Services/CartServices";
 import { CartDispatch, RootState } from "../../Store";
 import { useDispatch, useSelector } from "react-redux";
+import { Loading } from "../../Util/loading";
 
 const Gallery = (props: {
   filter: string;
@@ -24,9 +25,6 @@ const Gallery = (props: {
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
     ctx.paintings[0]
   );
-
-  const dispatch: CartDispatch = useDispatch();
-  const cartStore = useSelector((state: RootState) => state);
 
   const cartServices = new CartServices();
 
@@ -62,11 +60,7 @@ const Gallery = (props: {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <CircularProgress color="inherit" size="70px" />
-      </div>
-    );
+    return <Loading size="72px" />;
   }
 
   if (error) {

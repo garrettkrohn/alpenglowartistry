@@ -24,6 +24,7 @@ const GalleryItem = (props: {
   const cartServices = new CartServices();
 
   const handleAddToCart = async () => {
+    dispatch(cartActions.toggleLoading());
     const responseObject = {
       item: props.painting,
     };
@@ -35,6 +36,7 @@ const GalleryItem = (props: {
     );
     console.log(newCart);
     dispatch(cartActions.setCart(newCart));
+    dispatch(cartActions.toggleLoading());
   };
 
   let buttonTitle = "Add to Cart";

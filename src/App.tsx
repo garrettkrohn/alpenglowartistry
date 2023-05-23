@@ -22,20 +22,24 @@ function App() {
   const [cartId, setCartId] = useState("");
 
   const dispatch: CartDispatch = useDispatch();
-  const cartStore = useSelector((state: RootState) => state);
-  console.log(cartStore.cart, "cartStore");
+  const cartStore = useSelector((state: RootState) => state.cart);
   const setCartIdLog = (id: string) => {
-    console.log(id);
     setCartId(id);
   };
 
   useEffect(() => {
     const fetchCart = async () => {
-      const cart = await cartServices.createOrGetCart();
+      let cart = cartStore;
+      if (localStorage.cartId === "") {
+        cart = await cartServices.createOrGetCart();
+      } else {
+        cart = await cartServices.createOrGetCart(localStorage.cartId);
+      }
       setCartId(cart.id);
       dispatch(cartActions.setCart(cart));
+      localStorage.setItem("cartId", cart.id);
     };
-    if (!cartId) {
+    if (cartStore.id === "id") {
       fetchCart();
     }
   }, []);

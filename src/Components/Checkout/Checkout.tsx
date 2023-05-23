@@ -11,6 +11,8 @@ import "./Checkout.css";
 import { itemResource, image_dimensions } from "./CheckoutDtos";
 import CartServices from "../../Services/CartServices";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Store";
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const { cartId, setCartId } = props;
@@ -18,6 +20,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   console.log(ctx);
 
   const cartService = new CartServices();
+  const cartStore = useSelector((state: RootState) => state.cart);
 
   const removeItem = (itemId: string) => {
     console.log("remove item called");
@@ -55,9 +58,9 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   return (
     <div>
-      {cartData.line_items.length === 0 ? <div>No items in cart</div> : ""}
+      {cartStore.line_items.length === 0 ? <div>No items in cart</div> : ""}
       <div className="checkout-container">
-        {cartData.line_items.map((item: line_items, index: number) => (
+        {cartStore.line_items.map((item: line_items, index: number) => (
           <div className={"checkout-row"} key={index}>
             <img
               src={item.image.url}
@@ -74,10 +77,10 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       </div>
       <div>
         Subtotal:
-        {cartData?.subtotal.formatted_with_symbol}
+        {cartStore.subtotal.formatted_with_symbol}
       </div>
       {/*<button onClick={() => refetchCreateCart()}>Refetch Cart</button>*/}
-      <Link to={cartData?.hosted_checkout_url}>
+      <Link to={cartStore.hosted_checkout_url}>
         <button>Checkout</button>
       </Link>
     </div>

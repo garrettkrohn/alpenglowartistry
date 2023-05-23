@@ -2,7 +2,7 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { cartResource } from "../Services/DTOs";
 
-const cartInitialState: { cart: cartResource } = {
+const cartInitialState: { cart: cartResource; isLoading: boolean } = {
   cart: {
     id: "id",
     created: 123,
@@ -25,6 +25,7 @@ const cartInitialState: { cart: cartResource } = {
     discount: [],
     meta: 123,
   },
+  isLoading: false,
 };
 
 const cartSlice = createSlice({
@@ -36,6 +37,9 @@ const cartSlice = createSlice({
     },
     updateItems(state, action) {
       state.cart.line_items = action.payload.line_items;
+    },
+    toggleLoading(state) {
+      state.isLoading = !state.isLoading;
     },
   },
 });

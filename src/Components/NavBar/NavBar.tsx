@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { cartActions, CartDispatch, RootState } from "../../Store";
 import { useDispatch, useSelector } from "react-redux";
+import { Loading } from "../../Util/loading";
 
 const NavBar = (props: { cartId: string }) => {
   const ctx = useContext(cartContext);
@@ -68,13 +69,17 @@ const NavBar = (props: { cartId: string }) => {
       </div>
       <div className="navbar-right">
         <div className="navbar-right-cart">
-          <Link to="/checkout">
-            <Badge badgeContent={cartStore.cart.total_items} color="primary">
-              {/*
+          {cartStore.isLoading ? (
+            <Loading size="32px" />
+          ) : (
+            <Link to="/checkout">
+              <Badge badgeContent={cartStore.cart.total_items} color="primary">
+                {/*
       // @ts-ignore */}
-              <ShoppingCart color="white" />
-            </Badge>
-          </Link>
+                <ShoppingCart color="white" />
+              </Badge>
+            </Link>
+          )}
         </div>
       </div>
     </div>
