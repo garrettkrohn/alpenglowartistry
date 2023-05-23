@@ -10,6 +10,8 @@ import {
 } from "../../Services/DTOs";
 import Painting from "../Paintings/Painting";
 import CartServices from "../../Services/CartServices";
+import { CartDispatch, RootState } from "../../Store";
+import { useDispatch, useSelector } from "react-redux";
 
 const Gallery = (props: {
   filter: string;
@@ -22,6 +24,9 @@ const Gallery = (props: {
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
     ctx.paintings[0]
   );
+
+  const dispatch: CartDispatch = useDispatch();
+  const cartStore = useSelector((state: RootState) => state);
 
   const cartServices = new CartServices();
 

@@ -5,6 +5,8 @@ import "./GalleryItem.css";
 import "./PortfolioItem.css";
 import trimDescription from "../../Util/UtilityFunctions";
 import CartServices from "../../Services/CartServices";
+import { CartDispatch, RootState } from "../../Store";
+import { useDispatch, useSelector } from "react-redux";
 
 //used for both originals, prints, and portfolio
 const GalleryItem = (props: {
@@ -17,6 +19,8 @@ const GalleryItem = (props: {
 }) => {
   const { painting, setFeaturedPainting, togglePainting } = props;
   const ctx: any = useContext(cartContext);
+  const dispatch: CartDispatch = useDispatch();
+  const cartStore = useSelector((state: RootState) => state);
 
   const handleAddToCart = () => {
     const responseObject = {
@@ -24,7 +28,11 @@ const GalleryItem = (props: {
     };
     ctx.addItem(responseObject);
     console.log(props.cartId);
-    props.cartServices.addItemToCart(props.cartId, painting.id);
+    const newCart = props.cartServices.addItemToCart(
+      cartStore.cart.id,
+      painting.id
+    );
+    console.log(newCart);
     console.log(ctx.items);
   };
 

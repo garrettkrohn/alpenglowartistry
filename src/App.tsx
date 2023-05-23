@@ -45,7 +45,6 @@ function App() {
       {/*
     // @ts-ignore */}
       <CartProvider>
-        <div>{cartStore.cart.id}</div>
         <NavBar cartId={cartId} />
         <Routes>
           <Route path="/" element={<Homepage />} />
