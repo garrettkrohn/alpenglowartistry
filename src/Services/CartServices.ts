@@ -1,3 +1,5 @@
+import { useDispatch } from "react-redux";
+import { CartDispatch } from "../Store";
 import { cartResource } from "./DTOs";
 
 export default class CartServices {

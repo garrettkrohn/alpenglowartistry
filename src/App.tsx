@@ -12,6 +12,8 @@ import Commissions from "./Components/Commissions/Commissions";
 import About from "./Components/About/About";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CartServices from "./Services/CartServices";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions, CartDispatch, RootState } from "./Store";
 
 const queryClient = new QueryClient();
 const cartServices = new CartServices();
@@ -19,6 +21,9 @@ const cartServices = new CartServices();
 function App() {
   const [cartId, setCartId] = useState("");
 
+  const dispatch: CartDispatch = useDispatch();
+  const cartStore = useSelector((state: RootState) => state);
+  console.log(cartStore.cart, "cartStore");
   const setCartIdLog = (id: string) => {
     console.log(id);
     setCartId(id);
@@ -28,6 +33,7 @@ function App() {
     const fetchCart = async () => {
       const cart = await cartServices.createOrGetCart();
       setCartId(cart.id);
+      dispatch(cartActions.setCart(cart));
     };
     if (!cartId) {
       fetchCart();
@@ -39,6 +45,7 @@ function App() {
       {/*
     // @ts-ignore */}
       <CartProvider>
+        <div>{cartStore.cart.id}</div>
         <NavBar cartId={cartId} />
         <Routes>
           <Route path="/" element={<Homepage />} />
