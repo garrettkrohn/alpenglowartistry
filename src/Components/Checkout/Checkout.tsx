@@ -1,65 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
-import useHttp from "../../Hooks/useHttp";
-import {
-  cartResource,
-  line_items,
-  paintingResource,
-} from "../../Services/DTOs";
-import cartContext from "../../Store/CartContext";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import React from "react";
+import { line_items } from "../../Services/DTOs";
 import "./Checkout.scss";
-import { itemResource, image_dimensions } from "./CheckoutDtos";
 import CartServices from "../../Services/CartServices";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Store";
-import { Loading } from "../../Util/loading";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions, CartDispatch, RootState } from "../../Store";
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
-  const { cartId, setCartId } = props;
-  const ctx = useContext(cartContext);
-  console.log(ctx);
+  const dispatch: CartDispatch = useDispatch();
 
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state.cart);
+  console.log(cartStore);
 
-  const removeItem = (itemId: string) => {
+  const removeItem = async (itemId: string) => {
+    dispatch(cartActions.toggleLoading());
     console.log("remove item called");
-    cartService.emptyItemFromCart(props.cartId, itemId);
-    refetchCreateCart();
+    const newCart = await cartService.emptyItemFromCart(props.cartId, itemId);
+    dispatch(cartActions.setCart(newCart));
+    dispatch(cartActions.toggleLoading());
   };
-
-  const {
-    data: cartData,
-    refetch: refetchCreateCart,
-    isLoading: cartIsLoading,
-    isError: cartIsError,
-  } = useQuery({
-    queryKey: [`cart`],
-    //@ts-ignore
-    queryFn: () => cartService.createOrGetCart(cartId),
-    enabled: false,
-  });
-
-  if (cartData) {
-    setCartId(cartData.id);
-  }
-
-  useEffect(() => {
-    refetchCreateCart();
-  }, []);
 
   const clearLocalCartId = () => {
     localStorage.setItem("cartId", "");
   };
-
-  if (cartIsError) {
-    return <div>error</div>;
-  }
-
-  if (cartIsLoading) {
-    return <Loading size="76px" />;
-  }
 
   return (
     <div>
@@ -77,6 +41,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               <div className="checkout-price">
                 {item.price.formatted_with_symbol}
               </div>
+              <div>Quantity: {item.quantity}</div>
               <button onClick={() => removeItem(item.id)}>delete</button>
             </div>
           </div>
