@@ -7,7 +7,7 @@ import {
 } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import "./Checkout.css";
+import "./Checkout.scss";
 import { itemResource, image_dimensions } from "./CheckoutDtos";
 import CartServices from "../../Services/CartServices";
 import { Link } from "react-router-dom";

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 // @ts-ignore
 import RachelBanner from "../../images/RachelBanner.jpeg";
-import "./Homepage.css";
+import "./Homepage.scss";
 // @ts-ignore
 import sunrise from "../../images/sunrise.jpeg";
 import Scroller from "../Scroller/Scroller";
@@ -34,8 +34,9 @@ const Homepage = () => {
         </div>
         <div className="homepage-about-container">
           <div className="homepage-about-paragraph">
-            Alpenglow Artistry offers acrylic paintings and prints created by Rachel Westman -
-            landscapes of mountains, oceans, and beauty in nature.
+            Alpenglow Artistry offers acrylic paintings and prints created by
+            Rachel Westman - landscapes of mountains, oceans, and beauty in
+            nature.
           </div>
           <div>
             <Link to="/about">

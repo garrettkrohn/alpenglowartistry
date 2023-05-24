@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import cartContext from "../../Store/CartContext";
-import "./CartModal.css";
+import "./CartModal.scss";
 import CartModalItem from "./CartModalItem";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";

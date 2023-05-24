@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./Gallery.css";
+import "./Gallery.scss";
 import GalleryItem from "./GalleryItem";
 import cartContext, { cartContextResource } from "../../Store/CartContext";
 import { CircularProgress } from "@mui/material";

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { paintingResource } from "../../Services/DTOs";
 import cartContext from "../../Store/CartContext";
-import "./GalleryItem.css";
+import "./GalleryItem.scss";
 import "./PortfolioItem.css";
 import trimDescription from "../../Util/UtilityFunctions";
 import CartServices from "../../Services/CartServices";
