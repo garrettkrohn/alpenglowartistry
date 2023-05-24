@@ -29,17 +29,12 @@ function App() {
 
   useEffect(() => {
     const fetchCart = async () => {
-      let cart = cartStore;
-      if (localStorage.cartId === "") {
-        cart = await cartServices.createOrGetCart();
-      } else {
-        cart = await cartServices.createOrGetCart(localStorage.cartId);
-      }
+      const cart = await cartServices.createOrGetCart(localStorage.cartId);
       setCartId(cart.id);
       dispatch(cartActions.setCart(cart));
       localStorage.setItem("cartId", cart.id);
     };
-    if (cartStore.id === "id") {
+    if (cartStore.id === "id" || cartStore.id === "") {
       fetchCart();
     }
   }, []);

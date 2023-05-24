@@ -13,6 +13,7 @@ import CartServices from "../../Services/CartServices";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Store";
+import { Loading } from "../../Util/loading";
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const { cartId, setCartId } = props;
@@ -48,12 +49,16 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     refetchCreateCart();
   }, []);
 
+  const clearLocalCartId = () => {
+    localStorage.setItem("cartId", "");
+  };
+
   if (cartIsError) {
     return <div>error</div>;
   }
 
   if (cartIsLoading) {
-    return <div>Loading...</div>;
+    return <Loading size="76px" />;
   }
 
   return (
@@ -67,11 +72,13 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               className={"checkout-thumbnail"}
               alt={item.name}
             />
-            <div className="checkout-title">{item.name}</div>
-            <div className="checkout-price">
-              {item.price.formatted_with_symbol}
+            <div className="checkout-row-right">
+              <div className="checkout-title">{item.name}</div>
+              <div className="checkout-price">
+                {item.price.formatted_with_symbol}
+              </div>
+              <button onClick={() => removeItem(item.id)}>delete</button>
             </div>
-            <button onClick={() => removeItem(item.id)}>delete</button>
           </div>
         ))}
       </div>
@@ -81,7 +88,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       </div>
       {/*<button onClick={() => refetchCreateCart()}>Refetch Cart</button>*/}
       <Link to={cartStore.hosted_checkout_url}>
-        <button>Checkout</button>
+        <button onClick={clearLocalCartId}>Checkout</button>
       </Link>
     </div>
   );

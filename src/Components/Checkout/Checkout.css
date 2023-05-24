@@ -1,24 +1,29 @@
 .checkout-thumbnail {
-    height: 300px;
+  height: 300px;
 }
 
 .checkout-container {
-    border: white 1px solid;
-    margin: 25px;
-    color: white;
+  border: white 1px solid;
+  margin: 25px;
+  color: white;
 }
 
 .checkout-row {
-    margin: 50px;
-    display: flex;
+  margin: 50px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
+.checkout-row-right {
+  display: flex;
+  flex-direction: column;
+}
 .checkout-title {
-    font-size: larger;
-    font-weight: bold;
-    padding: 20px;
+  font-size: larger;
+  font-weight: bold;
+  padding: 20px;
 }
 
 .checkout-price {
-    padding: 20px;
+  padding: 20px;
 }
