@@ -14,7 +14,7 @@ export default class CartServices {
     if (!key) {
       url = CartServices.BASE_URL + "carts";
     } else {
-      url = CartServices.BASE_URL + `carts/${key}`;
+      url = CartServices.BASE_URL + `carts/${key}?limit=200`;
     }
     return await fetch(url, {
       //@ts-ignore
