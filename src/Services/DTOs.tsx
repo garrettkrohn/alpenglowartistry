@@ -27,7 +27,31 @@ export interface paintingResource {
   sort_order: number;
   thank_you_url: string;
   updated: number;
-  variant_groups: {};
+  variant_groups: variant[];
+}
+
+export interface variant {
+  created: number;
+  id: string;
+  meta: any;
+  name: string;
+  options: variantOption[];
+  updated: number;
+}
+
+export interface variantOption {
+  assets: [];
+  created: number;
+  id: string;
+  meta: any;
+  name: string;
+  price: {
+    raw: number;
+    formatted: string;
+    formatted_with_symbol: string;
+    formatted_with_code: string;
+  };
+  updated: number;
 }
 
 export interface assetResource {

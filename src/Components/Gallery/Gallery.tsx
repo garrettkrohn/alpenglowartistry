@@ -10,8 +10,6 @@ import {
 } from "../../Services/DTOs";
 import Painting from "../Paintings/Painting";
 import CartServices from "../../Services/CartServices";
-import { CartDispatch, RootState } from "../../Store";
-import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../Util/loading";
 
 const Gallery = (props: {
@@ -19,7 +17,7 @@ const Gallery = (props: {
   cartId: string;
   setCartId: Function;
 }) => {
-  const { filter, cartId, setCartId } = props;
+  const { filter } = props;
   const ctx: cartContextResource = useContext(cartContext);
   const [showPainting, setShowPainting] = useState(false);
   const [featuredPainting, setFeaturedPainting] = useState<paintingResource>(
@@ -44,7 +42,7 @@ const Gallery = (props: {
   useEffect(() => {
     console.log(ctx);
     const requestConfig = {
-      url: "https://api.chec.io/v1/products/?include=assets&limit=200",
+      url: "https://api.chec.io/v1/products/?limit=200&include=assets,variant_groups",
       method: "GET",
       headers: {
         "X-Authorization": process.env.REACT_APP_COMMERCE_TEST_KEY,
@@ -72,7 +70,13 @@ const Gallery = (props: {
     painting: paintingResource
   ) {
     for (let i = 0; i < painting.categories.length; i++) {
-      if (painting.categories[i].name === filter) {
+      if (filter === "Prints") {
+        try {
+          if (painting.variant_groups[0].options.length > 0) {
+            return painting;
+          }
+        } catch {}
+      } else if (painting.categories[i].name === filter) {
         return painting;
       }
     }
