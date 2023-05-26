@@ -5,12 +5,13 @@ import CartServices from "../../Services/CartServices";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions, CartDispatch, RootState } from "../../Store";
+import { Loading } from "../../Util/loading";
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
 
   const cartService = new CartServices();
-  const cartStore = useSelector((state: RootState) => state.cart);
+  const cartStore = useSelector((state: RootState) => state);
   console.log(cartStore);
 
   const removeItem = async (itemId: string) => {
@@ -35,9 +36,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   return (
     <div>
-      {cartStore.line_items.length === 0 ? <div>No items in cart</div> : ""}
+      {cartStore.cart.line_items.length === 0 ? (
+        <div>No items in cart</div>
+      ) : (
+        ""
+      )}
+      {cartStore.isLoading ? <Loading size="76px" /> : ""}
       <div className="checkout-container">
-        {cartStore.line_items.map((item: line_items, index: number) => (
+        {cartStore.cart.line_items.map((item: line_items, index: number) => (
           <div className={"checkout-row"} key={index}>
             <img
               src={item.image.url}
@@ -57,10 +63,10 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       </div>
       <div>
         Subtotal:
-        {cartStore.subtotal.formatted_with_symbol}
+        {cartStore.cart.subtotal.formatted_with_symbol}
       </div>
       {/*<button onClick={() => refetchCreateCart()}>Refetch Cart</button>*/}
-      <Link to={cartStore.hosted_checkout_url}>
+      <Link to={cartStore.cart.hosted_checkout_url}>
         <button onClick={clearLocalCartId}>Checkout</button>
       </Link>
       <button onClick={emptyCart}>Empty cart</button>
