@@ -37,13 +37,28 @@ export default class CartServices {
 
   public async addItemToCart(
     cartId: string,
-    itemId: string
+    itemId: string,
+    variantId?: string,
+    variantOptionId?: string
   ): Promise<cartResource> {
     const url = CartServices.BASE_URL + `carts/${cartId}`;
-    console.log(url);
-    //variant_id can be added here
-    const body = { id: itemId };
 
+    let variantObject;
+    console.log(variantId);
+    if (variantId && variantOptionId) {
+      variantObject = { [variantId]: variantOptionId };
+
+      console.log(variantObject);
+    }
+
+    let body;
+    if (variantId) {
+      body = { id: itemId, variantObject };
+    } else {
+      body = { id: itemId };
+    }
+
+    console.log(url, body, variantId, itemId, cartId);
     return await fetch(url, {
       //@ts-ignore
       headers: {

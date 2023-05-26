@@ -25,6 +25,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     localStorage.setItem("cartId", "");
   };
 
+  const emptyCart = async () => {
+    dispatch(cartActions.toggleLoading());
+    console.log("empty cart");
+    const newCart = await cartService.emptyCart(props.cartId);
+    dispatch(cartActions.setCart(newCart));
+    dispatch(cartActions.toggleLoading());
+  };
+
   return (
     <div>
       {cartStore.line_items.length === 0 ? <div>No items in cart</div> : ""}
@@ -55,6 +63,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <Link to={cartStore.hosted_checkout_url}>
         <button onClick={clearLocalCartId}>Checkout</button>
       </Link>
+      <button onClick={emptyCart}>Empty cart</button>
     </div>
   );
 };

@@ -32,9 +32,12 @@ const GalleryItem = (props: {
     };
     ctx.addItem(responseObject);
     console.log(props.cartId);
+    const variantId = variant ? variant.id : "";
     const newCart = await cartServices.addItemToCart(
       cartStore.cart.id,
-      painting.id
+      painting.id,
+      painting.variant_groups[0].id,
+      variantId
     );
     console.log(newCart);
     dispatch(cartActions.setCart(newCart));
@@ -59,6 +62,7 @@ const GalleryItem = (props: {
   }, []);
 
   useEffect(() => {
+    console.log(painting);
     console.log(variant);
   }, [variant]);
 
@@ -70,11 +74,10 @@ const GalleryItem = (props: {
   const handlePrintSizeSelection = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const matchedVariant = lookUpVariantByName(event.target.value);
-    console.log(matchedVariant);
+    lookUpAndSetVariant(event.target.value);
   };
 
-  const lookUpVariantByName = (variantName: string) => {
+  const lookUpAndSetVariant = (variantName: string) => {
     painting.variant_groups[0].options.map((option) => {
       if (option.name == variantName) {
         setVariant(option);
