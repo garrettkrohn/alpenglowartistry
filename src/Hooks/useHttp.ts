@@ -22,6 +22,7 @@ const useHttp = () => {
 
         const data = await response.json();
         applyData(data);
+        // helperToGetAllProdId(data.data);
       } catch (err: any) {
         setError(err.message || "Something went wrong!");
       }
@@ -35,5 +36,12 @@ const useHttp = () => {
     sendRequest,
   };
 };
+
+// const helperToGetAllProdId = (prodArray: any) => {
+//   //@ts-ignore
+//   prodArray.forEach((prod) => {
+//     console.log(prod.name, prod.id);
+//   });
+// };
 
 export default useHttp;

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { CartDispatch } from "../Store";
-import { cartResource } from "./DTOs";
+import { cartResource, variantResource } from "./DTOs";
 
 export default class CartServices {
   private static readonly API_KEY: string = process.env
@@ -43,17 +43,19 @@ export default class CartServices {
   ): Promise<cartResource> {
     const url = CartServices.BASE_URL + `carts/${cartId}`;
 
-    let variantObject;
-    console.log(variantId);
+    let verifiedVariant = "";
     if (variantId && variantOptionId) {
-      variantObject = { [variantId]: variantOptionId };
-
-      console.log(variantObject);
+      const allVariants = await this.getVariants(itemId);
+      allVariants.data.forEach((variant) => {
+        if (variant.options[variantId] === variantOptionId) {
+          verifiedVariant = variant.id;
+        }
+      });
     }
 
     let body;
     if (variantId) {
-      body = { id: itemId, variantObject };
+      body = { id: itemId, variant_id: verifiedVariant };
     } else {
       body = { id: itemId };
     }
@@ -147,6 +149,28 @@ export default class CartServices {
     })
       .then((response) => response.json())
       .then((data: cartResource) => {
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        throw error;
+      });
+  }
+
+  public async getVariants(productId: string): Promise<variantResource> {
+    const url = CartServices.BASE_URL + `products/${productId}/variants`;
+
+    return await fetch(url, {
+      //@ts-ignore
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": CartServices.API_KEY,
+      },
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data: variantResource) => {
         console.log(data);
         return data;
       })

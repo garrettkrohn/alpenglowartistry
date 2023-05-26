@@ -159,3 +159,20 @@ export interface line_items {
   variant: string;
   image: imageResource;
 }
+
+export interface variantResource {
+  data: [
+    {
+      id: string;
+      sku: string;
+      description: string;
+      inventory: number;
+      price: priceResource;
+      is_valid: boolean;
+      invalid_reason_code: boolean;
+      created: number;
+      updated: number;
+      options: any;
+    }
+  ];
+}

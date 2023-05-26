@@ -4,10 +4,11 @@ import Contact from "../Contact/Contact";
 
 const Commissions = () => {
   return (
-    <div>
+    <div className="commissions-container">
       <div className="commissions-header">
-        I offer commissions, contact me below to let me know if you are
-        interested thorugh the form below.
+        Commissions may be considered. Fill out the form below with a
+        description of the project with size, a photo for reference, and any
+        other additional details.
       </div>
       <Contact />
     </div>

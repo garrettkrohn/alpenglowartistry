@@ -5,7 +5,7 @@ import FooterElement from "./FooterElement";
 const Footer = () => {
   const supportItems = [
     { name: "contact", route: "/contact" },
-    { name: "Frequently Asked Questions", route: "/faq" },
+    // { name: "Frequently Asked Questions", route: "/faq" },
     { name: "terms and conditions", route: "/termsandconditions" },
   ];
 
@@ -16,7 +16,7 @@ const Footer = () => {
         "https://www.instagram.com/Alpenglow_Artistry/?fbclid=IwAR1htKpLfuakX_2R2bzbL5t3CyQuhy42jEUB-vcQPCt_ohDQvw-sGh9myH8",
     },
     // { name: "pintrest", route: "/pintrest" },
-    { name: "facebook", route: "https://www.facebook.com/rachel.westman.7" },
+    // { name: "facebook", route: "" },
   ];
 
   const more = [

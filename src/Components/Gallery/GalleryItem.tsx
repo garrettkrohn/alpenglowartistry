@@ -27,18 +27,21 @@ const GalleryItem = (props: {
 
   const handleAddToCart = async () => {
     dispatch(cartActions.toggleLoading());
-    const responseObject = {
-      item: props.painting,
-    };
-    ctx.addItem(responseObject);
-    console.log(props.cartId);
     const variantId = variant ? variant.id : "";
-    const newCart = await cartServices.addItemToCart(
-      cartStore.cart.id,
-      painting.id,
-      painting.variant_groups[0].id,
-      variantId
-    );
+    let newCart;
+    if (variantId && painting.variant_groups[0]) {
+      newCart = await cartServices.addItemToCart(
+        cartStore.cart.id,
+        painting.id,
+        painting.variant_groups[0]?.id,
+        variantId
+      );
+    } else {
+      newCart = await cartServices.addItemToCart(
+        cartStore.cart.id,
+        painting.id
+      );
+    }
     console.log(newCart);
     dispatch(cartActions.setCart(newCart));
     dispatch(cartActions.toggleLoading());
@@ -47,7 +50,11 @@ const GalleryItem = (props: {
   let buttonTitle = "Add to Cart";
 
   const inventoryAvailable = (painting: paintingResource) => {
-    if (painting.inventory.managed && painting.inventory.available === 0) {
+    if (
+      painting.inventory.managed &&
+      painting.inventory.available === 0 &&
+      filter === "Originals"
+    ) {
       buttonTitle = "Sold Out";
       return true;
     } else {
@@ -85,6 +92,15 @@ const GalleryItem = (props: {
     });
   };
 
+  let priceToDisplay = "";
+  if (filter === "Prints") {
+    if (variant) {
+      priceToDisplay = variant.price.formatted_with_symbol;
+    }
+  } else if (filter === "Originals") {
+    priceToDisplay = painting.price.formatted_with_symbol;
+  }
+
   const galleryItem = (
     <div className="gallery-item">
       <img
@@ -98,11 +114,7 @@ const GalleryItem = (props: {
         {trimDescription(painting.description)}
       </div>
       <div className="gallery-item-bottom">
-        <div className="gallery-item-price">
-          {variant
-            ? variant.price.formatted_with_symbol
-            : painting.price.formatted_with_symbol}
-        </div>
+        <div className="gallery-item-price">{priceToDisplay}</div>
         {filter === "Prints" ? (
           <div className="gallery-item-select">
             <select onChange={handlePrintSizeSelection}>

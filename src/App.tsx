@@ -28,6 +28,7 @@ function App() {
   };
 
   useEffect(() => {
+    console.log("cart store id is:", cartStore.id);
     const fetchCart = async () => {
       const cart = await cartServices.createOrGetCart(localStorage.cartId);
       setCartId(cart.id);
