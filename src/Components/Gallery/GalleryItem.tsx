@@ -8,6 +8,7 @@ import CartServices from "../../Services/CartServices";
 import { cartActions, CartDispatch, RootState } from "../../Store";
 import { useDispatch, useSelector } from "react-redux";
 import { variantOption } from "../../Services/DTOs";
+import { Loading } from "../../Util/loading";
 
 //used for both originals, prints, and portfolio
 const GalleryItem = (props: {
@@ -19,14 +20,15 @@ const GalleryItem = (props: {
   cartId: string;
 }) => {
   const { painting, setFeaturedPainting, togglePainting, filter } = props;
-  const ctx: any = useContext(cartContext);
   const dispatch: CartDispatch = useDispatch();
   const cartStore = useSelector((state: RootState) => state);
   const cartServices = new CartServices();
   const [variant, setVariant] = useState<variantOption>();
+  const [individualLoad, setIndividualLoad] = useState(false);
 
   const handleAddToCart = async () => {
     dispatch(cartActions.toggleLoading());
+    setIndividualLoad(true);
     const variantId = variant ? variant.id : "";
     let newCart;
     if (variantId && painting.variant_groups[0]) {
@@ -45,6 +47,7 @@ const GalleryItem = (props: {
     console.log(newCart);
     dispatch(cartActions.setCart(newCart));
     dispatch(cartActions.toggleLoading());
+    setIndividualLoad(false);
   };
 
   let buttonTitle = "Add to Cart";
@@ -68,10 +71,10 @@ const GalleryItem = (props: {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(painting);
-    console.log(variant);
-  }, [variant]);
+  // useEffect(() => {
+  //   console.log(painting);
+  //   console.log(variant);
+  // }, [variant]);
 
   const featurePaintingHandler = () => {
     setFeaturedPainting(painting);
@@ -121,7 +124,7 @@ const GalleryItem = (props: {
               {painting.variant_groups[0]?.options.map(
                 (variant: any, index: number) => (
                   <option key={index} value={variant.name}>
-                    {variant.name}
+                    {`${variant.name} - ${variant.price.formatted_with_symbol}`}
                   </option>
                 )
               )}
@@ -130,13 +133,17 @@ const GalleryItem = (props: {
         ) : (
           ""
         )}
-        <button
-          disabled={inventoryAvailable(painting)}
-          className="gallery-item-add-to-cart"
-          onClick={handleAddToCart}
-        >
-          {buttonTitle}
-        </button>
+        {individualLoad ? (
+          <Loading size="28px" />
+        ) : (
+          <button
+            disabled={inventoryAvailable(painting)}
+            className="gallery-item-add-to-cart"
+            onClick={handleAddToCart}
+          >
+            {buttonTitle}
+          </button>
+        )}
       </div>
     </div>
   );

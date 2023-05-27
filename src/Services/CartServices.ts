@@ -51,6 +51,9 @@ export default class CartServices {
           verifiedVariant = variant.id;
         }
       });
+      if (!verifiedVariant) {
+        console.error("no variants");
+      }
     }
 
     let body;
