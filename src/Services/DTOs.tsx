@@ -266,3 +266,6 @@ export interface priceResource {
   formatted_with_symbol: string;
   formatted_with_code: string;
 }
+export interface countriesResource {
+  countries: {}[];
+}

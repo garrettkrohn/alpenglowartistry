@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions, CartDispatch, RootState } from "../../Store";
 import { Loading } from "../../Util/loading";
+import useInput from "../../Hooks/useInput";
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
@@ -13,7 +14,107 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
-  console.log(cartStore);
+
+  const {
+    value: firstName,
+    valueChangeHandler: firstNameHandler,
+    inputBlurHandler: firstNameBlurHandler,
+    hasError: firstNameError,
+    isValid: firstNameIsValid,
+    reset: firstNameReset,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: lastName,
+    valueChangeHandler: lastNameHandler,
+    inputBlurHandler: lastNameBlurHandler,
+    hasError: lastNameError,
+    isValid: lastNameIsValid,
+    reset: lastNameReset,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: email,
+    valueChangeHandler: emailHandler,
+    inputBlurHandler: emailBlurHandler,
+    hasError: emailError,
+    isValid: emailIsValid,
+    reset: emailReset,
+  } = useInput((value: string) => value !== "");
+
+  // billing
+  const {
+    value: street,
+    valueChangeHandler: streetHandler,
+    inputBlurHandler: streetBlurHandler,
+    hasError: streetError,
+    isValid: streetIsValid,
+    reset: streetReset,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: city,
+    valueChangeHandler: cityHandler,
+    inputBlurHandler: cityBlurHandler,
+    hasError: cityError,
+    isValid: cityIsValid,
+    reset: cityReset,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: countyState,
+    valueChangeHandler: countyStateHandler,
+    inputBlurHandler: countyStateBlurHandler,
+    hasError: countyStateError,
+    isValid: countyStateIsValid,
+    reset: countyStateReset,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: zip,
+    valueChangeHandler: zipHandler,
+    inputBlurHandler: zipBlurHandler,
+    hasError: zipError,
+    isValid: zipIsValid,
+    reset: zipReset,
+  } = useInput((value: string) => value !== "");
+
+  // shipping
+  const {
+    value: streetShip,
+    valueChangeHandler: streetHandlerShip,
+    inputBlurHandler: streetBlurHandlerShip,
+    hasError: streetErrorShip,
+    isValid: streetIsValidShip,
+    reset: streetResetShip,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: cityShip,
+    valueChangeHandler: cityHandlerShip,
+    inputBlurHandler: cityBlurHandlerShip,
+    hasError: cityErrorShip,
+    isValid: cityIsValidShip,
+    reset: cityResetShip,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: countyStateShip,
+    valueChangeHandler: countyStateHandlerShip,
+    inputBlurHandler: countyStateBlurHandlerShip,
+    hasError: countyStateErrorShip,
+    isValid: countyStateIsValidShip,
+    reset: countyStateResetShip,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: zipShip,
+    valueChangeHandler: zipHandlerShip,
+    inputBlurHandler: zipBlurHandlerShip,
+    hasError: zipErrorShip,
+    isValid: zipIsValidShip,
+    reset: zipResetShip,
+  } = useInput((value: string) => value !== "");
 
   const incrementStepper = () => {
     if (stepper < 3) {
@@ -52,16 +153,72 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       const checkoutObject = await cartService.getCheckoutToken(
         cartStore.cart.id
       );
-      console.log(checkoutObject);
+      localStorage.setItem("checkoutId", checkoutObject.id);
+      // console.log(localStorage.getItem("checkoutId"));
     };
 
-    getCart();
+    const getStates = async () => {
+      const states = await cartService.getStates();
+    };
+    getStates();
+
+    if (!localStorage.checkoutId) {
+      getCart();
+    }
   }, []);
 
   if (stepper === 1) {
     return (
       <div>
         <div>billing address</div>
+        <label>first name</label>
+        <input
+          type="text"
+          id="lastName"
+          value={firstName}
+          onChange={firstNameHandler}
+          onBlur={firstNameBlurHandler}
+        />
+        <label>last name</label>
+        <input
+          type="text"
+          id="firstName"
+          value={lastName}
+          onChange={lastNameHandler}
+          onBlur={lastNameBlurHandler}
+        />
+        <label>email</label>
+        <input
+          type="text"
+          id="email"
+          value={email}
+          onChange={emailHandler}
+          onBlur={emailBlurHandler}
+        />
+        <label>street</label>
+        <input
+          type="text"
+          id="street"
+          value={street}
+          onChange={streetHandler}
+          onBlur={streetBlurHandler}
+        />
+        <label>city</label>
+        <input
+          type="text"
+          id="city"
+          value={city}
+          onChange={cityHandler}
+          onBlur={cityBlurHandler}
+        />
+        <label>zip</label>
+        <input
+          type="text"
+          id="zip"
+          value={zip}
+          onChange={zipHandler}
+          onBlur={zipBlurHandler}
+        />
         <button onClick={decrementStepper}>back</button>
         <button onClick={incrementStepper}>next</button>
       </div>
@@ -71,7 +228,30 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   if (stepper === 2) {
     return (
       <div>
-        <div>shipping address</div>;
+        <div>shipping address</div>;<label>street</label>
+        <input
+          type="text"
+          id="street"
+          value={streetShip}
+          onChange={streetHandlerShip}
+          onBlur={streetBlurHandlerShip}
+        />
+        <label>city</label>
+        <input
+          type="text"
+          id="city"
+          value={cityShip}
+          onChange={cityHandlerShip}
+          onBlur={cityBlurHandlerShip}
+        />
+        <label>zip</label>
+        <input
+          type="text"
+          id="zip"
+          value={zipShip}
+          onChange={zipHandlerShip}
+          onBlur={zipBlurHandlerShip}
+        />
         <button onClick={decrementStepper}>back</button>
         <button onClick={incrementStepper}>next</button>
       </div>

@@ -1,6 +1,11 @@
 import { useDispatch } from "react-redux";
 import { CartDispatch } from "../Store";
-import { cartResource, checkoutResource, variantResource } from "./DTOs";
+import {
+  cartResource,
+  checkoutResource,
+  countriesResource,
+  variantResource,
+} from "./DTOs";
 
 export default class CartServices {
   private static readonly API_KEY: string = process.env
@@ -196,6 +201,28 @@ export default class CartServices {
     })
       .then((response) => response.json())
       .then((data: checkoutResource) => {
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        throw error;
+      });
+  }
+
+  public async getStates(): Promise<countriesResource> {
+    const url = CartServices.BASE_URL + `services/locale/US/subdivisions`;
+
+    return await fetch(url, {
+      //@ts-ignore
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": CartServices.API_KEY,
+      },
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data: countriesResource) => {
         console.log(data);
         return data;
       })
