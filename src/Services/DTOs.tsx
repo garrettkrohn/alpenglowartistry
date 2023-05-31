@@ -176,3 +176,93 @@ export interface variantResource {
     }
   ];
 }
+
+export interface checkoutResource {
+  id: string;
+  cart_id: string;
+  created: number;
+  expires: number;
+  conditionals: {
+    collects_fullname: boolean;
+    collects_shipping_address: boolean;
+    collects_billing_address: boolean;
+    has_physical_delivery: boolean;
+    has_digital_delivery: boolean;
+    has_pay_what_you_want: boolean;
+    has_available_discounts: boolean;
+    collects_extra_fields: boolean;
+    is_cart_free: boolean;
+  };
+  collects: {
+    fullname: boolean;
+    shipping_address: boolean;
+    billing_address: boolean;
+    extra_fields: boolean;
+  };
+  has: {
+    physical_delivery: boolean;
+    digital_delivery: boolean;
+    pay_what_you_want: boolean;
+    available_discounts: boolean;
+  };
+  is: {
+    cart_free: boolean;
+  };
+  products: {}[];
+  merchant: {
+    id: number;
+    name: string;
+    description: string;
+    status: string;
+    country: string;
+    currency: currencyResource;
+    support_email: string;
+    // other stuff
+  };
+  extra_fields: [];
+  gateways: {
+    id: string;
+    code: string;
+    sandbox: boolean;
+    config: [];
+  }[];
+  shipping_methods: {
+    id: string;
+    description: string;
+    provider: string;
+    price: priceResource;
+    countries: string[];
+    regions: {};
+    live: {
+      merchant_id: number;
+      currency: currencyResource;
+
+      subtotal: priceResource;
+      tax: {
+        amount: priceResource;
+        breakdown: [];
+        included_in_price: boolean;
+        zone: [];
+        privider: string;
+      };
+      total: priceResource;
+      total_with_tax: priceResource;
+      adjustments: {};
+      total_due: priceResource;
+      pay_what_you_want: {};
+      line_items: line_items[];
+      discount: [];
+      shipping: {};
+    };
+  };
+}
+export interface currencyResource {
+  symbol: string;
+  code: string;
+}
+export interface priceResource {
+  raw: number;
+  formatted: string;
+  formatted_with_symbol: string;
+  formatted_with_code: string;
+}

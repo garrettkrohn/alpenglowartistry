@@ -1,5 +1,5 @@
 .checkout-thumbnail {
-  height: 300px;
+  height: 200px;
 }
 
 .checkout-container {
@@ -10,15 +10,20 @@
 
 .checkout-row {
   margin: 50px;
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border: 1px solid;
+  padding: 5px;
+  align-items: center;
 }
 
-.checkout-row-right {
-  display: flex;
-  flex-direction: column;
+.checkout-row img {
+  grid-column: span 4;
+  justify-self: center;
 }
+
 .checkout-title {
+  grid-column: span 2;
   font-size: larger;
   font-weight: bold;
   padding: 20px;

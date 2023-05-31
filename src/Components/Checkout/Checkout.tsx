@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { line_items } from "../../Services/DTOs";
 import "./Checkout.scss";
 import CartServices from "../../Services/CartServices";
@@ -9,10 +9,23 @@ import { Loading } from "../../Util/loading";
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
+  const [stepper, setStepper] = useState(0);
 
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
   console.log(cartStore);
+
+  const incrementStepper = () => {
+    if (stepper < 3) {
+      setStepper(stepper + 1);
+    }
+  };
+
+  const decrementStepper = () => {
+    if (stepper > 0) {
+      setStepper(stepper - 1);
+    }
+  };
 
   const removeItem = async (itemId: string) => {
     dispatch(cartActions.toggleLoading());
@@ -34,6 +47,46 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     dispatch(cartActions.toggleLoading());
   };
 
+  useEffect(() => {
+    const getCart = async () => {
+      const checkoutObject = await cartService.getCheckoutToken(
+        cartStore.cart.id
+      );
+      console.log(checkoutObject);
+    };
+
+    getCart();
+  }, []);
+
+  if (stepper === 1) {
+    return (
+      <div>
+        <div>billing address</div>
+        <button onClick={decrementStepper}>back</button>
+        <button onClick={incrementStepper}>next</button>
+      </div>
+    );
+  }
+
+  if (stepper === 2) {
+    return (
+      <div>
+        <div>shipping address</div>;
+        <button onClick={decrementStepper}>back</button>
+        <button onClick={incrementStepper}>next</button>
+      </div>
+    );
+  }
+
+  if (stepper === 3) {
+    return (
+      <div>
+        <div>credit card</div>
+        <button onClick={decrementStepper}>back</button>
+        <button onClick={incrementStepper}>next</button>
+      </div>
+    );
+  }
   return (
     <div>
       {cartStore.cart.line_items.length === 0 ? (
@@ -50,14 +103,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               className={"checkout-thumbnail"}
               alt={item.name}
             />
-            <div className="checkout-row-right">
-              <div className="checkout-title">{item.name}</div>
-              <div className="checkout-price">
-                {item.price.formatted_with_symbol}
-              </div>
-              <div>Quantity: {item.quantity}</div>
-              <button onClick={() => removeItem(item.id)}>delete</button>
+            <div className="checkout-title">{item.name}</div>
+            <div className="checkout-price">
+              {item.price.formatted_with_symbol}
             </div>
+            <div>Quantity: {item.quantity}</div>
+            <button onClick={() => removeItem(item.id)}>delete</button>
           </div>
         ))}
       </div>
@@ -65,10 +116,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         Subtotal:
         {cartStore.cart.subtotal.formatted_with_symbol}
       </div>
-      {/*<button onClick={() => refetchCreateCart()}>Refetch Cart</button>*/}
-      <Link to={cartStore.cart.hosted_checkout_url}>
-        <button onClick={clearLocalCartId}>Checkout</button>
-      </Link>
+      <button onClick={incrementStepper}>Checkout</button>
       <button onClick={emptyCart}>Empty cart</button>
     </div>
   );
