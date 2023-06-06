@@ -269,3 +269,6 @@ export interface priceResource {
 export interface countriesResource {
   countries: {}[];
 }
+export interface statesResource {
+  subdivisions: any[];
+}

@@ -4,6 +4,7 @@ import {
   cartResource,
   checkoutResource,
   countriesResource,
+  statesResource,
   variantResource,
 } from "./DTOs";
 
@@ -210,7 +211,7 @@ export default class CartServices {
       });
   }
 
-  public async getStates(): Promise<countriesResource> {
+  public async getStates(): Promise<statesResource> {
     const url = CartServices.BASE_URL + `services/locale/US/subdivisions`;
 
     return await fetch(url, {
@@ -222,7 +223,7 @@ export default class CartServices {
       method: "GET",
     })
       .then((response) => response.json())
-      .then((data: countriesResource) => {
+      .then((data: statesResource) => {
         console.log(data);
         return data;
       })

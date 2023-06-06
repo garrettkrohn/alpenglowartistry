@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { line_items } from "../../Services/DTOs";
+import {
+  countriesResource,
+  line_items,
+  statesResource,
+} from "../../Services/DTOs";
 import "./Checkout.scss";
 import CartServices from "../../Services/CartServices";
 import { Link } from "react-router-dom";
@@ -14,6 +18,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
+  const [states, setStates] = useState<string[]>([]);
 
   const {
     value: firstName,
@@ -159,6 +164,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
     const getStates = async () => {
       const states = await cartService.getStates();
+      statesArray(states);
     };
     getStates();
 
@@ -167,10 +173,15 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     }
   }, []);
 
+  const statesArray = (states: statesResource) => {
+    var values = Object.values(states.subdivisions);
+    setStates(values);
+  };
+
   if (stepper === 1) {
     return (
-      <div>
-        <div>billing address</div>
+      <div className="checkout-billing-form">
+        <div>Billing Address</div>
         <label>first name</label>
         <input
           type="text"
@@ -211,6 +222,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           onChange={cityHandler}
           onBlur={cityBlurHandler}
         />
+        <select>
+          {states ? (
+            states.map((state) => <option>{state}</option>)
+          ) : (
+            <div></div>
+          )}
+        </select>
+
         <label>zip</label>
         <input
           type="text"
