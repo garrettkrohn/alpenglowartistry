@@ -21,6 +21,10 @@ const useInput = (validateValue: Function) => {
     setIsTouched(false);
   };
 
+  const setValue = (value: string) => {
+    setEnteredValue(value);
+  };
+
   return {
     value: enteredValue,
     valueChangeHandler,
@@ -28,6 +32,7 @@ const useInput = (validateValue: Function) => {
     hasError,
     isValid: valueIsValid,
     reset,
+    setValue,
   };
 };
 

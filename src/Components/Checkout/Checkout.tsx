@@ -19,7 +19,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
   const [states, setStates] = useState<string[]>([]);
-
+  const [sameAsBilling, setSameAsBilling] = useState<boolean>(false);
   const {
     value: firstName,
     valueChangeHandler: firstNameHandler,
@@ -86,12 +86,33 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   // shipping
   const {
+    value: firstNameShip,
+    valueChangeHandler: firstNameShipHandler,
+    inputBlurHandler: firstNameShipBlurHandler,
+    hasError: firstNameShipError,
+    isValid: firstNameShipIsValid,
+    reset: firstNameShipReset,
+    setValue: firstNameShipSetValue,
+  } = useInput((value: string) => value !== "");
+
+  const {
+    value: lastNameShip,
+    valueChangeHandler: lastNameShipHandler,
+    inputBlurHandler: lastNameShipBlurHandler,
+    hasError: lastNameShipError,
+    isValid: lastNameShipIsValid,
+    reset: lastNameShipReset,
+    setValue: lastNameShipSetValue,
+  } = useInput((value: string) => value !== "");
+
+  const {
     value: streetShip,
     valueChangeHandler: streetHandlerShip,
     inputBlurHandler: streetBlurHandlerShip,
     hasError: streetErrorShip,
     isValid: streetIsValidShip,
     reset: streetResetShip,
+    setValue: streetShipSetValue,
   } = useInput((value: string) => value !== "");
 
   const {
@@ -101,6 +122,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     hasError: cityErrorShip,
     isValid: cityIsValidShip,
     reset: cityResetShip,
+    setValue: cityShipSetValue,
   } = useInput((value: string) => value !== "");
 
   const {
@@ -110,6 +132,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     hasError: countyStateErrorShip,
     isValid: countyStateIsValidShip,
     reset: countyStateResetShip,
+    setValue: countyStateShipSetValue,
   } = useInput((value: string) => value !== "");
 
   const {
@@ -119,6 +142,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     hasError: zipErrorShip,
     isValid: zipIsValidShip,
     reset: zipResetShip,
+    setValue: zipShipSetValue,
   } = useInput((value: string) => value !== "");
 
   const incrementStepper = () => {
@@ -178,6 +202,15 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     setStates(values);
   };
 
+  const copyBillingAddress = () => {
+    firstNameShipSetValue(firstName);
+    lastNameShipSetValue(lastName);
+    streetShipSetValue(street);
+    cityShipSetValue(city);
+    countyStateShipSetValue(countyState);
+    zipShipSetValue(zip);
+  };
+
   if (stepper === 1) {
     return (
       <div className="checkout-billing-form">
@@ -185,7 +218,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         <label>first name</label>
         <input
           type="text"
-          id="lastName"
+          id="firstName"
           value={firstName}
           onChange={firstNameHandler}
           onBlur={firstNameBlurHandler}
@@ -193,7 +226,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         <label>last name</label>
         <input
           type="text"
-          id="firstName"
+          id="lastName"
           value={lastName}
           onChange={lastNameHandler}
           onBlur={lastNameBlurHandler}
@@ -224,7 +257,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         />
         <select>
           {states ? (
-            states.map((state) => <option>{state}</option>)
+            states.map((state, index) => <option key={index}>{state}</option>)
           ) : (
             <div></div>
           )}
@@ -247,7 +280,25 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   if (stepper === 2) {
     return (
       <div>
-        <div>shipping address</div>;<label>street</label>
+        <div>shipping address</div>
+        <button onClick={copyBillingAddress}>copy billing address</button>
+        <label>first name</label>
+        <input
+          type="text"
+          id="firstNameShip"
+          value={firstNameShip}
+          onChange={firstNameShipHandler}
+          onBlur={firstNameShipBlurHandler}
+        />
+        <label>last name</label>
+        <input
+          type="text"
+          id="firstName"
+          value={lastNameShip}
+          onChange={lastNameShipHandler}
+          onBlur={lastNameShipBlurHandler}
+        />
+        <label>street</label>
         <input
           type="text"
           id="street"
@@ -263,6 +314,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           onChange={cityHandlerShip}
           onBlur={cityBlurHandlerShip}
         />
+
+        <select>
+          {states ? (
+            states.map((state, index) => <option key={index}>{state}</option>)
+          ) : (
+            <div></div>
+          )}
+        </select>
         <label>zip</label>
         <input
           type="text"
