@@ -232,4 +232,26 @@ export default class CartServices {
         throw error;
       });
   }
+
+  // public async checkout(cartId: string): Promise<checkoutResource> {
+  //   const url = CartServices.BASE_URL + `checkouts/${cartId}?type=cart`;
+  //
+  //   return await fetch(url, {
+  //     //@ts-ignore
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Authorization": CartServices.API_KEY,
+  //     },
+  //     method: "GET",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data: checkoutResource) => {
+  //       console.log(data);
+  //       return data;
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       throw error;
+  //     });
+  // }
 }

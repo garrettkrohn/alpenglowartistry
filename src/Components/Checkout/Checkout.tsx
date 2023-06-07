@@ -19,6 +19,7 @@ import {
   ElementsConsumer,
   CardElement,
 } from "@stripe/react-stripe-js";
+import Commerce from "@chec/commerce.js";
 
 //@ts-ignore
 const stripePromise = loadStripe(
@@ -287,6 +288,10 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       };
 
       console.log(orderData);
+      const cartId = localStorage.getItem("cartId");
+      //@ts-ignore
+      Commerce.checkout.capture(cartId, orderData);
+
       // onCapturecheckout(selector.checkoutToken.id, orderData);
     }
   };
