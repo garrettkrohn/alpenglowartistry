@@ -11,6 +11,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartActions, CartDispatch, RootState } from "../../Store";
 import { Loading } from "../../Util/loading";
 import useInput from "../../Hooks/useInput";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  LinkAuthenticationElement,
+  ElementsConsumer,
+  CardElement,
+} from "@stripe/react-stripe-js";
+
+//@ts-ignore
+const stripePromise = loadStripe(
+  "pk_test_51M1x1sDZ0MPZ6valfp1yvOFoMmlBIcBCnM4t2cgpABYy2qVaQVBDoKNyliHNc4T9mbkEFZUeJgVizoUg8SosQOcb00cZRX1lx1"
+);
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
@@ -20,6 +33,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const cartStore = useSelector((state: RootState) => state);
   const [states, setStates] = useState<string[]>([]);
   const [sameAsBilling, setSameAsBilling] = useState<boolean>(false);
+  const [shippingId, setShippingId] = useState("");
+
   const {
     value: firstName,
     valueChangeHandler: firstNameHandler,
@@ -73,6 +88,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     hasError: countyStateError,
     isValid: countyStateIsValid,
     reset: countyStateReset,
+    setValue: countySetState,
   } = useInput((value: string) => value !== "");
 
   const {
@@ -183,18 +199,20 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         cartStore.cart.id
       );
       localStorage.setItem("checkoutId", checkoutObject.id);
+      //@ts-ignore
+      setShippingId(checkoutObject.shipping_methods[0].id);
       // console.log(localStorage.getItem("checkoutId"));
     };
+
+    // if (!localStorage.checkoutId) {
+    getCart();
+    // }
 
     const getStates = async () => {
       const states = await cartService.getStates();
       statesArray(states);
     };
     getStates();
-
-    if (!localStorage.checkoutId) {
-      getCart();
-    }
   }, []);
 
   const statesArray = (states: statesResource) => {
@@ -209,6 +227,68 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     cityShipSetValue(city);
     countyStateShipSetValue(countyState);
     zipShipSetValue(zip);
+  };
+
+  const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    countySetState(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const paymentElementOptions = {
+    layout: "tabs",
+  };
+
+  //@ts-ignore
+  const handleSubmit = async (event, elements, stripe) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) return;
+
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+    });
+
+    if (error) {
+      console.log(error.code);
+    } else {
+      const orderData = {
+        line_items: cartStore.cart.line_items,
+        customer: {
+          firstname: firstName,
+          lastname: lastName,
+          email: email,
+        },
+        shipping: {
+          name: "primary",
+          street: streetShip,
+          town_city: cityShip,
+          county_state: countyStateShip,
+          postal_zip_code: zipShip,
+          country: "US",
+        },
+        billing: {
+          name: "primary",
+          street: street,
+          town_city: city,
+          county_state: countyState,
+          postal_zip_code: zip,
+          country: "US",
+        },
+        fulfillment: { shipping_method: shippingId },
+        payment: {
+          gateway: process.env.REACT_APP_PAYMENT_GATEWAY_KEY,
+          stripe: {
+            payment_method_id: paymentMethod.id,
+          },
+        },
+      };
+
+      console.log(orderData);
+      // onCapturecheckout(selector.checkoutToken.id, orderData);
+    }
   };
 
   if (stepper === 1) {
@@ -255,7 +335,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           onChange={cityHandler}
           onBlur={cityBlurHandler}
         />
-        <select>
+        <select onChange={handleStateChange} value={countyState}>
           {states ? (
             states.map((state, index) => <option key={index}>{state}</option>)
           ) : (
@@ -340,6 +420,23 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     return (
       <div>
         <div>credit card</div>
+        <Elements stripe={stripePromise}>
+          <ElementsConsumer>
+            {({ elements, stripe }) => (
+              <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+                <CardElement />
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <button onClick={() => console.log("back")}>Back</button>
+                  <button type="submit" disabled={!stripe} color="primary">
+                    Submit Payment
+                  </button>
+                </div>
+              </form>
+            )}
+          </ElementsConsumer>
+        </Elements>
         <button onClick={decrementStepper}>back</button>
         <button onClick={incrementStepper}>next</button>
       </div>

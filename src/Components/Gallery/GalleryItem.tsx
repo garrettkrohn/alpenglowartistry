@@ -124,7 +124,7 @@ const GalleryItem = (props: {
               {painting.variant_groups[0]?.options.map(
                 (variant: any, index: number) => (
                   <option key={index} value={variant.name}>
-                    {`${variant.name} - ${variant.price.formatted_with_symbol}`}
+                    {`${variant.name} - ${variant.price}`}
                   </option>
                 )
               )}
