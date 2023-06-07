@@ -40,7 +40,6 @@ const Gallery = (props: {
   };
 
   useEffect(() => {
-    console.log(ctx);
     const requestConfig = {
       url: "https://api.chec.io/v1/products/?limit=200&include=assets,variant_groups",
       method: "GET",

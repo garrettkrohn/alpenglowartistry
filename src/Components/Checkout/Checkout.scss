@@ -33,7 +33,26 @@
   padding: 20px;
 }
 
-.checkout-billing-form {
+.checkout-billing-container,
+.checkout-shipping-container {
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.checkout-billing-form,
+.checkout-shipping-form {
   display: flex;
   flex-direction: column;
+  justify-content: middle;
+  width: 50%;
+}
+
+.checkout-billing-form label {
+  margin: 2px;
+}
+
+.checkout-buttons-container {
+  display: flex;
+  justify-content: space-evenly;
 }

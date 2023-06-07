@@ -35,7 +35,11 @@ function App() {
       dispatch(cartActions.setCart(cart));
       localStorage.setItem("cartId", cart.id);
     };
-    if (cartStore.id === "id" || cartStore.id === "") {
+    if (
+      cartStore.id === "id" ||
+      cartStore.id === "" ||
+      localStorage.getItem("cartId") === "undefined"
+    ) {
       fetchCart();
     }
   }, []);
