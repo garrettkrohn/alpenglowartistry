@@ -23,7 +23,7 @@ import Commerce from "@chec/commerce.js";
 
 //@ts-ignore
 const stripePromise = loadStripe(
-  "pk_test_51M1x1sDZ0MPZ6valfp1yvOFoMmlBIcBCnM4t2cgpABYy2qVaQVBDoKNyliHNc4T9mbkEFZUeJgVizoUg8SosQOcb00cZRX1lx1"
+  "pk_test_51NG4cvEG1zsJ1IMcLM6k9TjS7liXm7qxyHgOCitXrCouP952enW0IeHSMTkiVGG9FP4odrjbC4XNFGtp5v8EFJCi00dMlK62kY"
 );
 
 export interface stateResource {
@@ -296,6 +296,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       card: cardElement,
     });
 
+    console.log(paymentMethod);
+
     if (error) {
       console.error(error.code);
     } else {
@@ -324,18 +326,18 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         },
         fulfillment: { shipping_method: shippingId },
         payment: {
-          gateway: "test_gateway",
-          // gateway: process.env.REACT_APP_TEST_GATEWAY,
-          // stripe: {
-          //   payment_method_id: paymentMethod.id,
-          // },
-          card: {
-            number: "4242 4242 4242 4242",
-            expiry_month: "01",
-            expiry_year: "2023",
-            cvc: "123",
-            postal_zip_code: "94103",
+          // gateway: "test_gateway",
+          gateway: process.env.REACT_APP_STRIPE_TEST_GATEWAY,
+          stripe: {
+            payment_method_id: paymentMethod.id,
           },
+          // card: {
+          //   number: "4242 4242 4242 4242",
+          //   expiry_month: "01",
+          //   expiry_year: "2023",
+          //   cvc: "123",
+          //   postal_zip_code: "94103",
+          // },
         },
       };
 
