@@ -22,9 +22,7 @@ import {
 import Commerce from "@chec/commerce.js";
 
 //@ts-ignore
-const stripePromise = loadStripe(
-  "pk_test_51NG4cvEG1zsJ1IMcLM6k9TjS7liXm7qxyHgOCitXrCouP952enW0IeHSMTkiVGG9FP4odrjbC4XNFGtp5v8EFJCi00dMlK62kY"
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_TEST_GATEWAY);
 
 export interface stateResource {
   name: string;
@@ -40,6 +38,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const [states, setStates] = useState<stateResource[]>([]);
   const [sameAsBilling, setSameAsBilling] = useState<boolean>(false);
   const [shippingId, setShippingId] = useState("");
+  const [localLoading, setLocalLoading] = useState(false);
 
   const {
     value: firstName,
@@ -200,24 +199,29 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   };
 
   const getCheckoutToken = async () => {
-    const checkoutObject = await cartService.getCheckoutToken(
-      cartStore.cart.id
-    );
-    localStorage.setItem("checkoutId", checkoutObject.id);
-    //@ts-ignore
-    setShippingId(checkoutObject.shipping_methods[0].id);
-    console.log(localStorage.getItem("checkoutId"));
+    if (localStorage.getItem("cartId")) {
+      const checkoutObject = await cartService.getCheckoutToken(
+        //@ts-ignore
+        localStorage.getItem("cartId")
+      );
+      localStorage.setItem("checkoutId", checkoutObject.id);
+      //@ts-ignore
+      setShippingId(checkoutObject.shipping_methods[0].id);
+      console.log(localStorage.getItem("checkoutId"));
+    }
   };
 
   useEffect(() => {
-    getCheckoutToken();
+    if (localStorage.getItem("cartId")) {
+      getCheckoutToken();
+    }
 
     const getStates = async () => {
       const states = await cartService.getStates();
       statesArray(states);
     };
     getStates();
-  }, []);
+  }, [localStorage.getItem("checkoutId")]);
 
   const statesArray = (states: statesResource) => {
     var finalStateArray = [];
@@ -301,6 +305,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     if (error) {
       console.error(error.code);
     } else {
+      incrementStepper();
+      setLocalLoading(true);
       const orderData = {
         line_items: cartStore.cart.line_items,
         customer: {
@@ -331,22 +337,17 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           stripe: {
             payment_method_id: paymentMethod.id,
           },
-          // card: {
-          //   number: "4242 4242 4242 4242",
-          //   expiry_month: "01",
-          //   expiry_year: "2023",
-          //   cvc: "123",
-          //   postal_zip_code: "94103",
-          // },
         },
       };
 
-      console.log(orderData);
       const checkoutId = localStorage.getItem("checkoutId");
 
       //@ts-ignore
       cartService.checkout(checkoutId, orderData);
-      localStorage.setItem("cartId", "");
+      localStorage.removeItem("cartId");
+      setLocalLoading(false);
+
+      incrementStepper();
     }
   };
 
@@ -513,6 +514,15 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         </Elements>
         <button onClick={decrementStepper}>back</button>
         <button onClick={incrementStepper}>next</button>
+      </div>
+    );
+  }
+
+  if (stepper === 4) {
+    return (
+      <div>
+        <div>thank you for purchasing</div>
+        {localLoading ? <div>processing</div> : <div>thanks</div>}
       </div>
     );
   }
