@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartActions, CartDispatch, RootState } from "../../Store";
 import { Loading } from "../../Util/loading";
 import useInput from "../../Hooks/useInput";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js/pure";
 import {
   Elements,
   PaymentElement,
@@ -21,8 +21,9 @@ import {
 } from "@stripe/react-stripe-js";
 import Commerce from "@chec/commerce.js";
 
+loadStripe.setLoadParameters({ advancedFraudSignals: false });
 //@ts-ignore
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_TEST_GATEWAY);
+const stripePromise = loadStripe(process.env.REACT_APP_TEST_STRIPE_PUBLIC_KEY);
 
 export interface stateResource {
   name: string;
@@ -294,6 +295,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     }
 
     const cardElement = elements.getElement(CardElement);
+    console.log(cardElement);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -303,7 +305,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     console.log(paymentMethod);
 
     if (error) {
-      console.error(error.code);
+      console.error(error.message);
     } else {
       incrementStepper();
       setLocalLoading(true);
