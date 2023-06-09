@@ -71,11 +71,6 @@ const GalleryItem = (props: {
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log(painting);
-  //   console.log(variant);
-  // }, [variant]);
-
   const featurePaintingHandler = () => {
     setFeaturedPainting(painting);
     togglePainting();
