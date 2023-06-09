@@ -37,9 +37,13 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
   const [states, setStates] = useState<stateResource[]>([]);
-  const [sameAsBilling, setSameAsBilling] = useState<boolean>(false);
   const [shippingId, setShippingId] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
+  const [selectedStateBilling, setSelectedStateBilling] =
+    useState<stateResource>();
+  const [selectedStateShipping, setSelectedStateShipping] =
+    useState<stateResource>();
+  const [shipSameAsBill, setShipSameAsBill] = useState(false);
 
   const {
     value: firstName,
@@ -216,13 +220,15 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     if (localStorage.getItem("cartId")) {
       getCheckoutToken();
     }
+  }, [localStorage.getItem("checkoutId")]);
 
+  useEffect(() => {
     const getStates = async () => {
       const states = await cartService.getStates();
       statesArray(states);
     };
     getStates();
-  }, [localStorage.getItem("checkoutId")]);
+  }, []);
 
   const statesArray = (states: statesResource) => {
     var finalStateArray = [];
@@ -237,15 +243,21 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       finalStateArray.push(newObj);
     }
     setStates(finalStateArray);
+    setSelectedStateBilling(finalStateArray[0]);
+    setSelectedStateShipping(finalStateArray[0]);
   };
 
   const copyBillingAddress = () => {
+    setShipSameAsBill(!shipSameAsBill);
     firstNameShipSetValue(firstName);
     lastNameShipSetValue(lastName);
     streetShipSetValue(street);
     cityShipSetValue(city);
     setCountyStateShip(countyState);
     zipShipSetValue(zip);
+    console.log(selectedStateBilling);
+    setSelectedStateShipping(selectedStateBilling);
+    console.log(selectedStateShipping);
   };
 
   const handleStateChangeBilling = (
@@ -259,6 +271,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     states.map((s) => {
       if (s.name === state) {
         setCountyState(s.abbreviation);
+        setSelectedStateBilling(s);
         console.log(s.abbreviation);
       }
     });
@@ -275,6 +288,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     states.map((s) => {
       if (s.name === state) {
         setCountyStateShip(s.abbreviation);
+        setSelectedStateShipping(s);
         console.log(s.abbreviation);
       }
     });
@@ -350,11 +364,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       localStorage.removeItem("cartId");
       localStorage.removeItem("checkoutId");
       setLocalLoading(false);
-      emptyCart();
 
       incrementStepper();
     }
   };
+
+  const copyButtonText = shipSameAsBill
+    ? "Shipping Same as Billing?"
+    : "Enter shipping address.";
 
   if (stepper === 1) {
     return (
@@ -401,6 +418,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             onChange={cityHandler}
             onBlur={cityBlurHandler}
           />
+          <label>State:</label>
           <select onChange={handleStateChangeBilling}>
             {states ? (
               states.map((state, index) => (
@@ -434,59 +452,69 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <div className="checkout-shipping-container">
         <div className="checkout-shipping-form">
           <div className="checkout-shipping-title">Shipping Address</div>
-          <button onClick={copyBillingAddress}>copy billing address</button>
-          <label>first name</label>
-          <input
-            type="text"
-            id="firstNameShip"
-            value={firstNameShip}
-            onChange={firstNameShipHandler}
-            onBlur={firstNameShipBlurHandler}
-          />
-          <label>last name</label>
-          <input
-            type="text"
-            id="firstName"
-            value={lastNameShip}
-            onChange={lastNameShipHandler}
-            onBlur={lastNameShipBlurHandler}
-          />
-          <label>street</label>
-          <input
-            type="text"
-            id="street"
-            value={streetShip}
-            onChange={streetHandlerShip}
-            onBlur={streetBlurHandlerShip}
-          />
-          <label>city</label>
-          <input
-            type="text"
-            id="city"
-            value={cityShip}
-            onChange={cityHandlerShip}
-            onBlur={cityBlurHandlerShip}
-          />
-          <select onChange={handleStateChangeShipping}>
-            {states ? (
-              states.map((state, index) => (
-                <option key={index} value={state.name}>
-                  {state.name}
-                </option>
-              ))
-            ) : (
-              <div></div>
-            )}
-          </select>
+          <div>
+            <input type="checkbox" onClick={copyBillingAddress} />
+            <label>Is shipping the same as billing?</label>
+          </div>
+          {shipSameAsBill ? (
+            <div>Shipping address is same as Billing</div>
+          ) : (
+            <>
+              <label>First Name:</label>
+              <input
+                type="text"
+                id="firstNameShip"
+                value={firstNameShip}
+                onChange={firstNameShipHandler}
+                onBlur={firstNameShipBlurHandler}
+              />
+              <label>Last Name:</label>
+              <input
+                type="text"
+                id="firstName"
+                value={lastNameShip}
+                onChange={lastNameShipHandler}
+                onBlur={lastNameShipBlurHandler}
+              />
+              <label>Street:</label>
+              <input
+                type="text"
+                id="street"
+                value={streetShip}
+                onChange={streetHandlerShip}
+                onBlur={streetBlurHandlerShip}
+              />
+              <label>City:</label>
+              <input
+                type="text"
+                id="city"
+                value={cityShip}
+                onChange={cityHandlerShip}
+                onBlur={cityBlurHandlerShip}
+              />
+              <label>State:</label>
+              <select onChange={handleStateChangeShipping}>
+                {states ? (
+                  states.map((state, index) => (
+                    <option key={index} value={state.name}>
+                      {state.name}
+                    </option>
+                  ))
+                ) : (
+                  <div></div>
+                )}
+              </select>
 
-          <label>zip</label>
-          <input
-            type="text"
-            id="zip"
-            value={zipShip}
-            onChange={zipHandlerShip}
-            onBlur={zipBlurHandlerShip}
-          />
+              <label>Zip:</label>
+              <input
+                type="text"
+                id="zip"
+                value={zipShip}
+                onChange={zipHandlerShip}
+                onBlur={zipBlurHandlerShip}
+              />
+            </>
+          )}
           <div className="checkout-buttons-container">
             <button onClick={decrementStepper}>back</button>
             <button onClick={incrementStepper}>next</button>
@@ -499,26 +527,28 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   if (stepper === 3) {
     return (
       <div className="checkout-card-container">
-        <div>credit card</div>
-        <Elements stripe={stripePromise}>
-          <ElementsConsumer>
-            {({ elements, stripe }) => (
-              <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-                <CardElement />
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button onClick={() => console.log("back")}>Back</button>
-                  <button type="submit" disabled={!stripe} color="primary">
-                    Submit Payment
-                  </button>
-                </div>
-              </form>
-            )}
-          </ElementsConsumer>
-        </Elements>
-        <button onClick={decrementStepper}>back</button>
-        <button onClick={incrementStepper}>next</button>
+        <div className="checkout-card-form">
+          <div className="checkout-card-title">Credit Card</div>
+          <Elements stripe={stripePromise}>
+            <ElementsConsumer>
+              {({ elements, stripe }) => (
+                <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+                  <div className="checkout-card-element-wrapper">
+                    <CardElement />
+                  </div>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <button onClick={decrementStepper}>back</button>
+                    <button type="submit" disabled={!stripe} color="primary">
+                      Submit Payment
+                    </button>
+                  </div>
+                </form>
+              )}
+            </ElementsConsumer>
+          </Elements>
+        </div>
       </div>
     );
   }
@@ -527,7 +557,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     return (
       <div>
         <div>thank you for purchasing</div>
-        {localLoading ? <div>processing</div> : <div>thanks</div>}
+        {localLoading ? <Loading size="76px" /> : <div>thanks</div>}
       </div>
     );
   }
