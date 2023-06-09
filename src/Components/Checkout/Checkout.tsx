@@ -457,7 +457,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             <label>Is shipping the same as billing?</label>
           </div>
           {shipSameAsBill ? (
-            <div>Shipping address is same as Billing</div>
+            <div></div>
           ) : (
             <>
               <label>First Name:</label>
@@ -555,9 +555,20 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   if (stepper === 4) {
     return (
-      <div>
-        <div>thank you for purchasing</div>
-        {localLoading ? <Loading size="76px" /> : <div>thanks</div>}
+      <div className="checkout-thank-you-container">
+        {localLoading ? (
+          <div className="checkout-thank-you-block">
+            <div>Thank you so much for purchasing from Alpenglow Art</div>
+            <div>Processing your order now!</div>
+            <Loading size="76px" />
+          </div>
+        ) : (
+          <div className="checkout-thank-you-block">
+            <div>Your order has been successfully processed,</div>
+            <div>you will receive an email with the order details.</div>
+            <div>Thank you for supporting Alpenglow Artistry</div>
+          </div>
+        )}
       </div>
     );
   }
