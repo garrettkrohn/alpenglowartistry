@@ -168,7 +168,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   } = useInput((value: string) => value !== "");
 
   const incrementStepper = () => {
-    if (stepper < 3) {
+    if (stepper < 4) {
       setStepper(stepper + 1);
     }
   };
@@ -288,6 +288,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
 
+    setLocalLoading(true);
+
     if (!stripe || !elements) return;
 
     if (localStorage.getItem("checkoutId") === "undefined") {
@@ -308,7 +310,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       console.error(error.message);
     } else {
       incrementStepper();
-      setLocalLoading(true);
       const orderData = {
         line_items: cartStore.cart.line_items,
         customer: {
@@ -345,9 +346,11 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       const checkoutId = localStorage.getItem("checkoutId");
 
       //@ts-ignore
-      cartService.checkout(checkoutId, orderData);
+      await cartService.checkout(checkoutId, orderData);
       localStorage.removeItem("cartId");
+      localStorage.removeItem("checkoutId");
       setLocalLoading(false);
+      emptyCart();
 
       incrementStepper();
     }
@@ -357,7 +360,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     return (
       <div className="checkout-billing-container">
         <div className="checkout-billing-form">
-          <div>Billing Address</div>
+          <div className="checkout-billing-title">Billing Address</div>
           <label>First Name:</label>
           <input
             type="text"
@@ -430,7 +433,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     return (
       <div className="checkout-shipping-container">
         <div className="checkout-shipping-form">
-          <div>shipping address</div>
+          <div className="checkout-shipping-title">Shipping Address</div>
           <button onClick={copyBillingAddress}>copy billing address</button>
           <label>first name</label>
           <input
@@ -495,7 +498,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
   if (stepper === 3) {
     return (
-      <div>
+      <div className="checkout-card-container">
         <div>credit card</div>
         <Elements stripe={stripePromise}>
           <ElementsConsumer>

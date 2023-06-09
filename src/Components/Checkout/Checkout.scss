@@ -34,10 +34,17 @@
 }
 
 .checkout-billing-container,
-.checkout-shipping-container {
+.checkout-shipping-container,
+.checkout-card-container {
   display: flex;
   justify-content: center;
   color: white;
+}
+
+.checkout-billing-title,
+.checkout-shipping-title {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .checkout-billing-form,
@@ -55,4 +62,9 @@
 .checkout-buttons-container {
   display: flex;
   justify-content: space-evenly;
+}
+
+.checkout-card-container {
+  flex-direction: column;
+  width: 50%;
 }
