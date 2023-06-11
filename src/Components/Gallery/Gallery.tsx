@@ -11,6 +11,7 @@ import {
 import Painting from "../Paintings/Painting";
 import CartServices from "../../Services/CartServices";
 import { Loading } from "../../Util/loading";
+import { ORIGINALS, PORTFOLIO, PRINTS } from "../Constants/CATEGORIES";
 
 const Gallery = (props: {
   filter: string;
@@ -64,22 +65,65 @@ const Gallery = (props: {
     return <div>{error}</div>;
   }
 
+  /**
+   *  What all needs to be filtered
+   *  prints
+   *    select all paintings that have print as a category
+   *    make sure that they have a variant group added, if not console log it?
+   *  Originals
+   *    select all paintings with original
+   *    make sure that it has inventory
+   *    make sure that it DOES NOT have any variant groups
+   *  Portfolio
+   *    return if it has portfolio selected
+   */
+
   let filteredPaintings = [];
+  console.log(ctx.paintings);
   filteredPaintings = ctx.paintings.filter(function (
     painting: paintingResource
   ) {
     for (let i = 0; i < painting.categories.length; i++) {
-      if (filter === "Prints") {
-        try {
-          if (painting.variant_groups[0].options.length > 0) {
+      if (filter === painting.categories[i].name) {
+        switch (filter) {
+          case PRINTS:
+            try {
+              if (painting.variant_groups[0].options.length > 0) {
+                return painting;
+              }
+            } catch {
+              console.log(
+                "The painting " +
+                  painting.name +
+                  " is marked as print, but does not have a variant group"
+              );
+            }
+            break;
+          case ORIGINALS:
+            let managed = painting.inventory.managed;
+            let available = painting.inventory.available > 0;
+            let variants = painting.variant_groups.length === 0;
+            if (managed && available && variants) {
+              return painting;
+            } else {
+              let error = "";
+              if (!managed) {
+                error += " is not marked as managed";
+              }
+              if (!available) {
+                error += " does not have any availability";
+              }
+              if (!variants) {
+                error += " has variants but is marked as an original";
+              }
+              console.log("The painting " + painting.name + error);
+            }
+            break;
+          case PORTFOLIO:
             return painting;
-          }
-        } catch {}
-      } else if (painting.categories[i].name === filter) {
-        return painting;
+        }
       }
     }
-    return null;
   });
 
   return (
