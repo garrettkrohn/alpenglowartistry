@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
-import "./Scroller.css";
+import "./Scroller.scss";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
@@ -14,14 +14,14 @@ const Scroller = () => {
     function importAll(r: any) {
       let images = {};
       r.keys().forEach((item: any, index: number) => {
-          // @ts-ignore
+        // @ts-ignore
         images[item.replace("./", "")] = r(item);
       });
       return images;
     }
     const images = importAll(
-        // @ts-ignore
-        require.context(
+      // @ts-ignore
+      require.context(
         "./../../images/ScrollerImages",
         false,
         /\.(png|jpe?g|svg)$/

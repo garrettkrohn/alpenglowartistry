@@ -1,0 +1,86 @@
+.checkout-thumbnail {
+  height: 200px;
+}
+
+.checkout-container {
+  border: white 1px solid;
+  margin: 25px;
+  color: white;
+}
+
+.checkout-row {
+  margin: 50px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border: 1px solid;
+  padding: 5px;
+  align-items: center;
+}
+
+.checkout-row img {
+  grid-column: span 4;
+  justify-self: center;
+}
+
+.checkout-title {
+  grid-column: span 2;
+  font-size: larger;
+  font-weight: bold;
+  padding: 20px;
+}
+
+.checkout-price {
+  padding: 20px;
+}
+
+.checkout-billing-container,
+.checkout-shipping-container,
+.checkout-card-container {
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.checkout-billing-title,
+.checkout-shipping-title,
+.checkout-card-form {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.checkout-billing-form,
+.checkout-shipping-form,
+.checkout-card-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: middle;
+  width: 50%;
+}
+
+.checkout-billing-form label {
+  margin: 2px;
+}
+
+.checkout-buttons-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.checkout-card-element-wrapper {
+  background: white;
+  padding: 20px;
+  margin: 10px;
+}
+
+.checkout-thank-you-container {
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}
+
+.checkout-thank-you-block {
+  color: white;
+  border: 1px solid white;
+  margin: 10px;
+  padding: 20px;
+}

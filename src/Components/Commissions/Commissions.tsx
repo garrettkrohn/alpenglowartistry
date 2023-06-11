@@ -1,17 +1,18 @@
-import React from 'react';
-import './Commissions.css';
+import React from "react";
+import "./Commissions.scss";
 import Contact from "../Contact/Contact";
 
 const Commissions = () => {
-    return (
-        <div>
-            <div className='commissions-header'>
-                I offer commissions, contact me below to let me know if you are interested
-                thorugh the form below.
-            </div>
-            <Contact />
-        </div>
-    );
+  return (
+    <div className="commissions-container">
+      <div className="commissions-header">
+        Commissions may be considered. Fill out the form below with a
+        description of the project with size, a photo for reference, and any
+        other additional details.
+      </div>
+      <Contact />
+    </div>
+  );
 };
 
 export default Commissions;

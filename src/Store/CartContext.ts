@@ -9,6 +9,7 @@ export type cartContextResource = {
   addItem: Function;
   removeItem: Function;
   addPaintings: Function;
+  cartId: string;
 };
 
 const CartContext = React.createContext<cartContextResource>({
@@ -19,6 +20,7 @@ const CartContext = React.createContext<cartContextResource>({
   addItem: (item: paintingResource) => {},
   removeItem: (id: string) => {},
   addPaintings: (painting: paintingResource) => {},
+  cartId: "",
 });
 
 export default CartContext;

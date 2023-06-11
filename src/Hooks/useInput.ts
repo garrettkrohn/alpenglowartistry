@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import React from 'react';
+import { useState } from "react";
+import React from "react";
 
 const useInput = (validateValue: Function) => {
-  const [enteredValue, setEnteredValue] = useState('');
+  const [enteredValue, setEnteredValue] = useState("");
   const [isTouched, setIsTouched] = useState(false);
 
   const valueIsValid = validateValue(enteredValue);
@@ -17,8 +17,12 @@ const useInput = (validateValue: Function) => {
   };
 
   const reset = () => {
-    setEnteredValue('');
+    setEnteredValue("");
     setIsTouched(false);
+  };
+
+  const setValue = (value: string) => {
+    setEnteredValue(value);
   };
 
   return {
@@ -28,6 +32,7 @@ const useInput = (validateValue: Function) => {
     hasError,
     isValid: valueIsValid,
     reset,
+    setValue,
   };
 };
 

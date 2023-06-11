@@ -1,13 +1,13 @@
 import React from "react";
-import "./FooterElement.css";
+import "./FooterElement.scss";
 import { Link } from "react-router-dom";
 
 const FooterElement = (props: {
   elements: { name: string; route: string }[];
   title: string;
 }) => {
-  const {title} = props;
-  const {elements} = props;
+  const { title } = props;
+  const { elements } = props;
 
   return (
     <div className="footer-element">
