@@ -15,9 +15,9 @@ const Homepage = () => {
 
   const paintings = ctx.paintings;
 
-  const paintingsToBeAdded = paintings.map((painting) => {
-    return painting.image.url;
-  });
+  // const paintingsToBeAdded = paintings.map((painting) => {
+  //   return painting.image.url;
+  // });
 
   //arr = arr.map(function(item) {
   //   return {somethingElse: 1};
