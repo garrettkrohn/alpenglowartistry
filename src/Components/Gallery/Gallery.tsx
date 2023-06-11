@@ -79,7 +79,6 @@ const Gallery = (props: {
    */
 
   let filteredPaintings = [];
-  console.log(ctx.paintings);
   filteredPaintings = ctx.paintings.filter(function (
     painting: paintingResource
   ) {
@@ -114,7 +113,7 @@ const Gallery = (props: {
                 error += " does not have any availability";
               }
               if (!variants) {
-                error += " has variants but is marked as an original";
+                error += " has variants but it should not";
               }
               console.log("The painting " + painting.name + error);
             }
