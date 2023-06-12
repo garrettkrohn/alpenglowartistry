@@ -27,14 +27,15 @@ function App() {
     setCartId(id);
   };
 
+  const fetchCart = async () => {
+    const cart = await cartServices.createOrGetCart(localStorage.cartId);
+    setCartId(cart.id);
+    dispatch(cartActions.setCart(cart));
+    localStorage.setItem("cartId", cart.id);
+  };
+
   useEffect(() => {
     console.log("cart store id is:", cartStore.id);
-    const fetchCart = async () => {
-      const cart = await cartServices.createOrGetCart(localStorage.cartId);
-      setCartId(cart.id);
-      dispatch(cartActions.setCart(cart));
-      localStorage.setItem("cartId", cart.id);
-    };
     if (
       cartStore.id === "id" ||
       cartStore.id === "" ||
