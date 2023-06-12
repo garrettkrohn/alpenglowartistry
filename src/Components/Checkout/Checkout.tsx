@@ -22,8 +22,17 @@ import {
 import Commerce from "@chec/commerce.js";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
+const loadStripeKey =
+  process.env.REACT_APP_ENVIRONMENT === "PROD"
+    ? process.env.REACT_APP_STRIPE_PUBLIC_KEY
+    : process.env.REACT_APP_TEST_STRIPE_PUBLIC_KEY;
 //@ts-ignore
-const stripePromise = loadStripe(process.env.REACT_APP_TEST_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(loadStripeKey);
+
+const gatewayKey =
+  process.env.REACT_APP_ENVIRONMENT === "PROD"
+    ? process.env.REACT_APP_STRIPE_GATEWAY
+    : process.env.REACT_APP_STRIPE_TEST_GATEWAY;
 
 export interface stateResource {
   name: string;
@@ -210,8 +219,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         localStorage.getItem("cartId")
       );
       localStorage.setItem("checkoutId", checkoutObject.id);
-      //@ts-ignore
-      setShippingId(checkoutObject.shipping_methods[0].id);
+      try {
+        //@ts-ignore
+        setShippingId(checkoutObject.shipping_methods[0].id);
+      } catch {
+        console.log("item does not have a shipping method");
+      }
       console.log(localStorage.getItem("checkoutId"));
     }
   };
@@ -294,10 +307,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     });
   };
 
-  const paymentElementOptions = {
-    layout: "tabs",
-  };
-
   //@ts-ignore
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -327,7 +336,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       const orderData = {
         line_items: cartStore.cart.line_items,
         customer: {
-          firstname: firstName,
           lastname: lastName,
           email: email,
         },
@@ -350,7 +358,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         fulfillment: { shipping_method: shippingId },
         payment: {
           // gateway: "test_gateway",
-          gateway: process.env.REACT_APP_STRIPE_TEST_GATEWAY,
+          gateway: gatewayKey,
           stripe: {
             payment_method_id: paymentMethod.id,
           },
@@ -368,10 +376,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       incrementStepper();
     }
   };
-
-  const copyButtonText = shipSameAsBill
-    ? "Shipping Same as Billing?"
-    : "Enter shipping address.";
 
   if (stepper === 1) {
     return (
