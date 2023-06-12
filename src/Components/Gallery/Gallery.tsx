@@ -42,7 +42,7 @@ const Gallery = (props: {
 
   useEffect(() => {
     const requestConfig = {
-      url: "https://api.chec.io/v1/products/?limit=200&include=assets,variant_groups",
+      url: "https://api.chec.io/v1/products/?limit=200&include=assets,variant_groups&sortBy=price&sortDirection=desc",
       method: "GET",
       headers: {
         "X-Authorization": process.env.REACT_APP_COMMERCE_TEST_KEY,
