@@ -13,24 +13,25 @@ const About = () => {
       </div>
       <div className="about-text">
         <div className="about-paragraph">
-          When Rachel looks at the world, her mind wants to translate what she
-          sees into paintings. She has loved to create since she was young, but
-          didn't fully embrace her artistic abilities until the last few years
-          when she decided she needed to spend more time developing her skills
-          and doing what she loves. Rachel has worked in non-profits for the
-          last 13 years, but is now focusing on her artwork. She lives in St.
-          Charles, IL with her two energetic elementary-aged sons that like to
-          paint alongside her. Her artwork allows Rachel to express herself and
-          share with others the beauty that's right in front of us every day.
+          We live in such a beautiful world. I love to look at nature and think
+          about what it would look like in a painting. I always loved to create,
+          but didn’t fully embrace my artistic abilities until the last few
+          years. I have spent the past 13 years working in non-profit
+          organizations, but am now focusing more of my time on my art, and most
+          importantly, my family. Life has shown me recently that it’s too short
+          to not spend it on the things and people you love the most. I live in
+          St. Charles, Illinois with my two energetic elementary-aged sons,
+          Charlie and Shaun, and my husband, Eric. They are my favorite people
+          and biggest fans!
         </div>
         <div className="about-paragraph">
-          Mostly self-taught, Rachel's work usually focuses on landscapes that
-          showcase her love for nature, mountains and the ocean. She grew up in
-          Illinois, but frequently visited Colorado with her family growing up.
-          Rocky Mountain scenes are especially close to her heart. She wants her
-          viewers to have a sense of peace and appreciation of the outdoors when
-          they see her work. Acrylic paints are Rachel's medium of choice, but
-          she has also enjoyed other mediums, such as graphite and oil.
+          My artwork allows me to express myself and share with others
+          appreciation for God’s creation, especially mountains and oceans. I
+          grew up in Illinois, but frequently visited Colorado with my family.
+          Rocky Mountain scenes are especially close to my heart, but Florida
+          beaches and midwest landscapes are also special to me. I want people
+          who see my artwork to have a sense of calm and contentment when they
+          see my paintings.
         </div>
 
         <div className="about-paragraph">
