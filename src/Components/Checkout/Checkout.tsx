@@ -42,6 +42,8 @@ export interface stateResource {
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
   const [stepper, setStepper] = useState(0);
+  //@ts-ignore
+  const commerce = new Commerce(process.env.REACT_APP_CHECK_PUBLIC_KEY);
 
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
@@ -368,7 +370,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       const checkoutId = localStorage.getItem("checkoutId");
 
       //@ts-ignore
-      await cartService.checkout(checkoutId, orderData);
+      // await cartService.checkout(checkoutId, orderData);
+      await commerce.checkout.capture(checkoutId, orderData);
       localStorage.removeItem("cartId");
       localStorage.removeItem("checkoutId");
       setLocalLoading(false);
