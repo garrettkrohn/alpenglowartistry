@@ -10,14 +10,14 @@ import {
 
 export default class CartServices {
   private static readonly API_KEY: string = process.env
-    .REACT_APP_COMMERCE_TEST_KEY
-    ? process.env.REACT_APP_COMMERCE_TEST_KEY
+    .REACT_APP_CHECK_PUBLIC_KEY
+    ? process.env.REACT_APP_CHECK_PUBLIC_KEY
     : "";
   private static readonly BASE_URL: string = "https://api.chec.io/v1/";
 
   public async createOrGetCart(key?: string | null): Promise<cartResource> {
     let url = "";
-    if (!key) {
+    if (!key || key == "undefined") {
       url = CartServices.BASE_URL + "carts";
     } else {
       url = CartServices.BASE_URL + `carts/${key}?limit=200`;

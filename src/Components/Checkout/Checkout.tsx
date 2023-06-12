@@ -359,7 +359,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         },
         fulfillment: { shipping_method: shippingId },
         payment: {
-          // gateway: "test_gateway",
           gateway: gatewayKey,
           stripe: {
             payment_method_id: paymentMethod.id,
@@ -369,6 +368,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
       const checkoutId = localStorage.getItem("checkoutId");
 
+      console.log(orderData);
       //@ts-ignore
       // await cartService.checkout(checkoutId, orderData);
       await commerce.checkout.capture(checkoutId, orderData);
