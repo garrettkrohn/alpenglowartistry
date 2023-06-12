@@ -100,7 +100,7 @@ const GalleryItem = (props: {
   }
 
   const filterOutOriginal = (name: string) => {
-    return name.replace("ORIGINAL", "");
+    return name.replace("ORIGINAL", "").replace("*", "");
   };
 
   const galleryItem = (
