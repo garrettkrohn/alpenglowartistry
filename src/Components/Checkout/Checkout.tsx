@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  checkoutResource,
   countriesResource,
   line_items,
   statesResource,
@@ -20,6 +21,9 @@ import {
   CardElement,
 } from "@stripe/react-stripe-js";
 import Commerce from "@chec/commerce.js";
+import CartContext from "../../Store/CartContext";
+
+const isProd = process.env.REACT_APP_ENVIRONMENT === "PROD";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 const loadStripeKey =
@@ -55,6 +59,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const [selectedStateShipping, setSelectedStateShipping] =
     useState<stateResource>();
   const [shipSameAsBill, setShipSameAsBill] = useState(false);
+  const [checkoutResponse, setCheckoutResource] = useState<checkoutResource>();
 
   const {
     value: firstName,
@@ -335,7 +340,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       console.error(error.message);
     } else {
       incrementStepper();
-      const orderData = {
+      let orderData = {
         line_items: cartStore.cart.line_items,
         customer: {
           lastname: lastName,
@@ -363,6 +368,13 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           stripe: {
             payment_method_id: paymentMethod.id,
           },
+          // card: {
+          //   number: "4242424242424242",
+          //   expiry_month: "02",
+          //   expiry_year: "24",
+          //   cvc: "123",
+          //   postal_zip_code: "94107",
+          // },
         },
       };
 
@@ -379,6 +391,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       incrementStepper();
     }
   };
+
+  const calculatedShipping = cartStore.cart.subtotal.raw * 0.0625;
+  const calculatedShippingWithFormatting =
+    "$" + calculatedShipping.toFixed(2).toString();
+  console.log(calculatedShippingWithFormatting);
+
+  const calculatedSubtotal =
+    "$" + (calculatedShipping + cartStore.cart.subtotal.raw).toFixed(2);
 
   if (stepper === 1) {
     return (
@@ -536,6 +556,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <div className="checkout-card-container">
         <div className="checkout-card-form">
           <div className="checkout-card-title">Credit Card</div>
+          <div></div>
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
               {({ elements, stripe }) => (
@@ -600,14 +621,17 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               {item.price.formatted_with_symbol}
             </div>
             <div>Quantity: {item.quantity}</div>
+            {localLoading ? <Loading size={"40px"} /> : ""}
             <button onClick={() => removeItem(item.id)}>delete</button>
           </div>
         ))}
       </div>
       <div>
-        Subtotal:
+        Paintings:
         {cartStore.cart.subtotal.formatted_with_symbol}
       </div>
+      <div>Tax: {calculatedShippingWithFormatting} </div>
+      <div>Subtotal: {calculatedSubtotal}</div>
       <button onClick={incrementStepper}>Checkout</button>
       <button onClick={emptyCart}>Empty cart</button>
     </div>
