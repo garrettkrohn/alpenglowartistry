@@ -3,6 +3,7 @@ import {
   checkoutResource,
   countriesResource,
   line_items,
+  priceResource,
   statesResource,
 } from "../../Services/DTOs";
 import "./Checkout.scss";
@@ -43,6 +44,13 @@ export interface stateResource {
   abbreviation: string;
 }
 
+interface shippingOptionsResource {
+  description: string;
+  id: string;
+  price: priceResource;
+  provider: string;
+}
+
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
   const [stepper, setStepper] = useState(0);
@@ -52,6 +60,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
   const [states, setStates] = useState<stateResource[]>([]);
+  const [shippingOptions, setShippingOptions] =
+    useState<shippingOptionsResource[]>();
   const [shippingId, setShippingId] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
   const [selectedStateBilling, setSelectedStateBilling] =
@@ -229,15 +239,19 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       try {
         //@ts-ignore
         setShippingId(checkoutObject.shipping_methods[0].id);
+        console.log(checkoutObject.shipping_methods);
+
+        // setShippingOptions(checkoutObject.shipping_methods);
       } catch {
         console.log("item does not have a shipping method");
       }
       console.log(localStorage.getItem("checkoutId"));
+      console.log(shippingOptions);
     }
   };
 
   useEffect(() => {
-    if (localStorage.getItem("cartId")) {
+    if (localStorage.getItem("cartId") && !localStorage.getItem("checkoutId")) {
       getCheckoutToken();
     }
   }, [localStorage.getItem("checkoutId")]);
@@ -556,7 +570,25 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <div className="checkout-card-container">
         <div className="checkout-card-form">
           <div className="checkout-card-title">Credit Card</div>
-          <div></div>
+
+          <label>Shipping Options:</label>
+          <select onChange={() => console.log("success")}>
+            {states ? (
+              states.map((state, index) => (
+                <option key={index} value={state.name}>
+                  {state.name}
+                </option>
+              ))
+            ) : (
+              <div></div>
+            )}
+          </select>
+          <div>
+            Paintings:
+            {cartStore.cart.subtotal.formatted_with_symbol}
+          </div>
+          <div>Tax: {calculatedShippingWithFormatting} </div>
+          <div>Subtotal: {calculatedSubtotal}</div>
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
               {({ elements, stripe }) => (
@@ -626,12 +658,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           </div>
         ))}
       </div>
-      <div>
-        Paintings:
-        {cartStore.cart.subtotal.formatted_with_symbol}
-      </div>
-      <div>Tax: {calculatedShippingWithFormatting} </div>
-      <div>Subtotal: {calculatedSubtotal}</div>
       <button onClick={incrementStepper}>Checkout</button>
       <button onClick={emptyCart}>Empty cart</button>
     </div>
