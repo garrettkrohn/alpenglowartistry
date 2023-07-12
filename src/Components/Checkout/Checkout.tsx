@@ -53,15 +53,15 @@ interface shippingOptionsResource {
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
-  const [stepper, setStepper] = useState(0);
+  const [stepper, setStepper] = useState(3);
   //@ts-ignore
   const commerce = new Commerce(process.env.REACT_APP_CHECK_PUBLIC_KEY);
 
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
   const [states, setStates] = useState<stateResource[]>([]);
-  const [shippingOptions, setShippingOptions] =
-    useState<shippingOptionsResource[]>();
+  const [shippingOptions, setShippingOptions] = useState<any[]>();
+  const [selectedShippingOption, setSelectedShippingOption] = useState<any>();
   const [shippingId, setShippingId] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
   const [selectedStateBilling, setSelectedStateBilling] =
@@ -70,6 +70,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     useState<stateResource>();
   const [shipSameAsBill, setShipSameAsBill] = useState(false);
   const [checkoutResponse, setCheckoutResource] = useState<checkoutResource>();
+  const [checkoutId, setCheckoutId] = useState<string>("");
+  const [calculatedTotal, setCalculatedTotal] = useState<string>();
+  const [
+    calculatedShippingWithFormatting,
+    setCalculatedShippingWithFormatting,
+  ] = useState<string>();
 
   const {
     value: firstName,
@@ -235,26 +241,36 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         //@ts-ignore
         localStorage.getItem("cartId")
       );
-      localStorage.setItem("checkoutId", checkoutObject.id);
+      setCheckoutId(checkoutObject.id);
       try {
         //@ts-ignore
         setShippingId(checkoutObject.shipping_methods[0].id);
+        //@ts-ignore
+        setShippingOptions(checkoutObject.shipping_methods);
         console.log(checkoutObject.shipping_methods);
-
         // setShippingOptions(checkoutObject.shipping_methods);
       } catch {
         console.log("item does not have a shipping method");
       }
-      console.log(localStorage.getItem("checkoutId"));
-      console.log(shippingOptions);
+      // console.log(localStorage.getItem("checkoutId"));
+      // console.log(shippingOptions);
     }
   };
 
+  // const getShippingOptions = async () => {
+  //   console.log("get ship op called");
+  //   if (checkoutId) {
+  //     const shippingOptions = await cartService.getShippingOptions(checkoutId);
+  //     setShippingOptions(shippingOptions);
+  //   }
+  // };
+
   useEffect(() => {
-    if (localStorage.getItem("cartId") && !localStorage.getItem("checkoutId")) {
+    if (!checkoutId) {
       getCheckoutToken();
     }
-  }, [localStorage.getItem("checkoutId")]);
+    // getShippingOptions();
+  }, [checkoutId]);
 
   useEffect(() => {
     const getStates = async () => {
@@ -406,13 +422,26 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     }
   };
 
-  const calculatedShipping = cartStore.cart.subtotal.raw * 0.0625;
-  const calculatedShippingWithFormatting =
-    "$" + calculatedShipping.toFixed(2).toString();
-  console.log(calculatedShippingWithFormatting);
+  useEffect(() => {
+    const calculatedShipping = cartStore.cart.subtotal.raw * 0.0625;
+    const calculatedShippingWithFormatting =
+      setCalculatedShippingWithFormatting(
+        "$" + calculatedShipping.toFixed(2).toString()
+      );
+    console.log(calculatedShippingWithFormatting);
+    const selectedShipping = selectedShippingOption
+      ? selectedShippingOption.price.raw.toFixed(2)
+      : 0;
 
-  const calculatedSubtotal =
-    "$" + (calculatedShipping + cartStore.cart.subtotal.raw).toFixed(2);
+    const calculatedSubtotal =
+      "$" +
+      (
+        calculatedShipping +
+        cartStore.cart.subtotal.raw +
+        selectedShipping
+      ).toFixed(2);
+    setCalculatedTotal(calculatedSubtotal);
+  }, [shippingOptions, selectedShippingOption, cartStore]);
 
   if (stepper === 1) {
     return (
@@ -570,13 +599,11 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <div className="checkout-card-container">
         <div className="checkout-card-form">
           <div className="checkout-card-title">Credit Card</div>
-
-          <label>Shipping Options:</label>
           <select onChange={() => console.log("success")}>
-            {states ? (
-              states.map((state, index) => (
+            {shippingOptions ? (
+              shippingOptions.map((state, index) => (
                 <option key={index} value={state.name}>
-                  {state.name}
+                  {state.description + " " + state.price.formatted_with_symbol}
                 </option>
               ))
             ) : (
@@ -588,7 +615,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             {cartStore.cart.subtotal.formatted_with_symbol}
           </div>
           <div>Tax: {calculatedShippingWithFormatting} </div>
-          <div>Subtotal: {calculatedSubtotal}</div>
+          <div>Subtotal: {calculatedTotal}</div>
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
               {({ elements, stripe }) => (
