@@ -62,6 +62,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const [states, setStates] = useState<stateResource[]>([]);
   const [shippingOptions, setShippingOptions] = useState<any[]>();
   const [selectedShippingOption, setSelectedShippingOption] = useState<any>();
+  const [shippingOptionIndex, setShippingOptionIndex] = useState<number>(0);
   const [shippingId, setShippingId] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
   const [selectedStateBilling, setSelectedStateBilling] =
@@ -343,12 +344,17 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     });
   };
 
-  const handleStateChangeSelectedShipping = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    console.log(event);
-    setSelectedShippingOption(event.target.value);
+  const lookUpAndSetShippingOption = (optionName: string) => {
+    if (shippingOptions) {
+      shippingOptions.map((n) => {
+        if (n.description === optionName) {
+          setSelectedShippingOption(n);
+          console.log("match: " + n.description);
+        }
+      });
+    }
   };
+
   //@ts-ignore
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
@@ -439,7 +445,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     //   : 0;
 
     const calculatedSubtotal =
-      "$" + (calculatedTax + cartStore.cart.subtotal.raw).toFixed(2);
+      "$" +
+      (
+        calculatedTax +
+        cartStore.cart.subtotal.raw +
+        selectedShippingOption.price.raw
+      ).toFixed(2);
     setCalculatedTotal(calculatedSubtotal);
   }, [shippingOptions, selectedShippingOption, cartStore]);
 
@@ -604,10 +615,11 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <div className="checkout-card-container">
         <div className="checkout-card-form">
           <div className="checkout-card-title">Credit Card</div>
-          <select onChange={(e) => setSelectedShippingOption(e.target.value)}>
+          <div>Shipping Options:</div>
+          <select onChange={(e) => lookUpAndSetShippingOption(e.target.value)}>
             {shippingOptions ? (
               shippingOptions.map((state, index) => (
-                <option key={index} value={state.name}>
+                <option key={index} value={state.description}>
                   {state.description + " " + state.price.formatted_with_symbol}
                 </option>
               ))
@@ -620,12 +632,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             {cartStore.cart.subtotal.formatted_with_symbol}
           </div>
           <div>Tax: {calculatedShippingWithFormatting} </div>
-          <div>Shipping: </div>
-          <div>
-            {selectedShippingOption
-              ? selectedShippingOption.price.formatted_with_symbol
-              : ""}
-          </div>
           <div>Subtotal: {calculatedTotal}</div>
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
