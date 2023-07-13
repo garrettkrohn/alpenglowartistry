@@ -53,7 +53,7 @@ interface shippingOptionsResource {
 
 const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const dispatch: CartDispatch = useDispatch();
-  const [stepper, setStepper] = useState(3);
+  const [stepper, setStepper] = useState(0);
   //@ts-ignore
   const commerce = new Commerce(process.env.REACT_APP_CHECK_PUBLIC_KEY);
 
@@ -76,6 +76,8 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     calculatedShippingWithFormatting,
     setCalculatedShippingWithFormatting,
   ] = useState<string>();
+
+  const [checkoutError, setCheckoutError] = useState("");
 
   const {
     value: firstName,
@@ -349,6 +351,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       shippingOptions.map((n) => {
         if (n.description === optionName) {
           setSelectedShippingOption(n);
+          setShippingId(n.id);
           console.log("match: " + n.description);
         }
       });
@@ -363,7 +366,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
     if (!stripe || !elements) return;
 
-    if (localStorage.getItem("checkoutId") === "undefined") {
+    if (checkoutId === "undefined" || checkoutId === "") {
       getCheckoutToken();
     }
 
@@ -379,6 +382,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
     if (error) {
       console.error(error.message);
+      setCheckoutError(error.message);
     } else {
       incrementStepper();
       let orderData = {
@@ -409,23 +413,22 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           stripe: {
             payment_method_id: paymentMethod.id,
           },
-          // card: {
-          //   number: "4242424242424242",
-          //   expiry_month: "02",
-          //   expiry_year: "24",
-          //   cvc: "123",
-          //   postal_zip_code: "94107",
-          // },
+          card: {
+            number: "4242424242424242",
+            expiry_month: "02",
+            expiry_year: "24",
+            cvc: "123",
+            postal_zip_code: "94107",
+          },
         },
       };
-
-      const checkoutId = localStorage.getItem("checkoutId");
 
       console.log(orderData);
       //@ts-ignore
       // await cartService.checkout(checkoutId, orderData);
       await commerce.checkout.capture(checkoutId, orderData);
       localStorage.removeItem("cartId");
+      setCheckoutId("");
       localStorage.removeItem("checkoutId");
       setLocalLoading(false);
 
@@ -443,14 +446,16 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     // const selectedShipping = selectedShippingOption
     //   ? selectedShippingOption.price.raw.toFixed(2)
     //   : 0;
-
-    const calculatedSubtotal =
-      "$" +
-      (
-        calculatedTax +
-        cartStore.cart.subtotal.raw +
-        selectedShippingOption.price.raw
-      ).toFixed(2);
+    let calculatedSubtotal;
+    if (selectedShippingOption) {
+      calculatedSubtotal =
+        "$" +
+        (
+          calculatedTax +
+          cartStore.cart.subtotal.raw +
+          selectedShippingOption.price.raw
+        ).toFixed(2);
+    }
     setCalculatedTotal(calculatedSubtotal);
   }, [shippingOptions, selectedShippingOption, cartStore]);
 
