@@ -382,7 +382,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
     if (error) {
       console.error(error.message);
-      setCheckoutError(error.message);
     } else {
       incrementStepper();
       let orderData = {
@@ -426,7 +425,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       console.log(orderData);
       //@ts-ignore
       // await cartService.checkout(checkoutId, orderData);
-      await commerce.checkout.capture(checkoutId, orderData);
+      try {
+        //@ts-ignore
+        await commerce.checkout.capture(checkoutId, orderData);
+      } catch (e: any) {
+        console.log(e);
+        setCheckoutError(e.data.error.message);
+      }
+
       localStorage.removeItem("cartId");
       setCheckoutId("");
       localStorage.removeItem("checkoutId");
@@ -442,10 +448,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       "$" + calculatedTax.toFixed(2).toString()
     );
     console.log(calculatedShippingWithFormatting);
-    //TODO need to get the shipping state to update here
-    // const selectedShipping = selectedShippingOption
-    //   ? selectedShippingOption.price.raw.toFixed(2)
-    //   : 0;
+
     let calculatedSubtotal;
     if (selectedShippingOption) {
       calculatedSubtotal =
@@ -665,18 +668,31 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   if (stepper === 4) {
     return (
       <div className="checkout-thank-you-container">
-        {localLoading ? (
+        {checkoutError ? (
+          <div className="checkout-thank-you-block">
+            Oops, looks like there was an error: {checkoutError}
+            <p>If the issue persists, please contact me.</p>
+          </div>
+        ) : (
+          ""
+        )}
+        {localLoading && !checkoutError ? (
           <div className="checkout-thank-you-block">
             <div>Thank you so much for purchasing from Alpenglow Art</div>
             <div>Processing your order now!</div>
             <Loading size="76px" />
           </div>
         ) : (
+          <div></div>
+        )}
+        {!localLoading && !checkoutError ? (
           <div className="checkout-thank-you-block">
             <div>Your order has been successfully processed,</div>
             <div>you will receive an email with the order details.</div>
             <div>Thank you for supporting Alpenglow Artistry</div>
           </div>
+        ) : (
+          <div></div>
         )}
       </div>
     );
