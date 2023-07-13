@@ -249,7 +249,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         setShippingId(checkoutObject.shipping_methods[0].id);
         //@ts-ignore
         setShippingOptions(checkoutObject.shipping_methods);
-        console.log(checkoutObject.shipping_methods);
         // setShippingOptions(checkoutObject.shipping_methods);
       } catch {
         console.log("item does not have a shipping method");
@@ -307,15 +306,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     cityShipSetValue(city);
     setCountyStateShip(countyState);
     zipShipSetValue(zip);
-    console.log(selectedStateBilling);
     setSelectedStateShipping(selectedStateBilling);
-    console.log(selectedStateShipping);
   };
 
   const handleStateChangeBilling = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(event);
     lookUpAndSetStateBilling(event.target.value);
   };
 
@@ -324,7 +320,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       if (s.name === state) {
         setCountyState(s.abbreviation);
         setSelectedStateBilling(s);
-        console.log(s.abbreviation);
       }
     });
   };
@@ -332,7 +327,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const handleStateChangeShipping = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(event);
     lookUpAndSetStateShipping(event.target.value);
   };
 
@@ -341,7 +335,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       if (s.name === state) {
         setCountyStateShip(s.abbreviation);
         setSelectedStateShipping(s);
-        console.log(s.abbreviation);
       }
     });
   };
@@ -352,7 +345,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         if (n.description === optionName) {
           setSelectedShippingOption(n);
           setShippingId(n.id);
-          console.log("match: " + n.description);
         }
       });
     }
@@ -371,14 +363,11 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     }
 
     const cardElement = elements.getElement(CardElement);
-    console.log(cardElement);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,
     });
-
-    console.log(paymentMethod);
 
     if (error) {
       console.error(error.message);
@@ -429,7 +418,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         //@ts-ignore
         await commerce.checkout.capture(checkoutId, orderData);
       } catch (e: any) {
-        console.log(e);
         setCheckoutError(e.data.error.message);
       }
 
@@ -447,7 +435,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     setCalculatedShippingWithFormatting(
       "$" + calculatedTax.toFixed(2).toString()
     );
-    console.log(calculatedShippingWithFormatting);
 
     let calculatedSubtotal;
     if (selectedShippingOption) {
