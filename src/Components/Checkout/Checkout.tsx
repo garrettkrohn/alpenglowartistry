@@ -258,14 +258,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     }
   };
 
-  // const getShippingOptions = async () => {
-  //   console.log("get ship op called");
-  //   if (checkoutId) {
-  //     const shippingOptions = await cartService.getShippingOptions(checkoutId);
-  //     setShippingOptions(shippingOptions);
-  //   }
-  // };
-
   useEffect(() => {
     if (!checkoutId) {
       getCheckoutToken();
