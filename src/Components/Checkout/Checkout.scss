@@ -29,6 +29,11 @@
   padding: 20px;
 }
 
+.checkout-text {
+  font-size: 16px;
+  font-weight: normal;
+}
+
 .checkout-price {
   padding: 20px;
 }
@@ -39,6 +44,7 @@
   display: flex;
   justify-content: center;
   color: white;
+  padding: 16px;
 }
 
 .checkout-billing-title,

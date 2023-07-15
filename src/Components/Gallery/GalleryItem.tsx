@@ -157,7 +157,9 @@ const GalleryItem = (props: {
         className="gallery-item-thumbnail"
         onClick={featurePaintingHandler}
       />
-      <div className="gallery-item-title">{painting.name}</div>
+      <div className="gallery-item-title">
+        {filterOutOriginal(painting.name)}
+      </div>
       <div className="gallery-item-description">
         {trimDescription(painting.description)}
       </div>

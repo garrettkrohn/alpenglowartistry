@@ -601,7 +601,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     return (
       <div className="checkout-card-container">
         <div className="checkout-card-form">
-          <div className="checkout-card-title">Credit Card</div>
           <div>Shipping Options:</div>
           <select onChange={(e) => lookUpAndSetShippingOption(e.target.value)}>
             {shippingOptions ? (
@@ -614,12 +613,15 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               <div></div>
             )}
           </select>
-          <div>
+          <div className="checkout-text">
             Paintings:
             {cartStore.cart.subtotal.formatted_with_symbol}
           </div>
-          <div>Tax: {calculatedShippingWithFormatting} </div>
-          <div>Subtotal: {calculatedTotal}</div>
+          <div className="checkout-text">
+            Tax: {calculatedShippingWithFormatting}{" "}
+          </div>
+          <div className="checkout-text">Subtotal: {calculatedTotal}</div>
+          <div className="checkout-card-title">Credit Card:</div>
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
               {({ elements, stripe }) => (
