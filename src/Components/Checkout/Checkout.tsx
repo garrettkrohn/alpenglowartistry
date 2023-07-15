@@ -60,8 +60,9 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const cartService = new CartServices();
   const cartStore = useSelector((state: RootState) => state);
   const [states, setStates] = useState<stateResource[]>([]);
-  const [shippingOptions, setShippingOptions] =
-    useState<shippingOptionsResource[]>();
+  const [shippingOptions, setShippingOptions] = useState<any[]>();
+  const [selectedShippingOption, setSelectedShippingOption] = useState<any>();
+  const [shippingOptionIndex, setShippingOptionIndex] = useState<number>(0);
   const [shippingId, setShippingId] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
   const [selectedStateBilling, setSelectedStateBilling] =
@@ -69,7 +70,14 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const [selectedStateShipping, setSelectedStateShipping] =
     useState<stateResource>();
   const [shipSameAsBill, setShipSameAsBill] = useState(false);
-  const [checkoutResponse, setCheckoutResource] = useState<checkoutResource>();
+  const [checkoutId, setCheckoutId] = useState<string>("");
+  const [calculatedTotal, setCalculatedTotal] = useState<string>();
+  const [
+    calculatedShippingWithFormatting,
+    setCalculatedShippingWithFormatting,
+  ] = useState<string>();
+
+  const [checkoutError, setCheckoutError] = useState("");
 
   const {
     value: firstName,
@@ -235,26 +243,27 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         //@ts-ignore
         localStorage.getItem("cartId")
       );
-      localStorage.setItem("checkoutId", checkoutObject.id);
+      setCheckoutId(checkoutObject.id);
       try {
         //@ts-ignore
         setShippingId(checkoutObject.shipping_methods[0].id);
-        console.log(checkoutObject.shipping_methods);
-
+        //@ts-ignore
+        setShippingOptions(checkoutObject.shipping_methods);
         // setShippingOptions(checkoutObject.shipping_methods);
       } catch {
         console.log("item does not have a shipping method");
       }
-      console.log(localStorage.getItem("checkoutId"));
-      console.log(shippingOptions);
+      // console.log(localStorage.getItem("checkoutId"));
+      // console.log(shippingOptions);
     }
   };
 
   useEffect(() => {
-    if (localStorage.getItem("cartId") && !localStorage.getItem("checkoutId")) {
+    if (!checkoutId) {
       getCheckoutToken();
     }
-  }, [localStorage.getItem("checkoutId")]);
+    // getShippingOptions();
+  }, [checkoutId]);
 
   useEffect(() => {
     const getStates = async () => {
@@ -289,15 +298,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     cityShipSetValue(city);
     setCountyStateShip(countyState);
     zipShipSetValue(zip);
-    console.log(selectedStateBilling);
     setSelectedStateShipping(selectedStateBilling);
-    console.log(selectedStateShipping);
   };
 
   const handleStateChangeBilling = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(event);
     lookUpAndSetStateBilling(event.target.value);
   };
 
@@ -306,7 +312,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       if (s.name === state) {
         setCountyState(s.abbreviation);
         setSelectedStateBilling(s);
-        console.log(s.abbreviation);
       }
     });
   };
@@ -314,7 +319,6 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   const handleStateChangeShipping = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(event);
     lookUpAndSetStateShipping(event.target.value);
   };
 
@@ -323,9 +327,19 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       if (s.name === state) {
         setCountyStateShip(s.abbreviation);
         setSelectedStateShipping(s);
-        console.log(s.abbreviation);
       }
     });
+  };
+
+  const lookUpAndSetShippingOption = (optionName: string) => {
+    if (shippingOptions) {
+      shippingOptions.map((n) => {
+        if (n.description === optionName) {
+          setSelectedShippingOption(n);
+          setShippingId(n.id);
+        }
+      });
+    }
   };
 
   //@ts-ignore
@@ -336,19 +350,16 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
 
     if (!stripe || !elements) return;
 
-    if (localStorage.getItem("checkoutId") === "undefined") {
+    if (checkoutId === "undefined" || checkoutId === "") {
       getCheckoutToken();
     }
 
     const cardElement = elements.getElement(CardElement);
-    console.log(cardElement);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,
     });
-
-    console.log(paymentMethod);
 
     if (error) {
       console.error(error.message);
@@ -382,23 +393,28 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           stripe: {
             payment_method_id: paymentMethod.id,
           },
-          // card: {
-          //   number: "4242424242424242",
-          //   expiry_month: "02",
-          //   expiry_year: "24",
-          //   cvc: "123",
-          //   postal_zip_code: "94107",
-          // },
+          card: {
+            number: "4242424242424242",
+            expiry_month: "02",
+            expiry_year: "24",
+            cvc: "123",
+            postal_zip_code: "94107",
+          },
         },
       };
-
-      const checkoutId = localStorage.getItem("checkoutId");
 
       console.log(orderData);
       //@ts-ignore
       // await cartService.checkout(checkoutId, orderData);
-      await commerce.checkout.capture(checkoutId, orderData);
+      try {
+        //@ts-ignore
+        await commerce.checkout.capture(checkoutId, orderData);
+      } catch (e: any) {
+        setCheckoutError(e.data.error.message);
+      }
+
       localStorage.removeItem("cartId");
+      setCheckoutId("");
       localStorage.removeItem("checkoutId");
       setLocalLoading(false);
 
@@ -406,14 +422,30 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     }
   };
 
-  const calculatedShipping = cartStore.cart.subtotal.raw * 0.0625;
-  const calculatedShippingWithFormatting =
-    "$" + calculatedShipping.toFixed(2).toString();
-  console.log(calculatedShippingWithFormatting);
+  useEffect(() => {
+    const calculatedTax = cartStore.cart.subtotal.raw * 0.0625;
+    setCalculatedShippingWithFormatting(
+      "$" + calculatedTax.toFixed(2).toString()
+    );
 
-  const calculatedSubtotal =
-    "$" + (calculatedShipping + cartStore.cart.subtotal.raw).toFixed(2);
+    let calculatedSubtotal;
+    if (selectedShippingOption) {
+      calculatedSubtotal =
+        "$" +
+        (
+          calculatedTax +
+          cartStore.cart.subtotal.raw +
+          selectedShippingOption.price.raw
+        ).toFixed(2);
+    }
+    setCalculatedTotal(calculatedSubtotal);
+  }, [shippingOptions, selectedShippingOption, cartStore]);
 
+  useEffect(() => {
+    if (shippingOptions) {
+      setSelectedShippingOption(shippingOptions[0]);
+    }
+  }, [shippingOptions]);
   if (stepper === 1) {
     return (
       <div className="checkout-billing-container">
@@ -468,7 +500,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
                 </option>
               ))
             ) : (
-              <div></div>
+              <option></option>
             )}
           </select>
           <label>Zip:</label>
@@ -569,26 +601,27 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
     return (
       <div className="checkout-card-container">
         <div className="checkout-card-form">
-          <div className="checkout-card-title">Credit Card</div>
-
-          <label>Shipping Options:</label>
-          <select onChange={() => console.log("success")}>
-            {states ? (
-              states.map((state, index) => (
-                <option key={index} value={state.name}>
-                  {state.name}
+          <div>Shipping Options:</div>
+          <select onChange={(e) => lookUpAndSetShippingOption(e.target.value)}>
+            {shippingOptions ? (
+              shippingOptions.map((state, index) => (
+                <option key={index} value={state.description}>
+                  {state.description + " " + state.price.formatted_with_symbol}
                 </option>
               ))
             ) : (
               <div></div>
             )}
           </select>
-          <div>
+          <div className="checkout-text">
             Paintings:
             {cartStore.cart.subtotal.formatted_with_symbol}
           </div>
-          <div>Tax: {calculatedShippingWithFormatting} </div>
-          <div>Subtotal: {calculatedSubtotal}</div>
+          <div className="checkout-text">
+            Tax: {calculatedShippingWithFormatting}{" "}
+          </div>
+          <div className="checkout-text">Subtotal: {calculatedTotal}</div>
+          <div className="checkout-card-title">Credit Card:</div>
           <Elements stripe={stripePromise}>
             <ElementsConsumer>
               {({ elements, stripe }) => (
@@ -616,18 +649,31 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
   if (stepper === 4) {
     return (
       <div className="checkout-thank-you-container">
-        {localLoading ? (
+        {checkoutError ? (
+          <div className="checkout-thank-you-block">
+            Oops, looks like there was an error: {checkoutError}
+            <p>If the issue persists, please contact me.</p>
+          </div>
+        ) : (
+          ""
+        )}
+        {localLoading && !checkoutError ? (
           <div className="checkout-thank-you-block">
             <div>Thank you so much for purchasing from Alpenglow Art</div>
             <div>Processing your order now!</div>
             <Loading size="76px" />
           </div>
         ) : (
+          <div></div>
+        )}
+        {!localLoading && !checkoutError ? (
           <div className="checkout-thank-you-block">
             <div>Your order has been successfully processed,</div>
             <div>you will receive an email with the order details.</div>
             <div>Thank you for supporting Alpenglow Artistry</div>
           </div>
+        ) : (
+          <div></div>
         )}
       </div>
     );
