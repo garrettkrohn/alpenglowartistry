@@ -393,13 +393,13 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
           stripe: {
             payment_method_id: paymentMethod.id,
           },
-          card: {
-            number: "4242424242424242",
-            expiry_month: "02",
-            expiry_year: "24",
-            cvc: "123",
-            postal_zip_code: "94107",
-          },
+          // card: {
+          //   number: "4242424242424242",
+          //   expiry_month: "02",
+          //   expiry_year: "24",
+          //   cvc: "123",
+          //   postal_zip_code: "94107",
+          // },
         },
       };
 
