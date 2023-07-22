@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  checkoutResource,
-  countriesResource,
-  line_items,
-  priceResource,
-  statesResource,
-} from "../../Services/DTOs";
+import { line_items, priceResource, statesResource } from "../../Services/DTOs";
 import "./Checkout.scss";
 import CartServices from "../../Services/CartServices";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions, CartDispatch, RootState } from "../../Store";
 import { Loading } from "../../Util/loading";
@@ -16,28 +9,28 @@ import useInput from "../../Hooks/useInput";
 import { loadStripe } from "@stripe/stripe-js/pure";
 import {
   Elements,
-  PaymentElement,
-  LinkAuthenticationElement,
   ElementsConsumer,
   CardElement,
 } from "@stripe/react-stripe-js";
 import Commerce from "@chec/commerce.js";
-import CartContext from "../../Store/CartContext";
-
-const isProd = process.env.REACT_APP_ENVIRONMENT === "PROD";
+import {
+  loadStripeKey,
+  stripePromise,
+  gatewayKey,
+} from "../../Services/envService";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
-const loadStripeKey =
-  process.env.REACT_APP_ENVIRONMENT === "PROD"
-    ? process.env.REACT_APP_STRIPE_PUBLIC_KEY
-    : process.env.REACT_APP_TEST_STRIPE_PUBLIC_KEY;
-//@ts-ignore
-const stripePromise = loadStripe(loadStripeKey);
-
-const gatewayKey =
-  process.env.REACT_APP_ENVIRONMENT === "PROD"
-    ? process.env.REACT_APP_STRIPE_GATEWAY
-    : process.env.REACT_APP_STRIPE_TEST_GATEWAY;
+// const loadStripeKey =
+//   process.env.REACT_APP_ENVIRONMENT === "PROD"
+//     ? process.env.REACT_APP_STRIPE_PUBLIC_KEY
+//     : process.env.REACT_APP_TEST_STRIPE_PUBLIC_KEY;
+// //@ts-ignore
+// const stripePromise = loadStripe(loadStripeKey);
+//
+// const gatewayKey =
+//   process.env.REACT_APP_ENVIRONMENT === "PROD"
+//     ? process.env.REACT_APP_STRIPE_GATEWAY
+//     : process.env.REACT_APP_STRIPE_TEST_GATEWAY;
 
 export interface stateResource {
   name: string;
