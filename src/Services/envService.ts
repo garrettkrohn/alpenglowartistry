@@ -1,3 +1,5 @@
+import { loadStripe } from "@stripe/stripe-js";
+
 export const loadStripeKey =
   process.env.REACT_APP_ENVIRONMENT === "PROD"
     ? process.env.REACT_APP_STRIPE_PUBLIC_KEY
