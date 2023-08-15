@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 // @ts-ignore
 // import RachelBanner from "../../images/RachelBanner.jpeg";
-import RachelBanner from "../../images/WestmanBanner.jpg";
+import RachelBanner from "../../images/cloudphoto.jpg";
 import "./Homepage.scss";
 // @ts-ignore
 import sunrise from "../../images/sunrise.jpeg";
