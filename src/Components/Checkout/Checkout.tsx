@@ -14,6 +14,7 @@ import {
 } from "@stripe/react-stripe-js";
 import Commerce from "@chec/commerce.js";
 import { stripePromise } from "../../Services/Stripe";
+import { WButton } from "../mui/WButton";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 
@@ -494,8 +495,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             onBlur={zipBlurHandler}
           />
           <div className="checkout-buttons-container">
-            <button onClick={decrementStepper}>back</button>
-            <button onClick={incrementStepper}>next</button>
+            <WButton variant="contained" onClick={decrementStepper}>
+              back
+            </WButton>
+            <WButton variant="contained" onClick={incrementStepper}>
+              next
+            </WButton>
           </div>
         </div>
       </div>
@@ -571,8 +576,12 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             </>
           )}
           <div className="checkout-buttons-container">
-            <button onClick={decrementStepper}>back</button>
-            <button onClick={incrementStepper}>next</button>
+            <WButton variant="contained" onClick={decrementStepper}>
+              back
+            </WButton>
+            <WButton variant="contained" onClick={incrementStepper}>
+              next
+            </WButton>
           </div>
         </div>
       </div>
@@ -614,7 +623,18 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <button onClick={decrementStepper}>back</button>
+                    <WButton variant="contained" onClick={decrementStepper}>
+                      back
+                    </WButton>
+                    <WButton
+                      variant="contained"
+                      type="submit"
+                      disabled={!stripe}
+                      color="primary"
+                      onClick={incrementStepper}
+                    >
+                      Submit Payment
+                    </WButton>
                     <button type="submit" disabled={!stripe} color="primary">
                       Submit Payment
                     </button>
