@@ -13,24 +13,11 @@ import {
   CardElement,
 } from "@stripe/react-stripe-js";
 import Commerce from "@chec/commerce.js";
-import {
-  loadStripeKey,
-  stripePromise,
-  gatewayKey,
-} from "../../Services/envService";
+import { stripePromise } from "../../Services/Stripe";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
-// const loadStripeKey =
-//   process.env.REACT_APP_ENVIRONMENT === "PROD"
-//     ? process.env.REACT_APP_STRIPE_PUBLIC_KEY
-//     : process.env.REACT_APP_TEST_STRIPE_PUBLIC_KEY;
-// //@ts-ignore
-// const stripePromise = loadStripe(loadStripeKey);
-//
-// const gatewayKey =
-//   process.env.REACT_APP_ENVIRONMENT === "PROD"
-//     ? process.env.REACT_APP_STRIPE_GATEWAY
-//     : process.env.REACT_APP_STRIPE_TEST_GATEWAY;
+
+//@ts-ignore
 
 export interface stateResource {
   name: string;
@@ -382,17 +369,19 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
         },
         fulfillment: { shipping_method: shippingId },
         payment: {
-          gateway: gatewayKey,
+          gateway: process.env.REACT_APP_PAYMENT_GATEWAY_KEY,
           stripe: {
             payment_method_id: paymentMethod.id,
           },
-          // card: {
-          //   number: "4242424242424242",
-          //   expiry_month: "02",
-          //   expiry_year: "24",
-          //   cvc: "123",
-          //   postal_zip_code: "94107",
-          // },
+          ...(process.env.NODE_ENV === "development" && {
+            card: {
+              number: "4242424242424242",
+              expiry_month: "02",
+              expiry_year: "24",
+              cvc: "123",
+              postal_zip_code: "94107",
+            },
+          }),
         },
       };
 
