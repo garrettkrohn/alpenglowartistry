@@ -15,6 +15,8 @@ import {
 import Commerce from "@chec/commerce.js";
 import { stripePromise } from "../../Services/Stripe";
 import { WButton } from "../mui/WButton";
+import { ThemeProvider } from "@mui/system";
+import { theme } from "../mui/MuiTheme";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 
@@ -495,12 +497,22 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             onBlur={zipBlurHandler}
           />
           <div className="checkout-buttons-container">
-            <WButton variant="contained" onClick={decrementStepper}>
-              back
-            </WButton>
-            <WButton variant="contained" onClick={incrementStepper}>
-              next
-            </WButton>
+            <ThemeProvider theme={theme}>
+              <WButton
+                variant="contained"
+                onClick={decrementStepper}
+                color="secondary"
+              >
+                back
+              </WButton>
+              <WButton
+                variant="contained"
+                onClick={incrementStepper}
+                color="secondary"
+              >
+                next
+              </WButton>
+            </ThemeProvider>
           </div>
         </div>
       </div>
@@ -576,12 +588,22 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             </>
           )}
           <div className="checkout-buttons-container">
-            <WButton variant="contained" onClick={decrementStepper}>
-              back
-            </WButton>
-            <WButton variant="contained" onClick={incrementStepper}>
-              next
-            </WButton>
+            <ThemeProvider theme={theme}>
+              <WButton
+                variant="contained"
+                onClick={decrementStepper}
+                color="secondary"
+              >
+                back
+              </WButton>
+              <WButton
+                variant="contained"
+                onClick={incrementStepper}
+                color="secondary"
+              >
+                next
+              </WButton>
+            </ThemeProvider>
           </div>
         </div>
       </div>
@@ -623,18 +645,24 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <WButton variant="contained" onClick={decrementStepper}>
-                      back
-                    </WButton>
-                    <WButton
-                      variant="contained"
-                      type="submit"
-                      disabled={!stripe}
-                      color="primary"
-                      onClick={incrementStepper}
-                    >
-                      Submit Payment
-                    </WButton>
+                    <ThemeProvider theme={theme}>
+                      <WButton
+                        variant="contained"
+                        onClick={decrementStepper}
+                        color="secondary"
+                      >
+                        back
+                      </WButton>
+                      <WButton
+                        variant="contained"
+                        type="submit"
+                        disabled={!stripe}
+                        onClick={incrementStepper}
+                        color="secondary"
+                      >
+                        Submit Payment
+                      </WButton>
+                    </ThemeProvider>
                     <button type="submit" disabled={!stripe} color="primary">
                       Submit Payment
                     </button>
