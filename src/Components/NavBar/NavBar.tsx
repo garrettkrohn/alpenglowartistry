@@ -27,6 +27,8 @@ const NavBar = (props: { cartId: string }) => {
     setShowMenu(!showMenu);
   };
 
+  console.log(cartStore);
+
   const Menu = (
     <>
       <div className="mobile-menu">
