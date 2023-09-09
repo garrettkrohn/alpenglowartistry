@@ -15,8 +15,9 @@ import {
 import Commerce from "@chec/commerce.js";
 import { stripePromise } from "../../Services/Stripe";
 import { WButton } from "../mui/WButton";
-import { ThemeProvider } from "@mui/system";
-import { theme } from "../mui/MuiTheme";
+import { buttonTheme, textInputTheme } from "../mui/MuiTheme";
+import { WThemeProvider } from "../mui/WThemeProvider";
+import { WTextField } from "../mui/WTextField";
 
 loadStripe.setLoadParameters({ advancedFraudSignals: false });
 
@@ -436,6 +437,32 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
       <div className="checkout-billing-container">
         <div className="checkout-billing-form">
           <div className="checkout-billing-title">Billing Address</div>
+          <WThemeProvider theme={textInputTheme}>
+            <WTextField
+              id="outlined-basic"
+              label="First Name"
+              variant="outlined"
+              onChange={firstNameHandler}
+              onBlur={firstNameBlurHandler}
+              sx={{ input: { color: "white" } }}
+            />
+            <WTextField
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              onChange={lastNameHandler}
+              onBlur={lastNameBlurHandler}
+              sx={{ input: { color: "white" } }}
+            />
+            <WTextField
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              onChange={lastNameHandler}
+              onBlur={lastNameBlurHandler}
+              sx={{ input: { color: "white" } }}
+            />
+          </WThemeProvider>
           <label>First Name:</label>
           <input
             type="text"
@@ -497,7 +524,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             onBlur={zipBlurHandler}
           />
           <div className="checkout-buttons-container">
-            <ThemeProvider theme={theme}>
+            <WThemeProvider theme={buttonTheme}>
               <WButton
                 variant="contained"
                 onClick={decrementStepper}
@@ -512,7 +539,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               >
                 next
               </WButton>
-            </ThemeProvider>
+            </WThemeProvider>
           </div>
         </div>
       </div>
@@ -588,7 +615,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
             </>
           )}
           <div className="checkout-buttons-container">
-            <ThemeProvider theme={theme}>
+            <WThemeProvider theme={buttonTheme}>
               <WButton
                 variant="contained"
                 onClick={decrementStepper}
@@ -603,7 +630,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
               >
                 next
               </WButton>
-            </ThemeProvider>
+            </WThemeProvider>
           </div>
         </div>
       </div>
@@ -645,7 +672,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <ThemeProvider theme={theme}>
+                    <WThemeProvider theme={buttonTheme}>
                       <WButton
                         variant="contained"
                         onClick={decrementStepper}
@@ -662,7 +689,7 @@ const Checkout = (props: { cartId: string; setCartId: Function }) => {
                       >
                         Submit Payment
                       </WButton>
-                    </ThemeProvider>
+                    </WThemeProvider>
                     <button type="submit" disabled={!stripe} color="primary">
                       Submit Payment
                     </button>
